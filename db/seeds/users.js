@@ -23,10 +23,10 @@ exports.seed = async function(knex) {
           last_name: 'Muliawijaya',
           email: firstUserEmail,
           password_hash: firstHashPass,
-          address: 'Perumahan Pulo Armin (Kencana Estate) B/41 Jl. Pajajaran Baranangsiang',
-          city: 'Bogor',
-          postal_code: 16143,
-          country: 'Indonesia',
+          address: process.env.USER_ADDRESS,
+          city: process.env.USER_CITY,
+          postal_code: process.env.USER_POSTAL_CODE,
+          country: process.env.USER_COUNTRY,
           admin: true
         },
         {
@@ -35,10 +35,10 @@ exports.seed = async function(knex) {
           last_name: 'Muliawijaya',
           email: secondUserEmail,
           password_hash: secondUserPass,
-          address: 'Perumahan Pulo Armin (Kencana Estate) B/41 Jl. Pajajaran Baranangsiang',
-          city: 'Bogor',
-          postal_code: 16143,
-          country: 'Indonesia',
+          address: process.env.USER_ADDRESS,
+          city: process.env.USER_CITY,
+          postal_code: process.env.USER_POSTAL_CODE,
+          country: process.env.USER_COUNTRY,
           admin: true
         }
       ]);

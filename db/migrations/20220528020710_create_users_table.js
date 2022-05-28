@@ -7,10 +7,10 @@ exports.up = function(knex) {
       table.string('last_name', 255).notNullable();
       table.string('email', 255).notNullable().unique();
       table.string('password_hash', 255).notNullable();
-      table.string('address', 255)
-      table.string('city', 255)
-      table.smallint('postal_code')
-      table.string('country', 255)
+      table.string('address', 255);
+      table.string('city', 255);
+      table.smallint('postal_code');
+      table.string('country', 255);
       table.boolean('admin').notNullable().defaultTo(false);
     });
 };
