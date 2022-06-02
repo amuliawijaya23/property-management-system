@@ -17,7 +17,7 @@ export default function App() {
   const {state} = useApplicationData();
   const {mode, transition, back} = useVisualMode(HIDDEN);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (mode) => (event) => {
     if (
       event &&
       event.type === 'keydown' &&
@@ -25,7 +25,7 @@ export default function App() {
     ) {
       return;
     }
-    transition(open);
+    transition(mode);
   };
 
   return (

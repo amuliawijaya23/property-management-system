@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 require('dotenv').config({ path: '../../.env' });
 const {v4: uuidv4} = require('uuid');
 
