@@ -1,21 +1,50 @@
+import { useState } from 'react';
+
 import CssBaseline from '@mui/material/CssBaseline';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 import './App.scss';
 
 import PrimarySearchAppBar from './Nav';
+import DrawerList from './Drawer';
 
 import useApplicationData from '../hooks/useApplicationData';
 import useVisualMode from '../hooks/useVisualMode';
 
+import { HIDDEN, SHOW } from '../helper/modes';
+
 export default function App() {
   const {state} = useApplicationData();
-  const {mode, transition, back} = useVisualMode();
+  const {mode, transition, back} = useVisualMode(HIDDEN);
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    transition(open);
+  };
 
   return (
     <div className="App">
       <CssBaseline />
       <header className="app-header">
-        <PrimarySearchAppBar />
+        <PrimarySearchAppBar 
+          toggleDrawer={toggleDrawer}
+        />
+        <SwipeableDrawer 
+          anchor='left'
+          open={mode === SHOW}
+          onClose={toggleDrawer(HIDDEN)}
+          onOpen={toggleDrawer(SHOW)}
+        >
+          <DrawerList 
+            toggleDrawer={toggleDrawer}
+          />
+        </SwipeableDrawer>
       </header>
     </div>
   );
