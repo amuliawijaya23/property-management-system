@@ -5,4 +5,4 @@ const SHOW = 'SHOW';
 module.exports = {
   HIDDEN,
   SHOW
-}
+};
