@@ -29,16 +29,56 @@ export default function App() {
     transition(mode);
   };
 
-  const listings = state.properties.map((listing) => (
+  const listings = state.properties?.map((listing, i) => (
     <Listing
+      key={`listing-${i}`}
+      id={`listing-${i}`}
       {...listing}
     />
   ))
 
+  const listingCards = (properties, i) => {
+    return (
+      <div className="listing-rows">
+        <Listing
+          key={`listing-${i}`}
+          id={`listing-${i}`}
+          {...properties[0]}
+        />
+        <Listing
+          key={`listing-${i + 1}`}
+          id={`listing-${i + 1}`}
+          {...properties[1]}
+        />
+      </div>
+    );
+  };
+
+  const listingRows = (properties) => {
+    for (let i = 0; i < 5; i += 2) {
+      return (
+        <div className="listing-rows">
+          <Listing
+            key={`listing-${i}`}
+            id={`listing-${i}`}
+            {...properties[i]}
+          />
+          <Listing
+            key={`listing-${i + 1}`}
+            id={`listing-${i + 1}`}
+            {...properties[i+1]}
+          />
+        </div>
+      );
+    };
+  };
+
+
+
   return (
     <div className="App">
       <CssBaseline />
-      <header className="app-header">
+      <header className="App-header">
         <PrimarySearchAppBar 
           toggleDrawer={toggleDrawer}
         />
@@ -53,9 +93,9 @@ export default function App() {
           />
         </SwipeableDrawer>
       </header>
-      <body>
-        {listings}
-      </body>
+      <section className='App-body'>
+        {state.properties ? listingRows(state.properties) : <></>}
+      </section>
     </div>
   );
 };
