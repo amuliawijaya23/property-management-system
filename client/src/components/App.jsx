@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Listing from './Listing';
 
 import PrimarySearchAppBar from './Nav';
 import DrawerList from './Drawer';
@@ -28,6 +29,12 @@ export default function App() {
     transition(mode);
   };
 
+  const listings = state.properties.map((listing) => (
+    <Listing
+      {...listing}
+    />
+  ))
+
   return (
     <div className="App">
       <CssBaseline />
@@ -46,6 +53,9 @@ export default function App() {
           />
         </SwipeableDrawer>
       </header>
+      <body>
+        {listings}
+      </body>
     </div>
   );
 };

@@ -12,7 +12,6 @@ router.get('', (req, res) => {
 router.get('/listings', (req, res) => {
   getListings()
     .then((response) => {
-      // console.log(response);
       res.json(response);
     })
     .catch(e => console.log(e.message));
