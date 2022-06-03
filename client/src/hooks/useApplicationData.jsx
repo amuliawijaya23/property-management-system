@@ -5,15 +5,15 @@ import reducer, {SET_APPLICATION_DATA} from '../reducers/app';
 export default function useApplicationData() {
 
   const [state, dispatch] = useReducer(reducer, {
-    data: null
+    properties: null
   });
 
   useEffect(() => {
-    axios.get('/api')
+    axios.get('/api/listings')
       .then((res) => {
         dispatch({
           type: SET_APPLICATION_DATA,
-          value: {data: res.data.message}
+          value: {properties: res.data}
         });
       })
       .catch(e => console.log(e.message));

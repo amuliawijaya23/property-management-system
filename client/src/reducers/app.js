@@ -6,7 +6,7 @@ export default function reducer(state, action) {
   
     case SET_APPLICATION_DATA:
       return {...state,
-        data: action.value.data
+        properties: action.value.properties
       };
       
     default:
