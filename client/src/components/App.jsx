@@ -37,48 +37,12 @@ export default function App() {
     />
   ))
 
-  const listingCards = (properties, i) => {
-    return (
-      <div className="listing-rows">
-        <Listing
-          key={`listing-${i}`}
-          id={`listing-${i}`}
-          {...properties[0]}
-        />
-        <Listing
-          key={`listing-${i + 1}`}
-          id={`listing-${i + 1}`}
-          {...properties[1]}
-        />
-      </div>
-    );
-  };
-
-  const listingRows = (properties) => {
-    for (let i = 0; i < 5; i += 2) {
-      return (
-        <div className="listing-rows">
-          <Listing
-            key={`listing-${i}`}
-            id={`listing-${i}`}
-            {...properties[i]}
-          />
-          <Listing
-            key={`listing-${i + 1}`}
-            id={`listing-${i + 1}`}
-            {...properties[i+1]}
-          />
-        </div>
-      );
-    };
-  };
-
 
 
   return (
     <div className="App">
       <CssBaseline />
-      <header className="App-header">
+      <header className="App__header">
         <PrimarySearchAppBar 
           toggleDrawer={toggleDrawer}
         />
@@ -93,8 +57,8 @@ export default function App() {
           />
         </SwipeableDrawer>
       </header>
-      <section className='App-body'>
-        {state.properties ? listingRows(state.properties) : <></>}
+      <section className='App__body'>
+        {state.properties ? listings : <></>}
       </section>
     </div>
   );

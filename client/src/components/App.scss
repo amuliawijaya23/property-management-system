@@ -1,6 +1,10 @@
 .App {
-  .App-body {
-    display: flex;
+  .App {
+    &__body {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin: 1rem;
+    }
 
     .listing-rows {
       display: flex;
