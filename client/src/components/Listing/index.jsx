@@ -48,7 +48,7 @@ export default function Listing(props) {
         alt={props.title}
       />
       <CardContent className='listing__content'>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text">
           Address: {props.street_address} {props.city} {props.province} {props.postal_code}<br/>
           Type of Property: {props.property_type}<br/>
           Bedrooms: {props.number_of_bedrooms} Bathrooms: {props.number_of_bathrooms} Parking: {props.parking_space} Size: {props.size} sqft - {props.status}
