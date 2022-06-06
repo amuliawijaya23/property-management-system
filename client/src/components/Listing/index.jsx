@@ -49,7 +49,10 @@ export default function Listing(props) {
       />
       <CardContent className='listing__content'>
         <Typography variant="body2" color="text.secondary">
-          This impressive property is a perfect house to settle in together with your family.
+          Address: {props.street_address} {props.city} {props.province} {props.postal_code}<br/>
+          Type of Property: {props.property_type}<br/>
+          Size: {props.size}<br/>
+          Bedrooms: {props.number_of_bedrooms} Bathrooms: {props.number_of_bathrooms} Parking: {props.parking_space}
         </Typography>
       </CardContent>
     </Card>
