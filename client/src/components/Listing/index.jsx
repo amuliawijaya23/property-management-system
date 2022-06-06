@@ -25,8 +25,9 @@ export default function Listing(props) {
   };
 
   return (
-    <Card sx={{ maxWidth: 1000 }}>
+    <Card className='listing'>
       <CardHeader
+        className='listing__header'
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="property">
             R
@@ -41,12 +42,12 @@ export default function Listing(props) {
         subheader="September 14, 2016"
       />
       <CardMedia
+        className='listing__image'
         component="img"
-        height="194"
         image={props.cover_image_url}
         alt={props.title}
       />
-      <CardContent>
+      <CardContent className='listing__content'>
         <Typography variant="body2" color="text.secondary">
           This impressive property is a perfect house to settle in together with your family.
         </Typography>
