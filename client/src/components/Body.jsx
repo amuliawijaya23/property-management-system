@@ -1,10 +1,11 @@
 import Listing from "./Listing";
+import Dashboard from "./Dashboard";
 
 import useVisualMode from "../hooks/useVisualMode";
-import { LISTINGS, HIDDEN } from "../helper/modes";
+import { LISTINGS, HIDDEN, DASHBOARD } from "../helper/modes";
 
 export default function Body(props) {
-  const {mode, transition} = useVisualMode(LISTINGS)
+  const {mode, transition} = useVisualMode(DASHBOARD)
 
   const listings = props.properties?.map((listing, i) => (
     <Listing
@@ -17,6 +18,7 @@ export default function Body(props) {
   return (
     <section className="App__body">
       {mode === LISTINGS && <div className="listings">{listings}</div>}
+      {mode === DASHBOARD && <Dashboard />}
     </section>
   );
 };
