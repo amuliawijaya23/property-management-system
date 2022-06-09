@@ -8,7 +8,6 @@
     align-items: center;
     justify-content: center;
     margin-right: 1rem;
-    padding: 0.25rem;
     width: 10%;
 
     img {
@@ -35,13 +34,21 @@
     margin-right: 8rem;
     width: calc(60% / 4);
     text-align: start;
+    font-size: 1.1rem;
+
+    &--space {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &__price {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
     width: 10%;
     font-size: 1.2rem;
   }

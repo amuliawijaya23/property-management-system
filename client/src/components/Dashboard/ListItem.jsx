@@ -1,6 +1,9 @@
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  import { faBed, faToilet, faCar, faKitchenSet } from '@fortawesome/free-solid-svg-icons'
+
 import './styles.scss';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -26,15 +29,28 @@ export default function ListItem(props) {
         <p><b>Size:</b> {props.size} sqft</p>
       </div>
       <div className="list-item__detail">
-        <p><b>Bedrooms:</b> {props.number_of_bedrooms}</p>
-        <p><b>Bathrooms:</b> {props.number_of_bathrooms}</p>
+        <div className="list-item__detail list-item__detail--space">
+          <FontAwesomeIcon icon={faBed} pull="left" size='xl'/>
+          <p>{props.number_of_bedrooms}</p>
+        </div>
+        <div className="list-item__detail list-item__detail--space">
+          <FontAwesomeIcon icon={faToilet} pull="left" size='xl'/>
+          <p>{props.number_of_bathrooms}</p>
+        </div>
       </div>
       <div className="list-item__detail">
-        <p><b>Parking:</b> {props.parking_space}</p>
-        <p><b>Status:</b> {props.status}</p>
+        <div className="list-item__detail list-item__detail--space">
+          <FontAwesomeIcon icon={faCar} pull="left" size='xl'/>
+          <p>{props.parking_space}</p>
+        </div>
+        <div className="list-item__detail list-item__detail--space">
+          <FontAwesomeIcon icon={faKitchenSet} pull="left" size='xl'/>
+          <p>{1}</p>
+        </div>
       </div>
       <div className="list-item__price">
         <b>$ 650000</b>
+        <p>{props.status}</p>
       </div>
     </Item>
   );

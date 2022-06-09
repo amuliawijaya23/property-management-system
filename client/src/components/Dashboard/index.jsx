@@ -22,5 +22,5 @@ export default function Dashboard(props) {
         {listItems}
       </Stack>
     </Box>
-  )
+  );
 };
