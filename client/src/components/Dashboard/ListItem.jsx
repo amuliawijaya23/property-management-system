@@ -19,19 +19,22 @@ export default function ListItem(props) {
       </div>
       <div className="list-item__info">
         <b>{props.title}</b>
-        <p>Address: {props.street_address} {props.city} {props.province} {props.postal_code}</p>
+        <p><b>Address:</b> {props.street_address} {props.city} {props.province} {props.postal_code}</p>
       </div>
-      <div className="list-item__info">
-        <p>Property Type: {props.property_type}</p>
-        <p>Size: {props.size} sqft</p>
+      <div className="list-item__detail">
+        <p><b>Type:</b> {props.property_type}</p>
+        <p><b>Size:</b> {props.size} sqft</p>
       </div>
-      <div className="list-item__info">
-      <p>Bedrooms: {props.number_of_bedrooms}</p>
-      <p>Bathrooms: {props.number_of_bathrooms}</p>
+      <div className="list-item__detail">
+        <p><b>Bedrooms:</b> {props.number_of_bedrooms}</p>
+        <p><b>Bathrooms:</b> {props.number_of_bathrooms}</p>
       </div>
-      <div className="list-item__info">
-      <p>Parking: {props.parking_space}</p>
-      <p>Status: {props.status}</p>
+      <div className="list-item__detail">
+        <p><b>Parking:</b> {props.parking_space}</p>
+        <p><b>Status:</b> {props.status}</p>
+      </div>
+      <div className="list-item__price">
+        <b>$ 650000</b>
       </div>
     </Item>
   );
