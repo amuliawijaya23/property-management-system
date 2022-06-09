@@ -1,5 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline';
-import './App.scss';
+import './styles.scss';
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import PrimarySearchAppBar from './Nav';

@@ -1,0 +1,14 @@
+.list-item {
+  display: flex;
+  flex-direction: row;
+
+  &__image {
+    display: flex;
+    padding: 0.25rem;
+
+    img {
+      width: 7rem;
+      height: 5rem;
+    }
+  }
+}
