@@ -1,4 +1,3 @@
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -16,6 +15,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import useVisualMode from '../../hooks/useVisualMode';
 import { HIDDEN, SHOW } from '../../helper/modes';
+
+
 
 export default function Listing(props) {
   const {mode, transition} = useVisualMode(HIDDEN);

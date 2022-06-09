@@ -18,7 +18,11 @@ export default function Body(props) {
   return (
     <section className="App__body">
       {mode === LISTINGS && <div className="listings">{listings}</div>}
-      {mode === DASHBOARD && <Dashboard />}
+      {mode === DASHBOARD && (
+        <Dashboard
+          properties={props.properties}
+        />
+      )}
     </section>
   );
 };
