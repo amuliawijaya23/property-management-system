@@ -2,7 +2,12 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-  import { faBed, faToilet, faCar, faKitchenSet } from '@fortawesome/free-solid-svg-icons'
+import { faBed, faToilet, faCar, faKitchenSet } from '@fortawesome/free-solid-svg-icons'
+
+import BedIcon from '@mui/icons-material/Bed';
+import BathroomIcon from '@mui/icons-material/Bathroom';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import KitchenIcon from '@mui/icons-material/Kitchen';
 
 import './styles.scss';
 
@@ -12,6 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
+  width: '100%'
 }));
 
 export default function ListItem(props) {
@@ -22,7 +28,7 @@ export default function ListItem(props) {
       </div>
       <div className="list-item__info">
         <b>{props.title}</b>
-        <p><b>Address:</b> {props.street_address} {props.city} {props.province} {props.postal_code}</p>
+        <p>{props.street_address} {props.city} {props.province} {props.postal_code}</p>
       </div>
       <div className="list-item__detail">
         <p><b>Type:</b> {props.property_type}</p>
@@ -30,27 +36,27 @@ export default function ListItem(props) {
       </div>
       <div className="list-item__detail">
         <div className="list-item__detail list-item__detail--space">
-          <FontAwesomeIcon icon={faBed} pull="left" size='xl'/>
-          <p>{props.number_of_bedrooms}</p>
+          <BedIcon sx={{fontSize: "xlarge"}}/>
+          <p><b>{props.number_of_bedrooms}</b></p>
         </div>
         <div className="list-item__detail list-item__detail--space">
-          <FontAwesomeIcon icon={faToilet} pull="left" size='xl'/>
-          <p>{props.number_of_bathrooms}</p>
+          <BathroomIcon sx={{fontSize: "xlarge"}}/>
+          <p><b>{props.number_of_bathrooms}</b></p>
         </div>
       </div>
       <div className="list-item__detail">
         <div className="list-item__detail list-item__detail--space">
-          <FontAwesomeIcon icon={faCar} pull="left" size='xl'/>
-          <p>{props.parking_space}</p>
+          <DirectionsCarIcon sx={{fontSize: "xlarge"}}/>
+          <p><b>{props.parking_space}</b></p>
         </div>
         <div className="list-item__detail list-item__detail--space">
-          <FontAwesomeIcon icon={faKitchenSet} pull="left" size='xl'/>
-          <p>{1}</p>
+          <KitchenIcon sx={{fontSize: "xlarge"}}/>
+          <p><b>{1}</b></p>
         </div>
       </div>
       <div className="list-item__price">
         <b>$ 650000</b>
-        <p>{props.status}</p>
+        <p><b>{props.status}</b></p>
       </div>
     </Item>
   );

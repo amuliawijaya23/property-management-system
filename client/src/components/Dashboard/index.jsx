@@ -2,6 +2,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 import ListItem from './ListItem';
 
 
@@ -21,6 +23,10 @@ export default function Dashboard(props) {
       <Stack spacing={2}>
         {listItems}
       </Stack>
+      <AddCircleIcon 
+        className='add-listing__button'
+        sx={{fontSize: "5rem"}}
+      />
     </Box>
   );
 };
