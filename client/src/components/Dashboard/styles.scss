@@ -1,14 +1,29 @@
 .list-item {
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
 
   &__image {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
     padding: 0.25rem;
+    width: 7rem;
 
     img {
       width: 7rem;
       height: 5rem;
     }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-right: 8rem;
+    text-align: start;
+    width: calc((100% - 7rem) / 5);
   }
 }
