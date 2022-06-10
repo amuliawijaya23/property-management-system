@@ -1,9 +1,6 @@
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBed, faToilet, faCar, faKitchenSet } from '@fortawesome/free-solid-svg-icons'
-
 import BedIcon from '@mui/icons-material/Bed';
 import BathroomIcon from '@mui/icons-material/Bathroom';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -17,7 +14,6 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
-  width: '100%'
 }));
 
 export default function ListItem(props) {

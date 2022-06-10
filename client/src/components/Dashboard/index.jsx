@@ -19,8 +19,8 @@ export default function Dashboard(props) {
   ));
 
   return (
-    <Box sx={{ width: '100%'}}>
-      <Stack spacing={2}>
+    <Box>
+      <Stack spacing={1}>
         {listItems}
       </Stack>
       <AddCircleIcon 
