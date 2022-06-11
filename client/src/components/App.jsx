@@ -2,7 +2,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import './styles.scss';
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import PrimarySearchAppBar from './Nav';
+import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
 import Body from './Body';
 
@@ -29,8 +29,8 @@ export default function App() {
     <div className="App">
       <CssBaseline />
       <header className="App__header">
-        <PrimarySearchAppBar 
-          toggleDrawer={toggleDrawer}
+        <ButtonAppBar
+          openDrawer={toggleDrawer(SHOW)}
         />
         <SwipeableDrawer 
           anchor='left'

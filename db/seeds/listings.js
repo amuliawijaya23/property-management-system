@@ -18,8 +18,9 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 2,
           number_of_bathrooms: 2,
           parking_space: 1,
+          price: 780000,
           status: 'Active',
-          seller_id: '885af7e7-edc3-4896-8cde-8889390f5414'
+          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
         },
         {
           cover_image_url: 'https://i.imgur.com/NIbBhpf.jpg',
@@ -35,8 +36,9 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 4,
           number_of_bathrooms: 3,
           parking_space: 2,
+          price: 3211000,
           status: 'Active',
-          seller_id: '885af7e7-edc3-4896-8cde-8889390f5414'
+          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
         },
         {
           cover_image_url: 'https://i.imgur.com/TY0iLXj.jpg',
@@ -52,8 +54,9 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 2,
           number_of_bathrooms: 2,
           parking_space: 1,
+          price: 1375000,
           status: 'Active',
-          seller_id: '885af7e7-edc3-4896-8cde-8889390f5414'
+          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
         },
         {
           cover_image_url: 'https://i.imgur.com/bZkFQbP.jpg',
@@ -69,8 +72,9 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 3,
           number_of_bathrooms: 2,
           parking_space: 2,
+          price: 1583000,
           status: 'Active',
-          seller_id: '885af7e7-edc3-4896-8cde-8889390f5414'
+          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
         },
         {
           cover_image_url: 'https://i.imgur.com/GwbjRxT.jpg',
@@ -86,8 +90,9 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 5,
           number_of_bathrooms: 3,
           parking_space: 4,
+          price: 6200000,
           status: 'Active',
-          seller_id: '885af7e7-edc3-4896-8cde-8889390f5414'
+          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
         },
       ]);
     });

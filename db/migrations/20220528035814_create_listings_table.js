@@ -15,6 +15,7 @@ exports.up = function(knex) {
       table.smallint('number_of_bedrooms').notNullable();
       table.smallint('number_of_bathrooms').notNullable();
       table.smallint('parking_space').notNullable();
+      table.integer('price').notNullable();
       table.string('status', 255).notNullable();
       table.uuid('seller_id').references('id').inTable('users').onDelete('cascade').notNullable();
     });
