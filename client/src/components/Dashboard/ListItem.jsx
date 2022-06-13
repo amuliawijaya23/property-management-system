@@ -51,7 +51,7 @@ export default function ListItem(props) {
         </div>
       </div>
       <div className="list-item__price">
-        <b>$ 650000</b>
+        <b>${props.price}</b>
         <p><b>{props.status}</b></p>
       </div>
     </Item>
