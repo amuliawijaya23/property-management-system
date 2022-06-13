@@ -1,20 +1,24 @@
+import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import './styles.scss';
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
-import Body from './Body';
+import Dashboard from "./Dashboard";
 
 import useApplicationData from '../hooks/useApplicationData';
-import useVisualMode from '../hooks/useVisualMode';
-import { HIDDEN, SHOW } from '../helper/modes';
+
+import useVisualMode from "../hooks/useVisualMode";
+import { LISTINGS, HIDDEN, DASHBOARD } from "../helper/modes";
 
 export default function App() {
   const {state} = useApplicationData();
-  const {mode, transition} = useVisualMode(HIDDEN);
+  const [anchorEl, setAnchorEl] = React.useState(false);
 
-  const toggleDrawer = (mode) => (event) => {
+  const {mode, transition, back} = useVisualMode(DASHBOARD);
+
+  const toggleDrawer = (anchor) => (event) => {
     if (
       event &&
       event.type === 'keydown' &&
@@ -22,30 +26,29 @@ export default function App() {
     ) {
       return;
     }
-    transition(mode);
+    setAnchorEl(anchor);
   };
 
   return (
     <div className="App">
-      <CssBaseline />
-      <header className="App__header">
-        <ButtonAppBar
-          openDrawer={toggleDrawer(SHOW)}
-        />
-        <SwipeableDrawer 
-          anchor='left'
-          open={mode === SHOW}
-          onClose={toggleDrawer(HIDDEN)}
-          onOpen={toggleDrawer(SHOW)}
-        >
-          <DrawerList 
-            toggleDrawer={toggleDrawer}
+      <CssBaseline>
+        <header className="App__header">
+          <ButtonAppBar openDrawer={toggleDrawer(true)} />
+          <SwipeableDrawer 
+            anchor='left'
+            open={anchorEl}
+            onClose={toggleDrawer(false)}
+            onOpen={toggleDrawer(true)}
+          >
+            <DrawerList toggleDrawer={toggleDrawer} />
+          </SwipeableDrawer>
+        </header>
+        {mode === DASHBOARD && (
+          <Dashboard
+            properties={state.properties}
           />
-        </SwipeableDrawer>
-      </header>
-      <Body
-        properties={state.properties}
-      />
+        )}
+      </CssBaseline>
     </div>
   );
 };

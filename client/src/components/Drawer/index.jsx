@@ -8,16 +8,14 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
-import { HIDDEN } from '../../helper/modes';
-
 export default function DrawerList(props) {
 
   return (
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      onClick={props.toggleDrawer(HIDDEN)}
-      onKeyDown={props.toggleDrawer(HIDDEN)}
+      onClick={props.toggleDrawer(false)}
+      onKeyDown={props.toggleDrawer(false)}
     >
       <List>
         {['Browse', 'Areas'].map((text, index) => (
