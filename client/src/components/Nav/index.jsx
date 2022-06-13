@@ -71,7 +71,7 @@ export default function ButtonAppBar(props) {
             </div>
           )}
           {!auth && (
-            <Button color="inherit">Login</Button>
+            <Button onClick={props.onLogin} color="inherit">Login</Button>
           )}
         </Toolbar>
       </AppBar>

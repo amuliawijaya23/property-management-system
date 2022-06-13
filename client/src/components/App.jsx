@@ -17,7 +17,7 @@ export default function App() {
   const {state} = useApplicationData();
   const [anchorEl, setAnchorEl] = React.useState(false);
 
-  const {mode, transition, back} = useVisualMode(LOGIN);
+  const {mode, transition, back} = useVisualMode(DASHBOARD);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -30,11 +30,19 @@ export default function App() {
     setAnchorEl(anchor);
   };
 
+  const toggleLogin = () => {
+    (mode === LOGIN) ? back() : transition(LOGIN);
+  };
+
   return (
     <div className="App">
       <CssBaseline>
         <header className="App__header">
-          <ButtonAppBar openDrawer={toggleDrawer(true)} className="App__bar" />
+          <ButtonAppBar
+            className="App__bar"
+            openDrawer={toggleDrawer(true)}
+            onLogin={toggleLogin}
+          />
           <SwipeableDrawer 
             anchor='left'
             open={anchorEl}
@@ -50,7 +58,9 @@ export default function App() {
           />
         )}
         {mode === LOGIN && (
-          <LoginForm />
+          <LoginForm
+            toggleLogin={toggleLogin}
+          />
         )}
       </CssBaseline>
     </div>

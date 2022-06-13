@@ -87,7 +87,13 @@ export default function LoginForm(props) {
       </div>
       <div className="login-form__submit">
         <Button size='large' variant='outline'>Login</Button>
-        <Button size='large' variant='outline'>Cancel</Button>
+        <Button
+          size='large'
+          variant='outline'
+          onClick={props.toggleLogin}
+        >
+          Cancel
+        </Button>
       </div>
     </div>
   );
