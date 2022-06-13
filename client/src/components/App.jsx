@@ -6,17 +6,18 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
 import Dashboard from "./Dashboard";
+import LoginForm from './LoginForm';
 
 import useApplicationData from '../hooks/useApplicationData';
 
 import useVisualMode from "../hooks/useVisualMode";
-import { LISTINGS, HIDDEN, DASHBOARD } from "../helper/modes";
+import { LOGIN, HIDDEN, DASHBOARD } from "../helper/modes";
 
 export default function App() {
   const {state} = useApplicationData();
   const [anchorEl, setAnchorEl] = React.useState(false);
 
-  const {mode, transition, back} = useVisualMode(DASHBOARD);
+  const {mode, transition, back} = useVisualMode(LOGIN);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -33,7 +34,7 @@ export default function App() {
     <div className="App">
       <CssBaseline>
         <header className="App__header">
-          <ButtonAppBar openDrawer={toggleDrawer(true)} />
+          <ButtonAppBar openDrawer={toggleDrawer(true)} className="App__bar" />
           <SwipeableDrawer 
             anchor='left'
             open={anchorEl}
@@ -47,6 +48,9 @@ export default function App() {
           <Dashboard
             properties={state.properties}
           />
+        )}
+        {mode === LOGIN && (
+          <LoginForm />
         )}
       </CssBaseline>
     </div>
