@@ -9,16 +9,26 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 export default function ButtonAppBar(props) {
+  const { 
+    isLoading, 
+    isAuthenticated,
+    error,
+    user,
+    loginWithRedirect,
+    logout
+  } = useAuth0();
 
-  const [auth, setAuth] = React.useState(false);
+  // const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
     anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
   };
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -37,7 +47,7 @@ export default function ButtonAppBar(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
-          {auth && (
+          {isAuthenticated && (
             <div>
               <IconButton
                 size="large"
@@ -66,12 +76,16 @@ export default function ButtonAppBar(props) {
               >
                 <MenuItem onClick={handleMenu}>Profile</MenuItem>
                 <MenuItem onClick={handleMenu}>My account</MenuItem>
-                <MenuItem onClick={handleMenu}>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                >
+                  Logout
+                </MenuItem>
               </Menu>
             </div>
           )}
-          {!auth && (
-            <Button onClick={props.onLogin} color="inherit">Login</Button>
+          {!isAuthenticated && (
+            <Button onClick={() => loginWithRedirect()} color="inherit">Login</Button>
           )}
         </Toolbar>
       </AppBar>
