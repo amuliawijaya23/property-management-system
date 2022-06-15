@@ -11,7 +11,7 @@ import Dashboard from "./Dashboard";
 import useApplicationData from '../hooks/useApplicationData';
 
 import useVisualMode from "../hooks/useVisualMode";
-import { DASHBOARD } from "../helper/modes";
+import { DASHBOARD, HIDDEN } from "../helper/modes";
 
 import './styles.scss';
 
@@ -28,7 +28,7 @@ export default function App() {
   const {state} = useApplicationData();
   const [anchorEl, setAnchorEl] = React.useState(false);
 
-  const {mode, transition, back} = useVisualMode(DASHBOARD);
+  const {mode, transition} = useVisualMode(isAuthenticated ? DASHBOARD : HIDDEN);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -40,6 +40,14 @@ export default function App() {
     }
     setAnchorEl(anchor);
   };
+
+  React.useEffect(() => {
+    if(isAuthenticated && mode === HIDDEN) {
+      transition(DASHBOARD);
+    } else if (!isAuthenticated && mode === DASHBOARD) {
+      transition(HIDDEN);
+    }
+  }, [isAuthenticated, transition, mode]);
 
   if(isLoading) {
     return (
@@ -74,6 +82,9 @@ export default function App() {
           <Dashboard
             properties={state.properties}
           />
+        )}
+        {mode === HIDDEN && (
+          <></>
         )}
       </CssBaseline>
     </div>
