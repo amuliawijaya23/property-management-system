@@ -9,18 +9,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useAuth0 } from "@auth0/auth0-react";
 
 
 export default function ButtonAppBar(props) {
-  const { 
-    isLoading, 
-    isAuthenticated,
-    error,
-    user,
-    loginWithRedirect,
-    logout
-  } = useAuth0();
 
   // const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -28,6 +19,8 @@ export default function ButtonAppBar(props) {
   const handleMenu = (event) => {
     anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
   };
+
+  console.log('USER IS', props.user);
 
 
   return (
@@ -47,7 +40,7 @@ export default function ButtonAppBar(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
-          {isAuthenticated && (
+          {props.isAuthenticated && (
             <div>
               <IconButton
                 size="large"
@@ -57,7 +50,7 @@ export default function ButtonAppBar(props) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <img src={props.user.picture} alt="user" className='App__user'/>
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -77,15 +70,15 @@ export default function ButtonAppBar(props) {
                 <MenuItem onClick={handleMenu}>Profile</MenuItem>
                 <MenuItem onClick={handleMenu}>My account</MenuItem>
                 <MenuItem
-                  onClick={() => logout({ returnTo: window.location.origin })}
+                  onClick={() => props.logout({ returnTo: window.location.origin })}
                 >
                   Logout
                 </MenuItem>
               </Menu>
             </div>
           )}
-          {!isAuthenticated && (
-            <Button onClick={() => loginWithRedirect()} color="inherit">Login</Button>
+          {!props.isAuthenticated && (
+            <Button onClick={() => props.loginWithRedirect()} color="inherit">Login</Button>
           )}
         </Toolbar>
       </AppBar>
