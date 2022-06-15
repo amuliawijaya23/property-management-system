@@ -17,7 +17,8 @@ exports.up = function(knex) {
       table.smallint('parking_space').notNullable();
       table.integer('price').notNullable();
       table.string('status', 255).notNullable();
-      table.uuid('seller_id').references('id').inTable('users').onDelete('cascade').notNullable();
+      table.string('organization_id').notNullable();
+      table.string('seller_id').notNullable();
     });
 };
 

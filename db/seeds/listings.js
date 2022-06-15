@@ -20,7 +20,8 @@ exports.seed = async function(knex) {
           parking_space: 1,
           price: 780000,
           status: 'Active',
-          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           cover_image_url: 'https://i.imgur.com/NIbBhpf.jpg',
@@ -38,7 +39,8 @@ exports.seed = async function(knex) {
           parking_space: 2,
           price: 3211000,
           status: 'Active',
-          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           cover_image_url: 'https://i.imgur.com/TY0iLXj.jpg',
@@ -56,7 +58,8 @@ exports.seed = async function(knex) {
           parking_space: 1,
           price: 1375000,
           status: 'Active',
-          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           cover_image_url: 'https://i.imgur.com/bZkFQbP.jpg',
@@ -74,7 +77,8 @@ exports.seed = async function(knex) {
           parking_space: 2,
           price: 1583000,
           status: 'Active',
-          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           cover_image_url: 'https://i.imgur.com/GwbjRxT.jpg',
@@ -92,7 +96,8 @@ exports.seed = async function(knex) {
           parking_space: 4,
           price: 6200000,
           status: 'Active',
-          seller_id: '495f2ce2-7d8c-41db-b403-e0926bad9b38'
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          seller_id: 'auth0|62a915d40fb854efec56620b'
         },
       ]);
     });
