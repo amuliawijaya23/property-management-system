@@ -6,17 +6,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 
 
 export default function ButtonAppBar(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleMenu = (event) => {
-    anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
-  };
-
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -35,47 +27,23 @@ export default function ButtonAppBar(props) {
             </IconButton>
           )}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            ProperTee
           </Typography>
           {props.isAuthenticated && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <img src={props.user.picture} alt="user" className='App__user'/>
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleMenu}
-              >
-                <MenuItem onClick={handleMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleMenu}>My account</MenuItem>
-                <MenuItem
-                  onClick={() => props.logout({ returnTo: window.location.origin })}
-                >
-                  Logout
-                </MenuItem>
-              </Menu>
-            </div>
+            <Button 
+              onClick={() => props.logout({ returnTo: window.location.origin })}
+              color="inherit"
+            >
+              Logout
+            </Button>
           )}
           {!props.isAuthenticated && (
-            <Button onClick={() => props.loginWithRedirect()} color="inherit">Login</Button>
+            <Button
+              onClick={() => props.loginWithRedirect()}
+              color="inherit"
+            >
+              Login
+            </Button>
           )}
         </Toolbar>
       </AppBar>

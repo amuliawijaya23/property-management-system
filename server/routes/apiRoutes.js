@@ -1,13 +1,8 @@
 require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
-const knex = require('../../db/knex');
 
 const { getListings } = require('../../db/db');
-
-router.get('', (req, res) => {
-  res.json({message: 'HELLO FROM SERVER!'});
-});
 
 router.get('/listings', (req, res) => {
   getListings()

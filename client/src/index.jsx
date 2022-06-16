@@ -7,6 +7,7 @@ import './styles.scss';
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientID = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
     domain={domain}
     clientId={clientID}
     redirectUri={window.location.origin}
+    audience={audience}
   >
     <App />
   </Auth0Provider>

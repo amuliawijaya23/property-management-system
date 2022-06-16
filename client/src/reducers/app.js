@@ -1,4 +1,3 @@
-export const SET_USER = 'SET_USER';
 export const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
 
 export default function reducer(state, action) {
@@ -6,7 +5,8 @@ export default function reducer(state, action) {
   
     case SET_APPLICATION_DATA:
       return {...state,
-        properties: action.value.properties
+        properties: action.value.properties,
+        agents: action.value.agents
       };
       
     default:

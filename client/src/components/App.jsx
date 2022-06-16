@@ -1,7 +1,6 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useAuth0 } from "@auth0/auth0-react";
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ButtonAppBar from './Nav';
@@ -16,16 +15,16 @@ import { DASHBOARD, HIDDEN } from "../helper/modes";
 import './styles.scss';
 
 export default function App() {
-  const { 
-    isLoading, 
-    isAuthenticated,
-    error,
+  const {
+    state,
     user,
+    isAuthenticated,
+    isLoading,
+    error,
     loginWithRedirect,
     logout
-  } = useAuth0();
+  } = useApplicationData();
 
-  const {state} = useApplicationData();
   const [anchorEl, setAnchorEl] = React.useState(false);
 
   const {mode, transition} = useVisualMode(isAuthenticated ? DASHBOARD : HIDDEN);
@@ -49,13 +48,13 @@ export default function App() {
     }
   }, [isAuthenticated, transition, mode]);
 
-  if(isLoading) {
+  if(isLoading || !state.properties || !state.agents) {
     return (
       <div className='App__loading'>
         <CircularProgress size={"4.5rem"}/>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="App">

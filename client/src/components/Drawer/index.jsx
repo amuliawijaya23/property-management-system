@@ -5,8 +5,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function DrawerList(props) {
 
@@ -18,11 +21,11 @@ export default function DrawerList(props) {
       onKeyDown={props.toggleDrawer(false)}
     >
       <List>
-        {['Browse', 'Areas'].map((text, index) => (
+        {['Dashboard', 'Listings'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <DashboardIcon /> : <HomeIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -31,11 +34,11 @@ export default function DrawerList(props) {
       </List>
       <Divider />
       <List>
-        {['About Us', 'Meet Our Agents', 'Contact Us'].map((text, index) => (
+        {['Agents', 'Contact Us'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <PersonIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
