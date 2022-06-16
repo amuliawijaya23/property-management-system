@@ -17,9 +17,9 @@ import './styles.scss';
 export default function App() {
   const {
     state,
+    isLoading,
     user,
     isAuthenticated,
-    isLoading,
     error,
     loginWithRedirect,
     logout
@@ -27,7 +27,7 @@ export default function App() {
 
   const [anchorEl, setAnchorEl] = React.useState(false);
 
-  const {mode, transition} = useVisualMode(isAuthenticated ? DASHBOARD : HIDDEN);
+  const {mode, transition} = useVisualMode(user ? DASHBOARD : HIDDEN);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -41,14 +41,14 @@ export default function App() {
   };
 
   React.useEffect(() => {
-    if(isAuthenticated && mode === HIDDEN) {
-      transition(DASHBOARD);
-    } else if (!isAuthenticated && mode === DASHBOARD) {
+    if(!user && mode === DASHBOARD) {
       transition(HIDDEN);
+    } else if (user && mode === HIDDEN) {
+      transition(DASHBOARD);
     }
-  }, [isAuthenticated, transition, mode]);
+  }, [user, transition, mode]);
 
-  if(isLoading || !state.properties || !state.agents) {
+  if(isLoading || (mode !== HIDDEN && (!state.properties || !state.agents))) {
     return (
       <div className='App__loading'>
         <CircularProgress size={"4.5rem"}/>

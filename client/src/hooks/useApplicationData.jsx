@@ -20,32 +20,34 @@ export default function useApplicationData() {
   });
 
   useEffect(() => {
-    getAccessTokenSilently()
-      .then((token) => {
-        Promise.all([
-          axios.get('api/listings'),
-          axios.get(`${process.env.REACT_APP_API}/user/organization/${user?.org_id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+    if(isAuthenticated) {
+      getAccessTokenSilently()
+        .then((token) => {
+          Promise.all([
+            axios.get('api/listings'),
+            axios.get(`${process.env.REACT_APP_API}/user/organization/${user?.org_id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+          ]).then((response) => {
+            const [listings, agents] = response;
+            dispatch({
+              type: SET_APPLICATION_DATA,
+              value: {properties: listings.data, agents: agents.data}
+            });
           })
-        ]).then((response) => {
-          const [listings, agents] = response;
-          dispatch({
-            type: SET_APPLICATION_DATA,
-            value: {properties: listings.data, agents: agents.data}
-          });
+          .catch(e => console.error(e));
         })
-        .catch(e => console.error(e));
-      })
-  }, [user, getAccessTokenSilently]);
+    }
+  }, [isAuthenticated, user, getAccessTokenSilently]);
 
   return { 
     state,
-    user,
-    isAuthenticated,
     isLoading,
     error,
+    user,
+    isAuthenticated,
     getAccessTokenSilently,
     loginWithRedirect,
     logout

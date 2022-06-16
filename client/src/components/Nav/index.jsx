@@ -29,7 +29,7 @@ export default function ButtonAppBar(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ProperTee
           </Typography>
-          {props.isAuthenticated && (
+          {props.user && (
             <Button 
               onClick={() => props.logout({ returnTo: window.location.origin })}
               color="inherit"
@@ -37,7 +37,7 @@ export default function ButtonAppBar(props) {
               Logout
             </Button>
           )}
-          {!props.isAuthenticated && (
+          {!props.user && (
             <Button
               onClick={() => props.loginWithRedirect()}
               color="inherit"
