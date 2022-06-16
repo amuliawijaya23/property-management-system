@@ -6,11 +6,12 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
 import Dashboard from "./Dashboard";
+import Listings from './Listings';
 
 import useApplicationData from '../hooks/useApplicationData';
 
 import useVisualMode from "../hooks/useVisualMode";
-import { DASHBOARD, HIDDEN } from "../helper/modes";
+import { DASHBOARD, LISTINGS, HIDDEN } from "../helper/modes";
 
 import './styles.scss';
 
@@ -27,7 +28,7 @@ export default function App() {
 
   const [anchorEl, setAnchorEl] = React.useState(false);
 
-  const {mode, transition} = useVisualMode(user ? DASHBOARD : HIDDEN);
+  const {mode, transition} = useVisualMode(user ? LISTINGS : HIDDEN);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -41,10 +42,10 @@ export default function App() {
   };
 
   React.useEffect(() => {
-    if(!user && mode === DASHBOARD) {
+    if(!user && mode === LISTINGS) {
       transition(HIDDEN);
     } else if (user && mode === HIDDEN) {
-      transition(DASHBOARD);
+      transition(LISTINGS);
     }
   }, [user, transition, mode]);
 
@@ -77,8 +78,9 @@ export default function App() {
             <DrawerList toggleDrawer={toggleDrawer} />
           </SwipeableDrawer>
         </header>
-        {mode === DASHBOARD && (
-          <Dashboard
+        {mode === LISTINGS && (
+          <Listings
+            agents={state.agents}
             properties={state.properties}
           />
         )}
