@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import Alert from '@mui/material/Alert';
 
 
 import './styles.scss';
@@ -30,6 +31,8 @@ export default function Form(props) {
     seller_id: props.user.sub
   });
 
+  const [error, setError] = useState('');
+
   const onDrop = useCallback((acceptedFiles) => {
     setState({...state, thumbnailImage: acceptedFiles[0]})
   }, []);
@@ -45,29 +48,51 @@ export default function Form(props) {
     newState[field] = event.target.value;
     setState({...newState});
   };
+  
+  
+  const validate = () => {
+    const fields = Object.keys(state);
+    let error = false;
+
+    fields.forEach((field) => {
+      if(state[field] === '' || state[field] === undefined || state[field] === null) {
+        error = true;
+      }
+    });
+    return error;
+  };
+
 
   const submitForm = (event) => {
     event.preventDefault();
+    const validation = validate();
 
-    const listing = {...state};
-    props.onSubmit(listing);
-    
-    setState({...state,
-      thumbnailImage: null,
-      title: '',
-      description: '',
-      streetAddress: '',
-      city: '',
-      province: '',
-      postalCode: '',
-      country: '',
-      type: '',
-      size: undefined,
-      bedrooms: undefined,
-      bathrooms: undefined,
-      parking: undefined,
-      price: undefined,
-    });
+    if(!validation) {
+      const listing = {...state};
+      props.onSubmit(listing);
+      
+      setState({...state,
+        thumbnailImage: null,
+        title: '',
+        description: '',
+        streetAddress: '',
+        city: '',
+        province: '',
+        postalCode: '',
+        country: '',
+        type: '',
+        size: undefined,
+        bedrooms: undefined,
+        bathrooms: undefined,
+        parking: undefined,
+        price: undefined,
+      });
+    } else {
+      setError('Missing required field');
+      setTimeout(() => {
+        setError('');
+      }, 1500);
+    };
   };
 
   return (
@@ -95,6 +120,8 @@ export default function Form(props) {
           )}
         </div>
         <TextField
+          required
+          error={state.title ? false : true}
           fullWidth
           label="Title"
           id='form-title'
@@ -103,7 +130,9 @@ export default function Form(props) {
           size='small'
           margin='dense'
         />
-        <TextField 
+        <TextField
+          required
+          error={state.description ? false : true}
           fullWidth
           multiline
           id='form-description'
@@ -114,6 +143,8 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField 
+          required
+          error={state.streetAddress ? false : true}
           fullWidth
           id='form-address'
           label="Street Address"
@@ -122,7 +153,9 @@ export default function Form(props) {
           size='small'
           margin='dense'
         />
-        <TextField 
+        <TextField
+          required
+          error={state.city ? false : true}
           fullWidth
           id='form-city'
           label="City"
@@ -131,7 +164,9 @@ export default function Form(props) {
           size='small'
           margin='dense'
         />
-        <TextField 
+        <TextField
+          required
+          error={state.province ? false : true}
           fullWidth
           id='form-province'
           label="Province"
@@ -140,7 +175,9 @@ export default function Form(props) {
           size='small'
           margin='dense'
         />
-        <TextField 
+        <TextField
+          required
+          error={state.postalCode ? false : true}
           fullWidth
           id='form-postal-code'
           label="Postal Code"
@@ -149,7 +186,9 @@ export default function Form(props) {
           size='small'
           margin='dense'
         />
-        <TextField 
+        <TextField
+          required
+          error={state.country ? false : true}
           fullWidth
           id='form-country'
           label="Country"
@@ -159,6 +198,8 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField
+          required
+          error={state.type ? false : true}
           fullWidth
           id='form-property-type'
           select
@@ -174,6 +215,8 @@ export default function Form(props) {
           <MenuItem key={'Penthouse'} value={'Penthouse'}>Penthouse</MenuItem>
         </TextField>
         <TextField
+          required
+          error={state.size ? false : true}
           fullWidth
           id='form-size'
           label='Size'
@@ -187,6 +230,8 @@ export default function Form(props) {
           }}
         />
         <TextField
+          required
+          error={state.bedrooms ? false : true}
           fullWidth
           id='form-bedrooms'
           label='Bedrooms'
@@ -200,6 +245,8 @@ export default function Form(props) {
           }}
         />
         <TextField
+          required
+          error={state.bathrooms ? false : true}
           fullWidth
           id='form-bathrooms'
           label='Bathrooms'
@@ -213,6 +260,8 @@ export default function Form(props) {
           }}
         />
         <TextField
+          required
+          error={state.parking ? false : true}
           fullWidth
           id='form-parking'
           label='Parking'
@@ -226,6 +275,8 @@ export default function Form(props) {
           }}
         />
         <TextField
+          required
+          error={state.price ? false : true}
           fullWidth
           id='form-price'
           label='Price'
@@ -254,6 +305,11 @@ export default function Form(props) {
             Cancel
           </Button>
         </div>
+        {error && (
+        <Alert severity='error' sx={{width: '100%'}}>
+          {error}
+        </Alert>
+        )}
       </div>
     </Box>
   )
