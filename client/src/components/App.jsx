@@ -7,11 +7,12 @@ import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
 import Dashboard from "./Dashboard";
 import Listings from './Listings';
+import Form from './Form';
 
 import useApplicationData from '../hooks/useApplicationData';
 
 import useVisualMode from "../hooks/useVisualMode";
-import { DASHBOARD, LISTINGS, HIDDEN } from "../helper/modes";
+import { DASHBOARD, LISTINGS, HIDDEN, FORM } from "../helper/modes";
 
 import './styles.scss';
 
@@ -28,7 +29,7 @@ export default function App() {
 
   const [anchorEl, setAnchorEl] = React.useState(false);
 
-  const {mode, transition} = useVisualMode(user ? LISTINGS : HIDDEN);
+  const {mode, transition, back} = useVisualMode(user ? LISTINGS : HIDDEN);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -39,6 +40,18 @@ export default function App() {
       return;
     }
     setAnchorEl(anchor);
+  };
+
+  const formHandler = () => {
+    transition(FORM);
+  };
+
+  const listingsHandler = () => {
+    transition(LISTINGS);
+  };
+
+  const returnHandler = () => {
+    back();
   };
 
   React.useEffect(() => {
@@ -75,17 +88,26 @@ export default function App() {
             onClose={toggleDrawer(false)}
             onOpen={toggleDrawer(true)}
           >
-            <DrawerList toggleDrawer={toggleDrawer} />
+            <DrawerList
+              toggleDrawer={toggleDrawer}
+              onListings={listingsHandler}
+              onForm={formHandler}
+            />
           </SwipeableDrawer>
         </header>
+        {mode === HIDDEN && (
+          <></>
+        )}
         {mode === LISTINGS && (
           <Listings
             agents={state.agents}
             properties={state.properties}
           />
         )}
-        {mode === HIDDEN && (
-          <></>
+        {mode === FORM && (
+          <Form 
+            onCancel={returnHandler}
+          />
         )}
       </CssBaseline>
     </div>

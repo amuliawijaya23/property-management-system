@@ -9,9 +9,12 @@ import MailIcon from '@mui/icons-material/Mail';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import PersonIcon from '@mui/icons-material/Person';
 
 export default function DrawerList(props) {
+
+  const clickHandlers = [props.onDashboard, props.onListings, props.onForm];
 
   return (
     <Box
@@ -21,11 +24,15 @@ export default function DrawerList(props) {
       onKeyDown={props.toggleDrawer(false)}
     >
       <List>
-        {['Dashboard', 'Listings'].map((text, index) => (
+        {['Dashboard', 'Listings', 'New Listing'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              onClick={clickHandlers[index]}
+            >
               <ListItemIcon>
-                {index % 2 === 0 ? <DashboardIcon /> : <HomeIcon />}
+                {text === 'Dashboard' && <DashboardIcon />}
+                {text === 'Listings' && <HomeIcon />}
+                {text === 'New Listing' && <AddBusinessIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

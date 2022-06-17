@@ -1,24 +1,8 @@
-.add-listing__button {
-  position: fixed;
-  right: 0.5rem;
-  bottom: 0.5rem;
-  opacity: 0.2;
-
-  @media only screen and (max-width: 1365px) {
-    left: 40vw;
-  }
-
-  &:hover {
-    opacity: 1;
-    color: #1875d1;
-  }
-}
-
 .list-item {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  width: 100%;
+  width: 95%;
 
   &__image {
     display: flex;
@@ -78,9 +62,6 @@
 
   &__agent {
     border-radius: 50%;
-    height: 3rem;
-    @media only screen and (max-width: 1365px) {
-      height: 2.5rem;
-    }
+    height: 2.5rem;
   }
 }

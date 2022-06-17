@@ -1,5 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
 
 import './styles.scss';
 
@@ -18,12 +20,20 @@ export default function ListItem(props) {
         <img src={props.cover_image_url} alt="cover" />
       </div>
       <div className="list-item__info">
-        <b>{props.title}</b>
-        <p>{props.street_address} {props.city} {props.province} {props.postal_code}</p>
+        <Typography variant='body' gutterBottom component="b">
+          {props.title}
+        </Typography>
+        <Typography variant='body' gutterBottom component="p">
+          {props.street_address} {props.city} {props.province} {props.postal_code}
+        </Typography>
       </div>
       <div className="list-item__status">
-        <img src={props.agent.picture} alt="agent" className='list-item__agent'/>
-        <p><b>{props.status}</b></p>
+        <Tooltip disableFocusListener title={props.agent.name} >
+          <img src={props.agent.picture} alt="agent" className='list-item__agent'/>
+        </Tooltip>
+        <Typography variant='body' gutterBottom component="b" sx={{mt: "0.5rem"}}>
+          {props.status}
+        </Typography>
       </div>
     </Item>
   );
