@@ -24,7 +24,10 @@ export default function Form(props) {
     size: undefined,
     bedrooms: undefined,
     bathrooms: undefined,
-    parking: undefined
+    parking: undefined,
+    price: undefined,
+    organization_id: props.user.org_id,
+    seller_id: props.user.sub
   });
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -41,6 +44,30 @@ export default function Form(props) {
     const newState = {...state};
     newState[field] = event.target.value;
     setState({...newState});
+  };
+
+  const submitForm = (event) => {
+    event.preventDefault();
+
+    const listing = {...state};
+    props.onSubmit(listing);
+    
+    setState({...state,
+      thumbnailImage: null,
+      title: '',
+      description: '',
+      streetAddress: '',
+      city: '',
+      province: '',
+      postalCode: '',
+      country: '',
+      type: '',
+      size: undefined,
+      bedrooms: undefined,
+      bathrooms: undefined,
+      parking: undefined,
+      price: undefined,
+    });
   };
 
   return (
@@ -198,10 +225,24 @@ export default function Form(props) {
             shrink: true
           }}
         />
+        <TextField
+          fullWidth
+          id='form-price'
+          label='Price'
+          type='number'
+          value={state.price}
+          onChange={setTextField('price')}
+          size='small'
+          margin='dense'
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
         <div className='listing-form__submit'>
           <Button
             variant='outlined' 
             className='listing-form__submit-button'
+            onClick={submitForm}
           >
             Submit
           </Button>

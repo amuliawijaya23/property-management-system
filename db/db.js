@@ -6,6 +6,15 @@ const getListings = () => {
     .catch(e => console.log(e.message));
 };
 
+const addListing = (listing) => {
+
+  return knex('listings')
+    .insert({...listing})
+    .then(() => listing)
+    .catch(e => console.log(e.message));
+};
+
 module.exports = {
-  getListings
+  getListings,
+  addListing
 };

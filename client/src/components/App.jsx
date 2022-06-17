@@ -24,7 +24,8 @@ export default function App() {
     isAuthenticated,
     error,
     loginWithRedirect,
-    logout
+    logout,
+    addListing
   } = useApplicationData();
 
   const [anchorEl, setAnchorEl] = React.useState(false);
@@ -52,6 +53,11 @@ export default function App() {
 
   const returnHandler = () => {
     back();
+  };
+
+  const createListing = (listing) => {
+    addListing(listing);
+    transition(LISTINGS);
   };
 
   React.useEffect(() => {
@@ -107,6 +113,8 @@ export default function App() {
         {mode === FORM && (
           <Form 
             onCancel={returnHandler}
+            onSubmit={createListing}
+            user={user}
           />
         )}
       </CssBaseline>
