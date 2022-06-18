@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 const knex = require('./knex');
 
-const getListings = () => {
+const getListings = (org) => {
   return knex('listings')
+    .where({organization_id: org})
     .then((res)  => res)
     .catch(e => console.log(e.message));
 };

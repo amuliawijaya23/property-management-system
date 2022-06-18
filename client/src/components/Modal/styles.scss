@@ -1,0 +1,19 @@
+.error-modal {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+
+  @media only screen and (max-width: 1365px) {
+    width: 80%;
+  }
+
+  &__message {
+    margin-bottom: 1rem;
+  }
+
+  #modal-modal-title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+}

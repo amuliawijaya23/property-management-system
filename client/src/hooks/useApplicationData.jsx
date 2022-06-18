@@ -25,7 +25,7 @@ export default function useApplicationData() {
       getAccessTokenSilently()
         .then((token) => {
           Promise.all([
-            axios.get('api/listings'),
+            axios.get(`api/listings/${user?.org_id}`),
             axios.get(`user/organization/${user?.org_id}`, {
               headers: {
                 Authorization: `Bearer ${token}`

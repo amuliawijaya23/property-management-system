@@ -5,9 +5,8 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Alert from '@mui/material/Alert';
-
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import './styles.scss';
 
@@ -22,11 +21,11 @@ export default function Form(props) {
     postalCode: '',
     country: '',
     type: '',
-    size: undefined,
-    bedrooms: undefined,
-    bathrooms: undefined,
-    parking: undefined,
-    price: undefined,
+    size: 0,
+    bedrooms: 0,
+    bathrooms: 0,
+    parking: 0,
+    price: 0,
     organization_id: props.user.org_id,
     seller_id: props.user.sub
   });
@@ -48,28 +47,38 @@ export default function Form(props) {
     newState[field] = event.target.value;
     setState({...newState});
   };
-  
-  
-  const validate = () => {
-    const fields = Object.keys(state);
-    let error = false;
-
-    fields.forEach((field) => {
-      if(state[field] === '' || state[field] === undefined || state[field] === null) {
-        error = true;
-      }
-    });
-    return error;
-  };
-
 
   const submitForm = (event) => {
     event.preventDefault();
-    const validation = validate();
 
-    if(!validation) {
+    let validation = true;
+    const fields = Object.keys(state);
+
+    fields.forEach((field) => {
+      if(state[field] === '' || state[field] === undefined || state[field] === null) {
+        validation = false;
+        setError('Missing required Field');
+        return;
+      } else if (typeof state[field] === 'string' && state[field].length > 255) {
+        validation = false;
+        setError(`${field} field exceeds character limit`);
+        return;
+      } else if (typeof state[field] === 'number' && state[field] < 1) {
+        validation = false;
+        setError(`${field} cannot be 0`);
+        return;
+      }
+    });
+
+    if(isNaN(state.postalCode)) {
+      validation = false;
+      setError('Postal code is not a number');
+    };
+
+    if(validation) {
       const listing = {...state};
       props.onSubmit(listing);
+      setError('');
       
       setState({...state,
         thumbnailImage: null,
@@ -81,17 +90,12 @@ export default function Form(props) {
         postalCode: '',
         country: '',
         type: '',
-        size: undefined,
-        bedrooms: undefined,
-        bathrooms: undefined,
-        parking: undefined,
-        price: undefined,
+        size: 0,
+        bedrooms: 0,
+        bathrooms: 0,
+        parking: 0,
+        price: 0,
       });
-    } else {
-      setError('Missing required field');
-      setTimeout(() => {
-        setError('');
-      }, 1500);
     };
   };
 
@@ -113,15 +117,16 @@ export default function Form(props) {
             <input {...getInputProps()} />
             {
               isDragActive ?
-                <p>Drop the files here...</p> :
-                <p>Drop files here or click to select a file</p>
+                <p>Drop image here...</p> :
+                <p>Drop or click to select image</p>
             }
           </div>
           )}
         </div>
         <TextField
-          required
-          error={state.title ? false : true}
+          required={error && !state.title ? true : false}
+          error={error && !state.title ? true : false}
+          helperText={error && !state.title ? 'Required' : ''}
           fullWidth
           label="Title"
           id='form-title'
@@ -131,8 +136,9 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField
-          required
-          error={state.description ? false : true}
+          required={error && !state.description ? true : false}
+          error={error && !state.description ? true : false}
+          helperText={error && !state.description ? 'Required' : ''}
           fullWidth
           multiline
           id='form-description'
@@ -143,8 +149,9 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField 
-          required
-          error={state.streetAddress ? false : true}
+          required={error && !state.streetAddress ? true : false}
+          error={error && !state.streetAddress ? true : false}
+          helperText={error && !state.streetAddress ? 'Required' : ''}
           fullWidth
           id='form-address'
           label="Street Address"
@@ -154,8 +161,9 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField
-          required
-          error={state.city ? false : true}
+          required={error && !state.city ? true : false}
+          error={error && !state.city ? true : false}
+          helperText={error && !state.city ? 'Required' : false}
           fullWidth
           id='form-city'
           label="City"
@@ -165,8 +173,9 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField
-          required
-          error={state.province ? false : true}
+          required={error && !state.province ? true : false}
+          error={error && !state.province ? true : false}
+          helperText={error && !state.province ? 'Required' : ''}
           fullWidth
           id='form-province'
           label="Province"
@@ -176,8 +185,9 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField
-          required
-          error={state.postalCode ? false : true}
+          required={error && !state.postalCode ? true : false}
+          error={error && !state.postalCode ? true : false}
+          helperText={error && !state.postalCode ? 'Required' : ''}
           fullWidth
           id='form-postal-code'
           label="Postal Code"
@@ -187,8 +197,9 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField
-          required
-          error={state.country ? false : true}
+          required={error && !state.country ? true : false}
+          error={error && !state.country ? true : false}
+          helperText={error && !state.country ? 'Required' : ''}
           fullWidth
           id='form-country'
           label="Country"
@@ -198,8 +209,9 @@ export default function Form(props) {
           margin='dense'
         />
         <TextField
-          required
-          error={state.type ? false : true}
+          required={error && !state.type ? true : false}
+          error={error && !state.type ? true : false}
+          helperText={error && !state.type ? 'Required' : ''}
           fullWidth
           id='form-property-type'
           select
@@ -215,8 +227,9 @@ export default function Form(props) {
           <MenuItem key={'Penthouse'} value={'Penthouse'}>Penthouse</MenuItem>
         </TextField>
         <TextField
-          required
-          error={state.size ? false : true}
+          required={error && !state.size ? true : false}
+          error={error && !state.size ? true : false}
+          helperText={error && !state.size ? 'Required' : ''}
           fullWidth
           id='form-size'
           label='Size'
@@ -230,8 +243,9 @@ export default function Form(props) {
           }}
         />
         <TextField
-          required
-          error={state.bedrooms ? false : true}
+          required={error && !state.bedrooms ? true : false}
+          error={error && !state.bedrooms ? true : false}
+          helperText={error && !state.bedrooms ? 'Required' : ''}
           fullWidth
           id='form-bedrooms'
           label='Bedrooms'
@@ -245,8 +259,9 @@ export default function Form(props) {
           }}
         />
         <TextField
-          required
-          error={state.bathrooms ? false : true}
+          required={error && !state.bathrooms ? true : false}
+          error={error && !state.bathrooms ? true : false}
+          helperText={error && !state.bathrooms ? 'Required' : ''}
           fullWidth
           id='form-bathrooms'
           label='Bathrooms'
@@ -260,8 +275,9 @@ export default function Form(props) {
           }}
         />
         <TextField
-          required
-          error={state.parking ? false : true}
+          required={error && !state.parking ? true : false}
+          error={error && !state.parking ? true : false}
+          helperText={error && !state.parking ? 'Required' : ''}
           fullWidth
           id='form-parking'
           label='Parking'
@@ -275,8 +291,9 @@ export default function Form(props) {
           }}
         />
         <TextField
-          required
-          error={state.price ? false : true}
+          required={error && !state.price ? true : false}
+          error={error && !state.price ? true : false}
+          helperText={error && !state.price ? 'Required' : ''}
           fullWidth
           id='form-price'
           label='Price'
@@ -289,6 +306,13 @@ export default function Form(props) {
             shrink: true
           }}
         />
+        {error && (
+            <div className='listing-form__error'>
+              <Alert severity="error" fullWidth>
+                {error}
+              </Alert>
+            </div>
+          )}
         <div className='listing-form__submit'>
           <Button
             variant='outlined' 
@@ -304,12 +328,7 @@ export default function Form(props) {
           >
             Cancel
           </Button>
-        </div>
-        {error && (
-        <Alert severity='error' sx={{width: '100%'}}>
-          {error}
-        </Alert>
-        )}
+        </div>       
       </div>
     </Box>
   )

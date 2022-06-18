@@ -31,8 +31,8 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.get('/listings', (req, res) => {
-  getListings()
+router.get('/listings/:id', (req, res) => {
+  getListings(req.params.id)
     .then((response) => {
       res.json(response);
     })
