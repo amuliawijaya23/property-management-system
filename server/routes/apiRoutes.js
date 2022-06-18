@@ -44,11 +44,7 @@ router.post('/listings', upload.single('thumbnailImage'), (req, res) => {
   const listing = {
     title: req.body.title,
     description: req.body.description,
-    street_address: req.body.streetAddress,
-    city: req.body.city,
-    province: req.body.province,
-    postal_code: req.body.postalCode,
-    country: req.body.country,
+    address: req.body.address,
     property_type: req.body.type,
     size: req.body.size,
     number_of_bedrooms: req.body.bedrooms,

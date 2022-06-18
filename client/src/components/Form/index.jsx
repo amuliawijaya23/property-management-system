@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
+import SearchLocationInput from './SearchLocationInput';
+
 import './styles.scss';
 
 export default function Form(props) {
@@ -15,17 +17,13 @@ export default function Form(props) {
     thumbnailImage: null,
     title: '',
     description: '',
-    streetAddress: '',
-    city: '',
-    province: '',
-    postalCode: '',
-    country: '',
+    address: '',
     type: '',
-    size: 0,
-    bedrooms: 0,
-    bathrooms: 0,
-    parking: 0,
-    price: 0,
+    size: false,
+    bedrooms: false,
+    bathrooms: false,
+    parking: false,
+    price: false,
     organization_id: props.user.org_id,
     seller_id: props.user.sub
   });
@@ -48,54 +46,36 @@ export default function Form(props) {
     setState({...newState});
   };
 
+  const setAddress = (location) => {
+    setState({...state, address: location});
+  };
+
   const submitForm = (event) => {
     event.preventDefault();
 
-    let validation = true;
+    let isValid = true;
     const fields = Object.keys(state);
 
     fields.forEach((field) => {
-      if(state[field] === '' || state[field] === undefined || state[field] === null) {
-        validation = false;
+      if(state[field] === '' || state[field] === false || state[field] === null) {
+        isValid = false;
         setError('Missing required Field');
         return;
       } else if (typeof state[field] === 'string' && state[field].length > 255) {
-        validation = false;
-        setError(`${field} field exceeds character limit`);
+        isValid = false;
+        setError(`${field} exceeds character limit`);
         return;
       } else if (typeof state[field] === 'number' && state[field] < 1) {
-        validation = false;
+        isValid = false;
         setError(`${field} cannot be 0`);
         return;
       }
     });
 
-    if(isNaN(state.postalCode)) {
-      validation = false;
-      setError('Postal code is not a number');
-    };
-
-    if(validation) {
+    if(isValid) {
       const listing = {...state};
       props.onSubmit(listing);
       setError('');
-      
-      setState({...state,
-        thumbnailImage: null,
-        title: '',
-        description: '',
-        streetAddress: '',
-        city: '',
-        province: '',
-        postalCode: '',
-        country: '',
-        type: '',
-        size: 0,
-        bedrooms: 0,
-        bathrooms: 0,
-        parking: 0,
-        price: 0,
-      });
     };
   };
 
@@ -123,6 +103,11 @@ export default function Form(props) {
           </div>
           )}
         </div>
+        <SearchLocationInput 
+          address={state.address}
+          setAddress={setAddress}
+          error={error}
+        />
         <TextField
           required={error && !state.title ? true : false}
           error={error && !state.title ? true : false}
@@ -138,7 +123,7 @@ export default function Form(props) {
         <TextField
           required={error && !state.description ? true : false}
           error={error && !state.description ? true : false}
-          helperText={error && !state.description ? 'Required' : ''}
+          helperText={error && !state.description ? 'Required' : (255 - state.description.length)}
           fullWidth
           multiline
           id='form-description'
@@ -146,66 +131,6 @@ export default function Form(props) {
           value={state.description}
           onChange={setTextField('description')}
           size='normal'
-          margin='dense'
-        />
-        <TextField 
-          required={error && !state.streetAddress ? true : false}
-          error={error && !state.streetAddress ? true : false}
-          helperText={error && !state.streetAddress ? 'Required' : ''}
-          fullWidth
-          id='form-address'
-          label="Street Address"
-          value={state.streetAddress}
-          onChange={setTextField('streetAddress')}
-          size='small'
-          margin='dense'
-        />
-        <TextField
-          required={error && !state.city ? true : false}
-          error={error && !state.city ? true : false}
-          helperText={error && !state.city ? 'Required' : false}
-          fullWidth
-          id='form-city'
-          label="City"
-          value={state.city}
-          onChange={setTextField('city')}
-          size='small'
-          margin='dense'
-        />
-        <TextField
-          required={error && !state.province ? true : false}
-          error={error && !state.province ? true : false}
-          helperText={error && !state.province ? 'Required' : ''}
-          fullWidth
-          id='form-province'
-          label="Province"
-          value={state.province}
-          onChange={setTextField('province')}
-          size='small'
-          margin='dense'
-        />
-        <TextField
-          required={error && !state.postalCode ? true : false}
-          error={error && !state.postalCode ? true : false}
-          helperText={error && !state.postalCode ? 'Required' : ''}
-          fullWidth
-          id='form-postal-code'
-          label="Postal Code"
-          value={state.postalCode}
-          onChange={setTextField('postalCode')}
-          size='small'
-          margin='dense'
-        />
-        <TextField
-          required={error && !state.country ? true : false}
-          error={error && !state.country ? true : false}
-          helperText={error && !state.country ? 'Required' : ''}
-          fullWidth
-          id='form-country'
-          label="Country"
-          value={state.country}
-          onChange={setTextField('country')}
-          size='small'
           margin='dense'
         />
         <TextField

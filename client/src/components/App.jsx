@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -28,7 +28,7 @@ export default function App() {
     addListing
   } = useApplicationData();
 
-  const [anchorEl, setAnchorEl] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(false);
 
   const {mode, transition, back} = useVisualMode(user ? LISTINGS : HIDDEN);
 
@@ -60,7 +60,7 @@ export default function App() {
     transition(LISTINGS);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if(!user && mode === LISTINGS) {
       transition(HIDDEN);
     } else if (user && mode === HIDDEN) {

@@ -24,7 +24,7 @@ export default function ListItem(props) {
           {props.title}
         </Typography>
         <Typography variant='body' gutterBottom component="p">
-          {props.street_address} {props.city} {props.province} {props.postal_code}
+          {props.address}
         </Typography>
       </div>
       <div className="list-item__status">

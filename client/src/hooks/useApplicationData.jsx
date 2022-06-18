@@ -49,11 +49,7 @@ export default function useApplicationData() {
     formData.append('thumbnailImage', listing.thumbnailImage);
     formData.append('title', listing.title);
     formData.append('description', listing.description);
-    formData.append('streetAdress', listing.streetAddress);
-    formData.append('city', listing.city);
-    formData.append('province', listing.province);
-    formData.append('postalCode', listing.postalCode);
-    formData.append('country', listing.country);
+    formData.append('address', listing.address);
     formData.append('type', listing.type);
     formData.append('size', listing.size);
     formData.append('bedrooms', listing.bedrooms);

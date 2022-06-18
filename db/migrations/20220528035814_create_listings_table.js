@@ -5,11 +5,7 @@ exports.up = function(knex) {
       table.string('cover_image_url', 500).notNullable();
       table.string('title', 255).notNullable();
       table.string('description', 500).notNullable();
-      table.string('street_address', 255);
-      table.string('city', 255);
-      table.string('province', 255).notNullable();
-      table.integer('postal_code').notNullable();
-      table.string('country', 255).notNullable();
+      table.string('address', 255);
       table.string('property_type', 255).notNullable();
       table.integer('size').notNullable();
       table.smallint('number_of_bedrooms').notNullable();
