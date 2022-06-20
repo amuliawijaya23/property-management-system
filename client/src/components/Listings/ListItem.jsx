@@ -15,16 +15,16 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ListItem(props) {
   return (
-    <Item className="list-item">
+    <Item className="list-item" onClick={() => props.setProperty({...props.property})}>
       <div className="list-item__image">
-        <img src={props.cover_image_url} alt="cover" />
+        <img src={props.property.cover_image_url} alt="cover" />
       </div>
       <div className="list-item__info">
         <Typography variant='body' gutterBottom component="b">
-          {props.title}
+          {props.property.title}
         </Typography>
         <Typography variant='body' gutterBottom component="p">
-          {props.address}
+          {props.property.address}
         </Typography>
       </div>
       <div className="list-item__status">
@@ -32,7 +32,7 @@ export default function ListItem(props) {
           <img src={props.agent.picture} alt="agent" className='list-item__agent'/>
         </Tooltip>
         <Typography variant='body' gutterBottom component="b" sx={{mt: "0.5rem"}}>
-          {props.status}
+          {props.property.status}
         </Typography>
       </div>
     </Item>

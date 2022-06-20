@@ -4,16 +4,9 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 
-const { getListings, addListing } = require('../../db/db');
+const { uploadFile, getFile } = require('../s3');
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, './media/');
-  },
-  filename: function(req, file, cb) {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
-  },
-});
+const { getListings, addListing } = require('../../db/db');
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
@@ -24,43 +17,35 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5
-  },
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
+  limits: {fileSize: 1024 * 1024 * 5}
 });
 
-router.get('/listings/:id', (req, res) => {
-  getListings(req.params.id)
-    .then((response) => {
-      res.json(response);
-    })
-    .catch(e => console.log(e.message));
+router.get('/images/:key', (req, res) => {
+  const key = req.params.key;
+  const readStream = getFile(key);
+  readStream.pipe(res);
 });
 
-router.post('/listings', upload.single('thumbnailImage'), (req, res) => {
+router.post('/images', upload.single('file'), async(req, res) => {
+  const file = req.file;
+  const result = await uploadFile(file);
+  console.log(result);
+  res.send({ imagePath: `/app/api/images/${result.Key}`});
+});
 
-  const listing = {
-    title: req.body.title,
-    description: req.body.description,
-    address: req.body.address,
-    property_type: req.body.type,
-    size: req.body.size,
-    number_of_bedrooms: req.body.bedrooms,
-    number_of_bathrooms: req.body.bathrooms,
-    parking_space: req.body.parking,
-    cover_image_url: req.file.path,
-    organization_id: req.body.organization_id,
-    seller_id: req.body.seller_id,
-    price: req.body.price
-  };
+// router.post('/images', upload.single('file'), uploadFile);
+router.get('/listings/:id', async(req, res) => {
+  const listings = await getListings(req.params.id);
+  res.send(listings);
+});
 
-  addListing(listing)
-    .then((response) => {
-      res.json(response);
-    })
-    .catch(e => console.log(e.message));
+router.post('/listings', upload.single('thumbnailImage'), async(req, res) => {
+  const file = req.file;
+  const result = await uploadFile(file);
+  const listing = {...req.body, cover_image_url: `app/api/images/${result.key}`};
+  const newListing = await addListing(listing);
+  res.send(newListing);
 });
 
 module.exports = router;

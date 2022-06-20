@@ -15,7 +15,8 @@ export default function Listings(props) {
         key={`list-item-${i}`}
         id={`list-item-${i}`}
         agent={seller}
-        {...property}
+        property={property}
+        setProperty={props.setProperty}
       />
     )
   });

@@ -24,7 +24,6 @@ App.use(cors());
 const apiRoutes = require('./routes/apiRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-App.use('/media', express.static('media'));
 App.use('/api', apiRoutes);
 App.use('/user', userRoutes);
 

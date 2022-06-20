@@ -25,8 +25,8 @@ export default function useApplicationData() {
       getAccessTokenSilently()
         .then((token) => {
           Promise.all([
-            axios.get(`api/listings/${user?.org_id}`),
-            axios.get(`user/organization/${user?.org_id}`, {
+            axios.get(`app/api/listings/${user?.org_id}`),
+            axios.get(`app/user/organization/${user?.org_id}`, {
               headers: {
                 Authorization: `Bearer ${token}`
               }
@@ -43,23 +43,25 @@ export default function useApplicationData() {
     }
   }, [isAuthenticated, user, getAccessTokenSilently]);
 
+  const uploadImage = (file) => {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // get secure url from server
+    axios.post('app/api/images', formData)
+      .then(response => console.log(response))
+    // post request to server
+  };
+
   const addListing = (listing) => {
 
     const formData = new FormData();
-    formData.append('thumbnailImage', listing.thumbnailImage);
-    formData.append('title', listing.title);
-    formData.append('description', listing.description);
-    formData.append('address', listing.address);
-    formData.append('type', listing.type);
-    formData.append('size', listing.size);
-    formData.append('bedrooms', listing.bedrooms);
-    formData.append('bathrooms', listing.bathrooms);
-    formData.append('parking', listing.parking);
-    formData.append('organization_id', listing.organization_id);
-    formData.append('seller_id', listing.seller_id);
-    formData.append('price', listing.price);
+    Object.keys(listing).forEach((key) => {
+      formData.append(key, listing[key]);
+    });
 
-    return axios.post('api/listings', formData)
+    return axios.post('app/api/listings', formData)
       .then((response) => {
         const property = {...response.data, status: 'Active'};
 
@@ -74,6 +76,16 @@ export default function useApplicationData() {
       .catch(e => console.error(e));
   };
 
+  const selectProperty = (property) => {
+    dispatch({
+      type: SET_PROPERTY,
+      value: {
+        properties: state.properties,
+        property: property
+      }
+    });
+  };
+
   return { 
     state,
     isLoading,
@@ -83,6 +95,8 @@ export default function useApplicationData() {
     getAccessTokenSilently,
     loginWithRedirect,
     logout,
-    addListing
+    addListing,
+    selectProperty,
+    uploadImage
   };
 };

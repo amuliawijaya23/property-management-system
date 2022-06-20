@@ -8,9 +8,6 @@ export default function Dashboard(props) {
 
   return (
     <Box>
-      <Stack spacing={1}>
-        
-      </Stack>
     </Box>
   );
 };

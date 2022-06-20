@@ -8,11 +8,12 @@ import DrawerList from './Drawer';
 import Dashboard from "./Dashboard";
 import Listings from './Listings';
 import Form from './Form';
+import Property from './Property';
 
 import useApplicationData from '../hooks/useApplicationData';
 
 import useVisualMode from "../hooks/useVisualMode";
-import { DASHBOARD, LISTINGS, HIDDEN, FORM } from "../helper/modes";
+import { DASHBOARD, LISTINGS, PROPERTY, HIDDEN, FORM } from "../helper/modes";
 
 import './styles.scss';
 
@@ -25,12 +26,22 @@ export default function App() {
     error,
     loginWithRedirect,
     logout,
-    addListing
+    addListing,
+    selectProperty,
+    uploadImage
   } = useApplicationData();
 
   const [anchorEl, setAnchorEl] = useState(false);
 
-  const {mode, transition, back} = useVisualMode(user ? LISTINGS : HIDDEN);
+  const {mode, transition, back} = useVisualMode(user?.sub ? LISTINGS : HIDDEN);
+
+  useEffect(() => {
+    if(!user && mode === LISTINGS) {
+      transition(HIDDEN);
+    } else if (user && mode === HIDDEN) {
+      transition(LISTINGS);
+    }
+  }, [user, transition, mode]);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -60,13 +71,10 @@ export default function App() {
     transition(LISTINGS);
   };
 
-  useEffect(() => {
-    if(!user && mode === LISTINGS) {
-      transition(HIDDEN);
-    } else if (user && mode === HIDDEN) {
-      transition(LISTINGS);
-    }
-  }, [user, transition, mode]);
+  const setProperty = (listing) => {
+    selectProperty(listing);
+    transition(PROPERTY);
+  };
 
   if(isLoading || (mode !== HIDDEN && (!state.properties || !state.agents))) {
     return (
@@ -108,13 +116,21 @@ export default function App() {
           <Listings
             agents={state.agents}
             properties={state.properties}
+            setProperty={setProperty}
           />
         )}
         {mode === FORM && (
           <Form 
             onCancel={returnHandler}
             onSubmit={createListing}
+            setProperty={setProperty}
             user={user}
+          />
+        )}
+        {mode === PROPERTY && (
+          <Property
+            property={state.property}
+            agents={state.agents}
           />
         )}
       </CssBaseline>
