@@ -1,8 +1,30 @@
+.listing-browser {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 98%;
+  margin-top: 0.5rem;
+
+  &__search {
+    @media only screen and (min-width: 1366px) {
+      min-width: 1200px;
+    }
+  }
+}
+
+.listing-filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 98%;
+}
+
 .list-item {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  width: 95%;
+  width: 98%;
 
   &__image {
     display: flex;
@@ -10,6 +32,9 @@
     justify-content: center;
     margin-right: 1rem;
     width: 10%;
+    &:hover {
+      cursor: pointer;
+    }
 
     @media only screen and (max-width: 1365px) {
       display: none;
@@ -30,7 +55,12 @@
       justify-content: flex-start;
       margin-right: 8rem;
       text-align: start;
-      width: 70%;
+      width: 60%;
+      &-title {
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
 
     @media only screen and (max-width: 1365px) {
@@ -48,8 +78,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: flex-start;
-    width: 20%;
+    justify-content: center;
+    width: 30%;
 
     @media only screen and (min-width: 1366px) {
       font-size: 1rem;

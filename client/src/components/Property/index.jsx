@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
 import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
@@ -9,12 +10,12 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Avatar from '@mui/material/Avatar';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import ShowerRoundedIcon from '@mui/icons-material/ShowerRounded';
@@ -56,22 +57,22 @@ export default function Property(props) {
   };
 
   const seller = props.agents?.find((agent) => agent.user_id === props.property.seller_id);
-
-  console.log(seller);
-
   
-
   return (
     <Box className='property-item'>
       <Card sx={{ width: '90%'}}>
-      <CardHeader
-            avatar={
-              <AvatarGroup>
+        <CardActions>
+          <IconButton size='large'>
+          <ArrowBackIcon
+            sx={{fontSize: '2rem'}} 
+            onClick={() => props.onBack()}
+          />
+          </IconButton>
+          <AvatarGroup sx={{ml: '1rem'}}>
                 <Avatar src={seller.picture} alt='seller' />
                 <Avatar>+</Avatar>
               </AvatarGroup>
-            }
-          />
+        </CardActions>
         <CardMedia
           className='property-item__image'
           component='img'

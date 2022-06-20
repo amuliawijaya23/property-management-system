@@ -5,7 +5,6 @@ const { promisify } = require('util');
 
 const randomBytes = promisify(crypto.randomBytes);
 
-
 const bucketName = process.env.AWS_BUCKET_NAME;
 const region = process.env.AWS_BUCKET_REGION;
 const accessKeyId = process.env.AWS_ACCESS_KEY;
@@ -18,7 +17,6 @@ const s3 = new S3({
 });
 
 // uploads a file to s3
-
 const uploadFile = async(file) => {
   const rawBytes = await randomBytes(16);
   const imageName = rawBytes.toString('hex');
@@ -36,7 +34,6 @@ const uploadFile = async(file) => {
 };
 
 // download a file from s3
-
 const getFile = (fileKey) => {
 
   const downloadParams = {

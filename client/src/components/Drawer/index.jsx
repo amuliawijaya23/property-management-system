@@ -14,7 +14,10 @@ import PersonIcon from '@mui/icons-material/Person';
 
 export default function DrawerList(props) {
 
-  const clickHandlers = [props.onDashboard, props.onListings, props.onForm];
+  const clickHandlers = (i) => {
+    const mode = ['DASHBOARD', 'LISTINGS', 'FORM'];
+    props.modeHandler(mode[i]);
+  };
 
   return (
     <Box
@@ -27,7 +30,7 @@ export default function DrawerList(props) {
         {['Dashboard', 'Listings', 'New Listing'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton
-              onClick={clickHandlers[index]}
+              onClick={() => clickHandlers(index)}
             >
               <ListItemIcon>
                 {text === 'Dashboard' && <DashboardIcon />}

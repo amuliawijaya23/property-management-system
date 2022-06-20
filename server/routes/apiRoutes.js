@@ -27,13 +27,6 @@ router.get('/images/:key', (req, res) => {
   readStream.pipe(res);
 });
 
-router.post('/images', upload.single('file'), async(req, res) => {
-  const file = req.file;
-  const result = await uploadFile(file);
-  console.log(result);
-  res.send({ imagePath: `/app/api/images/${result.Key}`});
-});
-
 // router.post('/images', upload.single('file'), uploadFile);
 router.get('/listings/:id', async(req, res) => {
   const listings = await getListings(req.params.id);

@@ -33,13 +33,13 @@ export default function App() {
 
   const [anchorEl, setAnchorEl] = useState(false);
 
-  const {mode, transition, back} = useVisualMode(user?.sub ? LISTINGS : HIDDEN);
+  const {mode, transition, back} = useVisualMode(user?.sub ? DASHBOARD : HIDDEN);
 
   useEffect(() => {
-    if(!user && mode === LISTINGS) {
+    if(!user && mode === DASHBOARD) {
       transition(HIDDEN);
     } else if (user && mode === HIDDEN) {
-      transition(LISTINGS);
+      transition(DASHBOARD);
     }
   }, [user, transition, mode]);
 
@@ -54,12 +54,8 @@ export default function App() {
     setAnchorEl(anchor);
   };
 
-  const formHandler = () => {
-    transition(FORM);
-  };
-
-  const listingsHandler = () => {
-    transition(LISTINGS);
+  const modeHandler = (mode) => {
+    transition(mode);
   };
 
   const returnHandler = () => {
@@ -104,8 +100,7 @@ export default function App() {
           >
             <DrawerList
               toggleDrawer={toggleDrawer}
-              onListings={listingsHandler}
-              onForm={formHandler}
+              modeHandler={modeHandler}
             />
           </SwipeableDrawer>
         </header>
@@ -130,6 +125,13 @@ export default function App() {
         {mode === PROPERTY && (
           <Property
             property={state.property}
+            agents={state.agents}
+            onBack={returnHandler}
+          />
+        )}
+        {mode === DASHBOARD && (
+          <Dashboard 
+            properties={state.properties}
             agents={state.agents}
           />
         )}

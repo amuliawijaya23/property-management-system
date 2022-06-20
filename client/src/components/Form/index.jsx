@@ -19,6 +19,7 @@ export default function Form(props) {
     description: '',
     address: '',
     property_type: '',
+    zip_code: false,
     size: false,
     number_of_bedrooms: false,
     number_of_bathrooms: false,
@@ -34,7 +35,7 @@ export default function Form(props) {
     setState({...state, thumbnailImage: acceptedFiles[0]})
   }, []);
 
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
 
   const onRemove = () => {
     setState({...state, thumbnailImage: null});
@@ -139,21 +140,16 @@ export default function Form(props) {
           </div>
           )}
         </div>
-        <SearchLocationInput 
-          address={state.address}
-          setAddress={setAddress}
-          error={error}
-        />
         {stringField}
         <TextField
-          required={error && !state.type ? true : false}
-          error={error && !state.type ? true : false}
-          helperText={error && !state.type ? 'Required' : ''}
+          required={error && !state.property_type ? true : false}
+          error={error && !state.property_type ? true : false}
+          helperText={error && !state.property_type ? 'Required' : ''}
           fullWidth
           id='form-property-type'
           select
           label="Type"
-          value={state.type}
+          value={state.property_type}
           onChange={setTextField('property_type')}
           size='small'
           margin='normal'
@@ -163,6 +159,11 @@ export default function Form(props) {
           <MenuItem key={'Townhouse'} value={'Townhouse'}>Townhouse</MenuItem>
           <MenuItem key={'Penthouse'} value={'Penthouse'}>Penthouse</MenuItem>
         </TextField>
+        <SearchLocationInput 
+          address={state.address}
+          setAddress={setAddress}
+          error={error}
+        />
         {numberField}
         {error && (
             <div className='listing-form__error'>

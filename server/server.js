@@ -31,7 +31,6 @@ App.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
-
 // Set up server port
 App.listen(PORT, () => {
   console.log(`App listening on PORT ${PORT}!`);
