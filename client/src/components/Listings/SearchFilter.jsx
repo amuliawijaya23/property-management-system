@@ -15,13 +15,19 @@ export default function SearchFilter(props) {
       target: { value }
     } = event;
 
+    const newOptions = {...props.options};
+    newOptions[event.target.name] = value;
+    props.addFilters(newOptions);
+
+    props.onFilter(newOptions);
+    
     setSelection(
       typeof value === 'string' ? value.split(',') : value
     );
   };
 
   return (
-    <FormControl sx={{ m: 1, width: 175 }}>
+    <FormControl sx={{mr: 0.2, width: 110 }}>
       <InputLabel id="type-filter-label">{
         props.filter[0].toUpperCase() + props.filter.substring(1)}
       </InputLabel>
@@ -30,6 +36,7 @@ export default function SearchFilter(props) {
         labelId={`${props.filter}-filter-label`}
         id={`${props.filter}-filter-checkbox`}
         multiple
+        name={`${props.filter}`}
         value={selection}
         onChange={handleChange}
         input={(
@@ -39,10 +46,10 @@ export default function SearchFilter(props) {
         )}
         renderValue={(selected) => selected.join(', ')}
       >
-        {props.options.map(option => (
-          <MenuItem key={option} value={option}>
-            <Checkbox checked={selection.indexOf(option) > -1} />
-            <ListItemText primary={option} />
+        {props.selections.map(select => (
+          <MenuItem key={select} value={select}>
+            <Checkbox checked={selection.indexOf(select) > -1} />
+            <ListItemText primary={select} />
           </MenuItem>
         ))}
       </Select>

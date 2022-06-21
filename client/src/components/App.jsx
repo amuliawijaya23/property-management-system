@@ -5,7 +5,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
-import Dashboard from "./Dashboard";
 import Listings from './Listings';
 import Form from './Form';
 import Property from './Property';
@@ -33,15 +32,15 @@ export default function App() {
 
   const [anchorEl, setAnchorEl] = useState(false);
 
-  const {mode, transition, back} = useVisualMode(user?.sub ? DASHBOARD : HIDDEN);
+  const {mode, transition, back} = useVisualMode(user?.sub ? HIDDEN : HIDDEN);
 
-  useEffect(() => {
-    if(!user && mode === DASHBOARD) {
-      transition(HIDDEN);
-    } else if (user && mode === HIDDEN) {
-      transition(DASHBOARD);
-    }
-  }, [user, transition, mode]);
+  // useEffect(() => {
+  //   if(!user && mode === HIDDEN) {
+  //     transition(HIDDEN);
+  //   } else if (user && mode === HIDDEN) {
+  //     transition(HIDDEN);
+  //   }
+  // }, [user, transition, mode]);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -104,9 +103,6 @@ export default function App() {
             />
           </SwipeableDrawer>
         </header>
-        {mode === HIDDEN && (
-          <></>
-        )}
         {mode === LISTINGS && (
           <Listings
             agents={state.agents}
@@ -127,12 +123,7 @@ export default function App() {
             property={state.property}
             agents={state.agents}
             onBack={returnHandler}
-          />
-        )}
-        {mode === DASHBOARD && (
-          <Dashboard 
-            properties={state.properties}
-            agents={state.agents}
+            user={user}
           />
         )}
       </CssBaseline>

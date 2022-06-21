@@ -6,8 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 
  export default function FilterOptions(props) {
 
-  const [anchorEl, setAnchorEl] = useState(props.anchor)
-
    const open = Boolean(props.anchor);
 
    const handleToggle = (value) => () => {
@@ -23,7 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
      <Menu
       id={`filter-options-menu`}
       aria-labelledby='demo-positioned-button'
-      anchorEl={anchorEl}
+      anchorEl={props.anchor}
       open={open}
       onClose={props.handleClose}
       anchorOrigin={{

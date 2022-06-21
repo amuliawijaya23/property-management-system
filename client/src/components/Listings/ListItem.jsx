@@ -20,9 +20,9 @@ export default function ListItem(props) {
     <Item className="list-item">
       <div
         className="list-item__image"
-        onClick={() => props.setProperty({...props.property})}
+        onClick={() => props.setProperty({...props.property.details})}
       >
-        <img src={props.property.cover_image_url} alt="cover" />
+        <img src={props.property.details.cover_image_url} alt="cover" />
       </div>
       <div className="list-item__info">
         <Typography
@@ -30,16 +30,16 @@ export default function ListItem(props) {
           variant='body'
           component="b"
           gutterBottom
-          onClick={() => props.setProperty({...props.property})}
+          onClick={() => props.setProperty({...props.property.details})}
         >
-          {props.property.title}
+          {props.property.details.title}
         </Typography>
         <Typography variant='body' gutterBottom component="p">
-          {props.property.address}, {props.property.zip_code}
+          {props.property.details.address}, {props.property.details.zip_code}
         </Typography>
         <Typography variant='body' gutterBottom component="b" sx={{mt: "0.5rem"}}>
-          Status: {props.property.status}&emsp;
-          Type: {props.property.property_type}&emsp;
+          Status: {props.property.details.status}&emsp;
+          Type: {props.property.details.property_type}&emsp;
         </Typography>
       </div>
       <div className="list-item__status">

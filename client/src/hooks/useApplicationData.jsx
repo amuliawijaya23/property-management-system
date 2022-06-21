@@ -46,7 +46,7 @@ export default function useApplicationData() {
   const uploadImage = (file) => {
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('images', file);
 
     // get secure url from server
     axios.post('app/api/images', formData)
@@ -63,27 +63,39 @@ export default function useApplicationData() {
 
     return axios.post('app/api/listings', formData)
       .then((response) => {
-        const property = {...response.data, status: 'Active'};
 
         dispatch({
           type: SET_PROPERTY,
           value: {
-            properties: [...state.properties, property],
-            property: property
+            properties: response.data,
+            property: null
           }
         });
       })
       .catch(e => console.error(e));
   };
 
-  const selectProperty = (property) => {
-    dispatch({
-      type: SET_PROPERTY,
-      value: {
-        properties: state.properties,
-        property: property
-      }
-    });
+  const selectProperty = (newProperty) => {
+    Promise.all([
+      axios.get(`app/images/listing/${newProperty.id}`),
+      axios.get(`app/message/${newProperty.id}`)
+    ])
+    .then((response) => {
+      const [images, messages] = response;
+
+      dispatch({
+        type: SET_PROPERTY,
+        value: {
+          properties: state.properties,
+          property: {
+            details: newProperty,
+            images: images.data,
+            messages: messages.data
+          }
+        }
+      });
+    })
+    .catch(e => console.error(e));
   };
 
   return { 

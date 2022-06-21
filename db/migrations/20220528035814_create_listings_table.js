@@ -16,6 +16,7 @@ exports.up = function(knex) {
       table.string('status', 255).notNullable().defaultTo('Open');
       table.string('organization_id').notNullable();
       table.string('seller_id').notNullable();
+      table.timestamps(true, true);
     });
 };
 

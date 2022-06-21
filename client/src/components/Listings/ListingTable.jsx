@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-export default function Dashboard(props) {
+export default function ListingTable(props) {
 
   const columns = [
     {field: 'id', headerName: 'ID', width: '100'},
@@ -29,13 +29,16 @@ export default function Dashboard(props) {
     rows.push(createProperty);
   });
 
+  console.log('rows', rows);
+
   return (
-    <div style={{height: '90vh', width: '100%'}}>
+    <div style={{height: '80vh', width: '100%'}}>
       <DataGrid
+        experimentalFeatures={{ newEditingApi: true }}
         columns={columns}
         rows={rows}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection
       />
     </div>
