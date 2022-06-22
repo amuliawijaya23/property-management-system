@@ -35,6 +35,7 @@ const getListingImages = (id) => {
 const getListingMessages = (id) => {
   return knex('messages')
     .where({listing_id: id})
+    .orderBy('created_at', 'desc')
     .then((res) => res)
     .catch(e => console.log(e.message));
 };
