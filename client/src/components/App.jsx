@@ -12,7 +12,7 @@ import Property from './Property';
 import useApplicationData from '../hooks/useApplicationData';
 
 import useVisualMode from "../hooks/useVisualMode";
-import { DASHBOARD, LISTINGS, PROPERTY, HIDDEN, FORM } from "../helper/modes";
+import { DASHBOARD, LISTINGS, PROPERTY, HIDDEN, FORM, LOADING } from "../helper/modes";
 
 import './styles.scss';
 
@@ -27,7 +27,8 @@ export default function App() {
     logout,
     addListing,
     selectProperty,
-    uploadImage
+    uploadImages,
+    sendMessage
   } = useApplicationData();
 
   const [anchorEl, setAnchorEl] = useState(false);
@@ -61,22 +62,16 @@ export default function App() {
     back();
   };
 
-  const createListing = (listing) => {
-    addListing(listing);
+  const createListing = async(listing) => {
+    transition(LOADING);
+    await addListing(listing);
     transition(LISTINGS);
   };
 
-  const setProperty = (listing) => {
-    selectProperty(listing);
+  const setProperty = async(listing) => {
+    transition(LOADING);
+    await selectProperty(listing);
     transition(PROPERTY);
-  };
-
-  if(isLoading || (mode !== HIDDEN && (!state.properties || !state.agents))) {
-    return (
-      <div className='App__loading'>
-        <CircularProgress size={"4.5rem"}/>
-      </div>
-    );
   };
 
   return (
@@ -103,6 +98,11 @@ export default function App() {
             />
           </SwipeableDrawer>
         </header>
+        {(mode === LOADING || isLoading) && (
+          <div className='App__loading'>
+            <CircularProgress size={"4.5rem"}/>
+          </div>
+        )}
         {mode === LISTINGS && (
           <Listings
             agents={state.agents}
@@ -122,8 +122,10 @@ export default function App() {
           <Property
             property={state.property}
             agents={state.agents}
-            onBack={returnHandler}
+            onBack={() => modeHandler(LISTINGS)}
             user={user}
+            uploadImages={uploadImages}
+            sendMessage={sendMessage}
           />
         )}
       </CssBaseline>

@@ -18,6 +18,11 @@ export default function Property(props) {
     transition(MEDIA);
   };
 
+  const onUpload = (images) => {
+    props.uploadImages(images);
+    // back();
+  };
+
   return (
     <>
       {mode === DETAILS &&(
@@ -27,6 +32,7 @@ export default function Property(props) {
           onBack={props.onBack}
           onMedia={openGallery}
           user={props.user}
+          sendMessage={props.sendMessage}
         />
       )}
       {mode === MEDIA && (
@@ -34,11 +40,9 @@ export default function Property(props) {
           property={props.property}
           agents={props.agents}
           onBack={returnHandler}
-          uploadImages={props.uploadImages}
+          uploadImages={onUpload}
         />
       )}
     </>
-  )
-
-  
+  );
 };

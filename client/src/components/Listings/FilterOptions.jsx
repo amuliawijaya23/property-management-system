@@ -8,13 +8,13 @@ import MenuItem from '@mui/material/MenuItem';
 
    const open = Boolean(props.anchor);
 
-   const handleToggle = (value) => () => {
+   const handleToggle = (value) => async() => {
      const currentIndex = props.filters.indexOf(value);
      const newChecked = [...props.filters];
 
      (currentIndex === -1) ? newChecked.push(value) : newChecked.splice(currentIndex, 1);
 
-     props.setFilters(newChecked);
+     await props.setFilters(newChecked);
    };
 
    return (

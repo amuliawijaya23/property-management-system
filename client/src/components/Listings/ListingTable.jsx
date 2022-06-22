@@ -29,8 +29,6 @@ export default function ListingTable(props) {
     rows.push(createProperty);
   });
 
-  console.log('rows', rows);
-
   return (
     <div style={{height: '80vh', width: '100%'}}>
       <DataGrid

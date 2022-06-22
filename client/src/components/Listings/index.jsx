@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -104,6 +104,8 @@ export default function Listings(props) {
               handleClose={() => setAnchor(false)}
               filters={filters}
               setFilters={setFilters}
+              selectedOptions={options}
+              filterProperties={filterProperties}
             />
             <TextField
               className='listing-browser__search'

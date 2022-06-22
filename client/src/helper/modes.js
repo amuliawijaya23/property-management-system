@@ -4,6 +4,7 @@ const LISTINGS = 'LISTINGS';
 const DASHBOARD = 'DASHBOARD';
 const FORM = 'FORM';
 const PROPERTY = 'PROPERTY';
+const LOADING = 'LOADING';
 
 // Property Modes
 const DETAILS = 'DETAILS';
@@ -16,5 +17,6 @@ module.exports = {
   FORM,
   PROPERTY,
   DETAILS,
-  MEDIA
+  MEDIA,
+  LOADING
 };

@@ -56,7 +56,11 @@ export default function Form(props) {
       key={`form-${field}`}
       required={error && !state[field] ? true : false}
       error={error && !state[field] ? true : false}
-      helperText={error && !state[field] ? 'Required' : ''}
+      helperText={
+        error && !state[field] ? 
+        'Required' : 
+        field === 'description' ? (255 - state[field].length) : ''
+      }
       fullWidth
       label={field[0].toUpperCase() + field.substring(1)}
       id={`form-${field}`}
@@ -64,6 +68,8 @@ export default function Form(props) {
       onChange={setTextField(field)}
       size='small'
       margin='dense'
+      multiline={field === 'description'}
+      rows={4}
     />
   ));
 

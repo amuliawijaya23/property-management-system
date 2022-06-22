@@ -43,19 +43,8 @@ export default function useApplicationData() {
     }
   }, [isAuthenticated, user, getAccessTokenSilently]);
 
-  const uploadImage = (file) => {
-
-    const formData = new FormData();
-    formData.append('images', file);
-
-    // get secure url from server
-    axios.post('app/api/images', formData)
-      .then(response => console.log(response))
-    // post request to server
-  };
 
   const addListing = (listing) => {
-
     const formData = new FormData();
     Object.keys(listing).forEach((key) => {
       formData.append(key, listing[key]);
@@ -63,20 +52,19 @@ export default function useApplicationData() {
 
     return axios.post('app/api/listings', formData)
       .then((response) => {
-
         dispatch({
           type: SET_PROPERTY,
           value: {
             properties: response.data,
             property: null
           }
-        });
+        })
       })
       .catch(e => console.error(e));
   };
 
   const selectProperty = (newProperty) => {
-    Promise.all([
+    return Promise.all([
       axios.get(`app/images/listing/${newProperty.id}`),
       axios.get(`app/message/${newProperty.id}`)
     ])
@@ -93,9 +81,47 @@ export default function useApplicationData() {
             messages: messages.data
           }
         }
-      });
+      })
     })
     .catch(e => console.error(e));
+  };
+
+  const uploadImages = (images) => {
+
+    images.images.map((image) => {
+      const formData = new FormData();
+      formData.append('image', image);
+
+      delete images.images;
+      Object.keys(images).forEach((key) => {
+        formData.append(key, images[key]);
+      });
+      return axios.post('app/images/listing', formData)
+        .then((response) => {
+          dispatch({
+            type: SET_PROPERTY,
+            value: {
+              properties: state.properties,
+              property: {...state.property, images: [...response.data]}
+            }
+          });
+        })
+        .catch(e => console.error(e));
+    });
+  };
+
+  const sendMessage  = (message) => {
+    return axios.post('app/message', {...message})
+      .then((response) => {
+        dispatch({
+          type: SET_PROPERTY,
+          value: {
+            properties: state.properties,
+            property: {...state.property, messages: [...response.data]}
+          }
+        });
+      })
+      .catch(e => console.error(e));
   };
 
   return { 
@@ -109,6 +135,7 @@ export default function useApplicationData() {
     logout,
     addListing,
     selectProperty,
-    uploadImage
+    uploadImages,
+    sendMessage
   };
 };

@@ -10,27 +10,37 @@ import ImageListItem from '@mui/material/ImageListItem';
 import '../Form/styles.scss';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 
 export default function MediaGallery(props) {
   const [edit, setEdit] = useState(false);
-
-  const [state, setState] = useState({
-    media: [],
-    images: []
-  });
-
+  const [media, setMedia] = useState([]);
 
   const onDrop = useCallback((acceptedFiles) => {
-    const newState = {...state};
-    newState.images.push(acceptedFiles[0])
-    setState(newState);
+    if (acceptedFiles[0].type === "image/jpeg" || acceptedFiles[0].type === "image/png") {
+      const newMedia = media;
+      newMedia.push(acceptedFiles[0])
+      setMedia(newMedia);
+    };
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
 
-  const selectedImages = state.images.map((image, i) => {
-    if (state.images[0]) {
+  const saveHandler = () => {
+    const images = {
+      images: media,
+      listing_id: props.property.details.id,
+      organization_id: props.property.details.organization_id,
+      seller_id: props.property.details.seller_id
+    };
+    props.uploadImages(images)
+    setMedia([]);
+  };
+
+  const selectedImages = media.map((image, i) => {
+    if (media[0]) {
       return (
         <ImageListItem key={`imageList-${i}`}>
           <img 
@@ -44,8 +54,8 @@ export default function MediaGallery(props) {
     return <></>
   });
 
-  const currentImages = props.property.images.map((image, i) => {
-    if (props.property.images[0]) {
+  const currentImages = props.property?.images?.map((image, i) => {
+    if (props.property?.images[0]) {
       return(
         <ImageListItem key={`currentImage-${i}`}>
           <img 
@@ -59,7 +69,6 @@ export default function MediaGallery(props) {
     return <></>
   });
   
-
   return(
     <Box className='image-form'>  
       <div className="image-form__manager">
@@ -68,14 +77,14 @@ export default function MediaGallery(props) {
             size='large'
             onClick={() => props.onBack()}
           >
-            <ArrowBackIcon sx={{fontSize: '2rem'}} />
+            <ArrowBackIcon sx={{fontSize: '2rem', color: 'white'}} />
           </IconButton>
           <Typography variant='h6' component='div'>
             Media Gallery
           </Typography>
           <div>      
-            {state.images.length > 0 && (
-              <Button variant='text'>
+            {media.length > 0 && (
+              <Button variant='text' onClick={saveHandler}>
                 Save
               </Button>
             )}
@@ -83,27 +92,32 @@ export default function MediaGallery(props) {
         </div>
         <div className='image-form__manager-gallery'>  
           <ImageList 
-            sx={{ width: '100%', height: '100%', maxHeight: '28rem'}}
+            sx={{ width: '100%', height: '95%'}}
             cols={4}
-            maxRowHeight={200}
+            rowHeight={250}
           >
             <ImageListItem key={`cover-image`}>
               <img 
-                src={props.property.details.cover_image_url}
-                srcSet={props.property.details.cover_image_url}
+                src={props.property?.details?.cover_image_url}
+                srcSet={props.property?.details?.cover_image_url}
                 alt={`cover`}
               />
             </ImageListItem>
-            {props.property.images.length > 0 && currentImages}
-            {state.images.length > 0 && selectedImages}
+            {props.property.images?.length > 0 && currentImages}
+            {media.length > 0 && selectedImages}
           </ImageList>
         </div>
+        {media.length < 1 && (
+          <Typography variant='body2' component={'span'} alignSelf={'start'}>
+            You can upload JPEG or PNG files of up to 5 mb each.
+          </Typography>
+        )}
         <div {...getRootProps()} className='image-form__manager-dropzone' >
           <input {...getInputProps()} />
           {
             isDragActive ?
-              <p>Drop image here...</p> :
-              <p>Drop or click to select image</p>
+              <FileUploadIcon fontSize='large'/> :
+              <CloudUploadIcon fontSize='large'/>
           }
         </div>
       </div>

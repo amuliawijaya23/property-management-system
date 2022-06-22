@@ -13,23 +13,16 @@ router.get('/listing/:id', async(req, res) => {
   res.send(images);
 });
 
-router.post('/listing', upload.array('images') ,async(req, res) => {
-  const files = req.files;
-  
-  files.forEach(async(file) => {
-    const result = await uploadFile(file);
-
-    const img = {
-      id: result.key,
-      link: `app/images/${result.key}`,
-      listing_id: req.body.id,
-      organization_id: req.body.organization_id,
-      seller_id: req.body.seller_id
-    };
-
-    await uploadImageData(img);
-  });
-  const images = await getListingImages(req.body.id);
+router.post('/listing', upload.single('image') ,async(req, res) => {
+  const file = req.file;
+  const result = await uploadFile(file);
+  const img = {
+    id: result.key,
+    link: `app/images/${result.key}`,
+    ...req.body
+  };
+  await uploadImageData(img);
+  const images = await getListingImages(req.body.listing_id);
   res.send(images);
 });
 

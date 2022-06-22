@@ -5,9 +5,10 @@
 
   &__loading {
     display: flex;
-    position: fixed;
-    top: 50%;
-    right: 50%;
+    align-items: center;
+    justify-content: center;
+    height: 95vh;
+    width: 100vw;
   }
 
   &__user {
