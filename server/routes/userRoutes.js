@@ -34,7 +34,8 @@ router.get('/organization/:id', jwtCheck,  (req, res) => {
       })
         .then((response) => res.send(response.data))
         .catch((error) => console.log(error.message));
-    });
+    })
+    .catch((error) => console.error(error));
 });
 
 module.exports = router;
