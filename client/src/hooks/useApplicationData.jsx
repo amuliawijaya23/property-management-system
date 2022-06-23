@@ -39,8 +39,8 @@ export default function useApplicationData() {
       const token = await getAccessTokenSilently();
 
       const appData = await Promise.all([
-        axios.get(`app/api/listings/${user?.org_id}`),
-        axios.get(`app/user/organization/${user?.org_id}`, 
+        axios.get(`/api/listings/${user?.org_id}`),
+        axios.get(`/user/organization/${user?.org_id}`, 
           {headers: { Authorization: `Bearer ${token}` }})
       ]);
 
@@ -64,7 +64,7 @@ export default function useApplicationData() {
     });
 
     try {
-      const response = await axios.post('app/api/listings', formData);
+      const response = await axios.post('/api/listings', formData);
       dispatch(initialize({
         properties: response.data,
         agents: app.agents

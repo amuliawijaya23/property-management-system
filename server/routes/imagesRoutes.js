@@ -18,7 +18,7 @@ router.post('/listing', upload.single('image') ,async(req, res) => {
   const result = await uploadFile(file);
   const img = {
     id: result.key,
-    link: `app/images/${result.key}`,
+    link: `/images/${result.key}`,
     ...req.body
   };
   await uploadImageData(img);

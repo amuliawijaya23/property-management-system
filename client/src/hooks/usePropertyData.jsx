@@ -11,8 +11,8 @@ export default function usePropertyData() {
   const selectProperty = async(newProperty) => {
     try {
       const response = await Promise.all([
-        axios.get(`app/images/listing/${newProperty.id}`),
-        axios.get(`app/message/${newProperty.id}`)
+        axios.get(`/images/listing/${newProperty.id}`),
+        axios.get(`/message/${newProperty.id}`)
       ]);
       const [images, messages] = response;
       dispatch(setPropertyData({
@@ -27,7 +27,7 @@ export default function usePropertyData() {
 
   const sendMessage  = async(message) => {
     try {
-      const response = await axios.post('app/message', {...message});
+      const response = await axios.post('/message', {...message});
       dispatch(setPropertyData({...property, messages: response.data}))
     } catch (error) {
       console.error(error);
@@ -43,7 +43,7 @@ export default function usePropertyData() {
         formData.append(key, images[key]);
       });
       try {
-        const response = await axios.post('app/images/listing', formData);
+        const response = await axios.post('/images/listing', formData);
         dispatch((setPropertyData({...property, images: response.data})));
       } catch (error) {
         console.error(error);
