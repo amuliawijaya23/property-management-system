@@ -25,7 +25,6 @@ export default function useApplicationData() {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    
     const startUp = async () => {
       dispatch(login({
         name: user.name,
@@ -35,26 +34,28 @@ export default function useApplicationData() {
         sub: user.sub,
         org_id: user.org_id
       }));
-
-      const token = await getAccessTokenSilently();
-
-      const appData = await Promise.all([
+      try {
+        const token = await getAccessTokenSilently();
+        const appData = await Promise.all([
         axios.get(`api/listings/${user?.org_id}`),
         axios.get(`user/organization/${user?.org_id}`,
-          {headers: { Authorization: `Bearer ${token}` }})
-      ]);
-
-      const [listings, agents] = appData;
-
-      dispatch(initialize({
-        properties: listings.data,
-        agents: agents.data
-      }));
+            {headers: { Authorization: `Bearer ${token}` }})
+        ]);
+        const [listings, agents] = appData;
+  
+        dispatch(initialize({
+          properties: listings.data,
+          agents: agents.data
+        }));
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     if(isAuthenticated) {
       startUp();
     };
+    
   }, [isAuthenticated, user, getAccessTokenSilently, dispatch]);
 
   const addListing = async(listing) => {
