@@ -39,8 +39,8 @@ export default function useApplicationData() {
       const token = await getAccessTokenSilently();
 
       const appData = await Promise.all([
-        axios.get(`/api/listings/${user?.org_id}`),
-        axios.get(`/user/organization/${user?.org_id}`, 
+        axios.get(`api/listings/${user?.org_id}`),
+        axios.get(`user/organization/${user?.org_id}`,
           {headers: { Authorization: `Bearer ${token}` }})
       ]);
 

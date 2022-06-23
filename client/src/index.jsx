@@ -18,6 +18,7 @@ root.render(
     clientId={clientID}
     redirectUri={window.location.origin}
     audience={audience}
+    onRedirectCallback={root.render()}
   >
     <Provider store={store}>
       <App />
