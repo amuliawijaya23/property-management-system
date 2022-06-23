@@ -20,10 +20,6 @@ App.use(morgan('dev'));
 // setup cors
 App.use(cors());
 
-if (process.env.NODE_ENV === 'production') {
-  // serve static content
-  App.use(express.static(path.resolve(__dirname, '../client/build')));
-}
 
 // Routers
 const imagesRoutes = require('./routes/imagesRoutes');
@@ -36,9 +32,13 @@ App.use('/api', apiRoutes);
 App.use('/user', userRoutes);
 App.use('/message', messageRoutes);
 
-App.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+if (process.env.NODE_ENV === 'production') {
+  // serve static content
+  App.use(express.static(path.resolve(__dirname, '../client/build')));
+  App.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+}
 
 // Set up server port
 App.listen(PORT, () => {

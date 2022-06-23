@@ -11,7 +11,8 @@
     "seed": "knex seed:run --knexfile db/knexfile.js"
   },
   "engines": {
-    "node": "16.15.0"
+    "node": "18.1.0",
+    "npm": "8.8.0"
   },
   "repository": {
     "type": "git",
