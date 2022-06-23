@@ -71,6 +71,8 @@ export default function MediaGallery(props) {
     if (property?.images[0]) {
       return(
         <ImageListItem key={`currentImage-${i}`}>
+          <label htmlFor="img">
+          </label>
           <img 
             src={image.link}
             srcSet={image.link}
@@ -106,7 +108,7 @@ export default function MediaGallery(props) {
         <div className='image-form__manager-gallery'>  
           <ImageList 
             className='image-form__manager-gallery--images'
-            sx={{ width: '100%', height: '95%'}}
+            sx={{ width: '100%'}}
             cols={4}
           >
             <ImageListItem>
@@ -120,11 +122,9 @@ export default function MediaGallery(props) {
             {media?.length > 0 && selectedImages}
           </ImageList>
         </div>
-        {media?.length < 1 && (
-          <Typography variant='body2' component={'span'} alignSelf={'start'}>
+          <Typography variant='body2' component={'span'} alignSelf={'center'}>
             You can upload JPEG or PNG files of up to 5 mb each.
           </Typography>
-        )}
         {media?.length < 1 && (
           <div {...getRootProps()}            
             className='image-form__manager-dropzone'

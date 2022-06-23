@@ -31,7 +31,7 @@ export default function App() {
 
   const { selectProperty } = usePropertyData();
 
-  // state
+  // user state
   const user = useSelector((state) => state.user?.value);
   
   // visual mode
@@ -100,15 +100,11 @@ export default function App() {
           <Form 
             onCancel={returnHandler}
             onSubmit={createListing}
-            // setProperty={setProperty}
           />
         )}
         {mode === PROPERTY && (
           <Property
-            // property={app.property}
             onBack={() => modeHandler(LISTINGS)}
-            // uploadImages={uploadImages}
-            // sendMessage={sendMessage}
           />
         )}
       </CssBaseline>
