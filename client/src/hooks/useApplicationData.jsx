@@ -36,16 +36,18 @@ export default function useApplicationData() {
       }));
       try {
         const token = await getAccessTokenSilently();
-        const appData = await Promise.all([
-        axios.get(`api/listings/${user?.org_id}`),
-        axios.get(`user/organization/${user?.org_id}`,
-            {headers: { Authorization: `Bearer ${token}` }})
-        ]);
-        const [listings, agents] = appData;
+
+        const appData = await axios.get(`api/listings/${user?.org_id}`);
+        
+        console.log('TOKEN', token);
+        // axios.get(`user/organization/${user?.org_id}`,
+        // // console.log('token', token),
+        //     {headers: { Authorization: `Bearer ${token}` }})
+        // ]);
   
         dispatch(initialize({
-          properties: listings.data,
-          agents: agents.data
+          properties: appData.data,
+          agents: []
         }));
       } catch (error) {
         console.error(error);
@@ -55,7 +57,7 @@ export default function useApplicationData() {
     if(isAuthenticated) {
       startUp();
     };
-    
+
   }, [isAuthenticated, user, getAccessTokenSilently, dispatch]);
 
   const addListing = async(listing) => {
