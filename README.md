@@ -1,4 +1,4 @@
-# ProperTee
+# Property Management Tool
 
 Real Estate CRM built with React.
 
