@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import CircularProgress from '@mui/material/CircularProgress';
+
 
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
+import Loading from './Loading';
 import Listings from './Listings';
 import Form from './Form';
 import Property from './Property';
 
+import usePropertyData from '../hooks/usePropertyData';
 import useApplicationData from '../hooks/useApplicationData';
+import { useSelector } from 'react-redux';
 
 import useVisualMode from "../hooks/useVisualMode";
 import { DASHBOARD, LISTINGS, PROPERTY, HIDDEN, FORM, LOADING } from "../helper/modes";
@@ -18,30 +21,22 @@ import './styles.scss';
 
 export default function App() {
   const {
-    state,
     isLoading,
-    user,
-    isAuthenticated,
     error,
+    isAuthenticated,
     loginWithRedirect,
     logout,
     addListing,
-    selectProperty,
-    uploadImages,
-    sendMessage
   } = useApplicationData();
 
+  const { selectProperty } = usePropertyData();
+
+  // state
+  const user = useSelector((state) => state.user?.value);
+  
+  // visual mode
   const [anchorEl, setAnchorEl] = useState(false);
-
   const {mode, transition, back} = useVisualMode(user?.sub ? HIDDEN : HIDDEN);
-
-  // useEffect(() => {
-  //   if(!user && mode === HIDDEN) {
-  //     transition(HIDDEN);
-  //   } else if (user && mode === HIDDEN) {
-  //     transition(HIDDEN);
-  //   }
-  // }, [user, transition, mode]);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -69,6 +64,7 @@ export default function App() {
   };
 
   const setProperty = async(listing) => {
+    console.log('helloooo');
     transition(LOADING);
     await selectProperty(listing);
     transition(PROPERTY);
@@ -83,7 +79,6 @@ export default function App() {
             openDrawer={toggleDrawer(true)}
             logout={logout}
             loginWithRedirect={loginWithRedirect}
-            user={user}
             isAuthenticated={isAuthenticated}
           />
           <SwipeableDrawer 
@@ -99,33 +94,22 @@ export default function App() {
           </SwipeableDrawer>
         </header>
         {(mode === LOADING || isLoading) && (
-          <div className='App__loading'>
-            <CircularProgress size={"4.5rem"}/>
-          </div>
+          <Loading />
         )}
-        {mode === LISTINGS && (
-          <Listings
-            agents={state.agents}
-            properties={state.properties}
-            setProperty={setProperty}
-          />
-        )}
+        {mode === LISTINGS && <Listings setProperty={setProperty} />}
         {mode === FORM && (
           <Form 
             onCancel={returnHandler}
             onSubmit={createListing}
-            setProperty={setProperty}
-            user={user}
+            // setProperty={setProperty}
           />
         )}
         {mode === PROPERTY && (
           <Property
-            property={state.property}
-            agents={state.agents}
+            // property={app.property}
             onBack={() => modeHandler(LISTINGS)}
-            user={user}
-            uploadImages={uploadImages}
-            sendMessage={sendMessage}
+            // uploadImages={uploadImages}
+            // sendMessage={sendMessage}
           />
         )}
       </CssBaseline>

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/App';
 import { Auth0Provider } from "@auth0/auth0-react";
+import { Provider } from 'react-redux';
+import { store } from './state/store';
 
 import './styles.scss';
 
@@ -17,6 +19,8 @@ root.render(
     redirectUri={window.location.origin}
     audience={audience}
   >
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </Auth0Provider>
 );

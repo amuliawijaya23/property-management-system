@@ -1,0 +1,81 @@
+.image-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.808);
+  color: white;
+
+  &__manager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: solid black 1px;
+    background-color: transparent;
+    width: 100%;
+
+    &-actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      border-bottom: solid white 1px;
+    }
+
+    &-gallery {
+      height: 30rem;
+      margin-bottom: 0.5rem;
+      overflow: auto;
+    }
+
+    &-dropzone {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      border-radius: 0.5rem;
+      border: dashed white 1px;
+      height: 7rem;
+      background-color: rgba(184, 180, 180, 0.366);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      align-items: flex-start;
+      width: 100%;
+      border-radius: 0.5rem;
+      border: dashed white 1px;
+      // height: 15rem;
+      padding: 0.5rem;
+      background-color: rgba(184, 180, 180, 0.366);
+    }
+
+    &-file {
+      display: flex;
+      width: 99%;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.1rem;
+      background-color: grey;
+      margin-top: 0.5rem;
+      border: solid;
+      border-radius: 0.25rem;
+
+      &--name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

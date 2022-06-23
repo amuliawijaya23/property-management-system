@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 
 import Menu from '@mui/material/Menu';
@@ -17,6 +16,23 @@ import MenuItem from '@mui/material/MenuItem';
      await props.setFilters(newChecked);
    };
 
+   const menuItems = props.options.map((value) => {
+    const labelId = `checkbox-label-${value}`;
+    return (
+      <MenuItem
+         sx={{paddingLeft: 1}}
+         key={labelId}
+         id={labelId}
+       >
+       <Checkbox
+         onClick={handleToggle(value)}
+         checked={props.filters.find((filter) => filter === value)}
+       />
+       {value[0].toUpperCase() + value.substring(1)}
+      </MenuItem>
+    );
+  });
+
    return (
      <Menu
       id={`filter-options-menu`}
@@ -33,24 +49,7 @@ import MenuItem from '@mui/material/MenuItem';
         horizontal: 'left'
       }}
      >
-       {props.options.map((value) => {
-         const labelId = `checkbox-label-${value}`;
-
-         return (
-
-           <MenuItem
-              sx={{paddingLeft: 1}}
-              key={labelId}
-              id={labelId}
-            >
-            <Checkbox
-              onClick={handleToggle(value)}
-              checked={props.filters.find((filter) => filter === value)}
-            />
-            {value[0].toUpperCase() + value.substring(1)}
-           </MenuItem>
-         )
-       })}
+       {menuItems}
      </Menu>
    )
 

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-export default function ListingTable(props) {
+import { useSelector } from 'react-redux';
+
+export default function ListingTable() {
+  const app = useSelector((state) => state.app.value);
 
   const columns = [
     {field: 'id', headerName: 'ID', width: '100'},
@@ -14,8 +17,8 @@ export default function ListingTable(props) {
 
   const rows = [];
   
-  props.properties.forEach(property => {
-    const seller = props.agents?.find((agent) => agent.user_id === property.seller_id);
+  app.properties?.forEach(property => {
+    const seller = app.agents?.find((agent) => agent.user_id === property.seller_id);
 
     const createProperty = {
       id: property.id,

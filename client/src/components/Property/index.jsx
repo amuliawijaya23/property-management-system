@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import './styles/index.scss';
+import './styles/gallery.scss';
+import './styles/messages.scss';
 
-import ListingDetail from './ListingDetail';
+import PropertyDetail from './PropertyDetail';
 import MediaGallery from './MediaGallery';
 
 import useVisualMode from '../../hooks/useVisualMode';
-
 import { DETAILS, MEDIA } from '../../helper/modes';
 
 export default function Property(props) {
@@ -18,30 +19,16 @@ export default function Property(props) {
     transition(MEDIA);
   };
 
-  const onUpload = (images) => {
-    props.uploadImages(images);
-    // back();
-  };
-
   return (
     <>
       {mode === DETAILS &&(
-        <ListingDetail 
-          property={props.property}
-          agents={props.agents}
+        <PropertyDetail 
           onBack={props.onBack}
           onMedia={openGallery}
-          user={props.user}
-          sendMessage={props.sendMessage}
         />
       )}
       {mode === MEDIA && (
-        <MediaGallery 
-          property={props.property}
-          agents={props.agents}
-          onBack={returnHandler}
-          uploadImages={onUpload}
-        />
+        <MediaGallery onBack={returnHandler} />
       )}
     </>
   );

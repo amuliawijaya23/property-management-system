@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -6,13 +8,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import  IconButton  from '@mui/material/IconButton';
 
 import SearchFilter from './SearchFilter';
 import ListItem from './ListItem';
 import ListingTable from './ListingTable';
-
-import  IconButton  from '@mui/material/IconButton';
-
 import FilterOptions from './FilterOptions';
 
 const selections = {
@@ -21,8 +21,9 @@ const selections = {
 };
 
 export default function Listings(props) {
+  const app = useSelector((state) => state.app.value)
+
   const [edit, setEdit] = useState(false);
-  const [properties, setProperties] = useState(props.properties);
   const [anchor, setAnchor] = useState(null);
   const [search, setSearch] = useState('');
   const [options, setOptions] = useState({
@@ -36,42 +37,15 @@ export default function Listings(props) {
     edit ? setEdit(false) : setEdit(true);
   };
 
-  const filterProperties = (options) => {
-    let result = [];
+  const handleAnchor = (event) =>  {
+    anchor ? setAnchor(false) : setAnchor(event.currentTarget);
+  };
 
-    if (options.type.length < 1 && options.status.length < 1) {
-      setProperties([...props.properties]);
-    } else {
-        if (filters.find(filter => filter === 'type') && options.type.length > 0) {
-          options.type.forEach((option) => {
-            const getPropertiesByType = props.properties.filter(property => property.property_type === option);
-            result = [...result, ...getPropertiesByType];
-          });
-        };
-  
-        if (filters.find(filter => filter === 'status') && options.status.length > 0) {
-          options.status.forEach((status) => {
-            const tempResult = filters.find(filter => filter === 'type') ? [...result] : props.properties;
-            result = [];
-            const getPropertiesByStatus = tempResult.filter(property => property.status === status);
-            result = [...result, ...getPropertiesByStatus];
-          });
-        };
-        setProperties(result);
-      };
-    };
-
-
-  const listItems = properties?.map((property, i) => (
+  const listItems = app.properties?.map((property, i) => (
     <ListItem
       key={`list-item-${i}`}
       id={`list-item-${i}`}
-      agent={props.agents?.find((agent) => agent.user_id === property.seller_id)}
-      property={{
-        details: property,
-        images: null,
-        messages: null
-      }}
+      property={property}
       setProperty={props.setProperty}
     />
   ));
@@ -81,7 +55,6 @@ export default function Listings(props) {
       filter={filter}
       selections={selections[filter]}
       addFilters={setOptions}
-      onFilter={filterProperties}
       options={options}
     />
   ));
@@ -94,18 +67,17 @@ export default function Listings(props) {
             <IconButton
               size='small'
               sx={{ml: '0.5rem'}}
-              onClick={(event) => setAnchor(event.currentTarget)}
+              onClick={handleAnchor}
             >
               <FilterListIcon />
             </IconButton>
             <FilterOptions 
               options={Object.keys(options)}
               anchor={anchor}
-              handleClose={() => setAnchor(false)}
+              handleClose={handleAnchor}
               filters={filters}
               setFilters={setFilters}
               selectedOptions={options}
-              filterProperties={filterProperties}
             />
             <TextField
               className='listing-browser__search'
@@ -120,10 +92,13 @@ export default function Listings(props) {
                   <InputAdornment position='start'>
                     <SearchIcon/>
                   </InputAdornment>
-                )
-              }}
+                  )
+                }
+              }
             />
-            <Button variant='outlined'>Search</Button>
+            <Button variant='outlined'>
+              Search
+            </Button>
           </div>
           <div className="listing-browser__right">
             {(filters.length > 0) && (
@@ -136,12 +111,7 @@ export default function Listings(props) {
             </Button>
           </div>
         </div>
-        {edit && (
-          <ListingTable 
-            properties={properties}
-            agents={props.agents}
-          /> 
-        )}
+        {edit && <ListingTable />} 
         {!edit && listItems}
       </Stack>
     </Box>

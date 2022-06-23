@@ -1,3 +1,5 @@
+import './styles.scss';
+
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -10,9 +12,13 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import SearchLocationInput from './SearchLocationInput';
 
-import './styles.scss';
+import { useSelector } from 'react-redux';
+
 
 export default function Form(props) {
+
+  const user = useSelector((state) => state.user.value);
+
   const [state, setState] = useState({
     thumbnailImage: null,
     title: '',
@@ -25,8 +31,8 @@ export default function Form(props) {
     number_of_bathrooms: false,
     parking_space: false,
     price: false,
-    organization_id: props.user.org_id,
-    seller_id: props.user.sub
+    organization_id: user.org_id,
+    seller_id: user.sub
   });
 
   const [error, setError] = useState('');

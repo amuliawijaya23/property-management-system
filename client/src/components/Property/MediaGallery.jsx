@@ -1,28 +1,34 @@
+import '../Form/styles.scss';
+
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-
-import '../Form/styles.scss';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import ImageIcon from '@mui/icons-material/Image';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ClearIcon from '@mui/icons-material/Clear';
+
+import { useSelector } from 'react-redux';
+import usePropertyData from '../../hooks/usePropertyData';
 
 
 export default function MediaGallery(props) {
-  const [edit, setEdit] = useState(false);
+  const property = useSelector((state) => state.property.value);
+  const { uploadImages } = usePropertyData();
   const [media, setMedia] = useState([]);
+
+  
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles[0].type === "image/jpeg" || acceptedFiles[0].type === "image/png") {
-      const newMedia = media;
-      newMedia.push(acceptedFiles[0])
-      setMedia(newMedia);
+      setMedia(acceptedFiles)
     };
   }, []);
 
@@ -31,16 +37,23 @@ export default function MediaGallery(props) {
   const saveHandler = () => {
     const images = {
       images: media,
-      listing_id: props.property.details.id,
-      organization_id: props.property.details.organization_id,
-      seller_id: props.property.details.seller_id
+      listing_id: property?.details?.id,
+      organization_id: property?.details?.organization_id,
+      seller_id: property?.details?.seller_id
     };
-    props.uploadImages(images)
+    uploadImages(images);
     setMedia([]);
+  };
+
+  const removeFile = (file) => {
+    const currentMedia = [...media];
+    const newMedia = currentMedia.filter((image) => image.name !== file.name);
+    setMedia(newMedia);
   };
 
   const selectedImages = media.map((image, i) => {
     if (media[0]) {
+      
       return (
         <ImageListItem key={`imageList-${i}`}>
           <img 
@@ -54,8 +67,8 @@ export default function MediaGallery(props) {
     return <></>
   });
 
-  const currentImages = props.property?.images?.map((image, i) => {
-    if (props.property?.images[0]) {
+  const currentImages = property?.images?.map((image, i) => {
+    if (property?.images[0]) {
       return(
         <ImageListItem key={`currentImage-${i}`}>
           <img 
@@ -92,34 +105,50 @@ export default function MediaGallery(props) {
         </div>
         <div className='image-form__manager-gallery'>  
           <ImageList 
+            className='image-form__manager-gallery--images'
             sx={{ width: '100%', height: '95%'}}
             cols={4}
-            rowHeight={250}
           >
-            <ImageListItem key={`cover-image`}>
+            <ImageListItem>
               <img 
-                src={props.property?.details?.cover_image_url}
-                srcSet={props.property?.details?.cover_image_url}
+                src={property?.details?.cover_image_url}
+                srcSet={property?.details?.cover_image_url}
                 alt={`cover`}
               />
             </ImageListItem>
-            {props.property.images?.length > 0 && currentImages}
-            {media.length > 0 && selectedImages}
+            {property?.images?.length > 0 && currentImages}
+            {media?.length > 0 && selectedImages}
           </ImageList>
         </div>
-        {media.length < 1 && (
+        {media?.length < 1 && (
           <Typography variant='body2' component={'span'} alignSelf={'start'}>
             You can upload JPEG or PNG files of up to 5 mb each.
           </Typography>
         )}
-        <div {...getRootProps()} className='image-form__manager-dropzone' >
-          <input {...getInputProps()} />
-          {
-            isDragActive ?
+        {media?.length < 1 && (
+          <div {...getRootProps()}            
+            className='image-form__manager-dropzone'
+          >
+            <input {...getInputProps()} />
+            {isDragActive ?
               <FileUploadIcon fontSize='large'/> :
               <CloudUploadIcon fontSize='large'/>
-          }
-        </div>
+            }
+          </div>
+        )}
+        {media?.length > 0 && (
+          <div className="image-form__manager-list">
+            {media.map((image, i) => (
+              <div key={`file-${i}`} className='image-form__manager-file'>
+                <div className='image-form__manager-file--name'>
+                  <ImageIcon/>
+                  {image.name}
+                </div>
+                <ClearIcon onClick={() => removeFile(image)} sx={{cursor: 'pointer'}} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </Box>
     

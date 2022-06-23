@@ -1,66 +1,51 @@
-import { useState, useRef } from 'react';
+
+
+import { useRef } from 'react';
+
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
+import Messages from './Messages';
 import Button from '@mui/material/Button';
-import ReactHtmlParser from 'react-html-parser';
+
 import SendIcon from '@mui/icons-material/Send';
+
+import { useSelector } from 'react-redux';
 
 import { Editor } from '@tinymce/tinymce-react';
 
-import './styles.scss';
+import usePropertyData from '../../../hooks/usePropertyData';
 
-export default function MessageBox(props) {
+export default function MessageBox() {
+  const { sendMessage } = usePropertyData();
+  
+  const user = useSelector((state) => state.user.value);
+  const property = useSelector((state) => state.property.value);
+
   const editorRef = useRef(null);
 
   const clickHandler = () => {
     if(editorRef.current) {
       const message = {
         message: editorRef.current.getContent(),
-        listing_id: props.property.details.id,
-        organization_id: props.user.org_id,
-        sender_id: props.user.sub
+        listing_id: property?.details?.id,
+        organization_id: user.org_id,
+        sender_id: user.sub
       }
-      props.onSend(message);
+      sendMessage(message);
       editorRef.current.setContent('');
     }
   };
 
-  const messages = props.messages?.map((message, i) => {
-    const sender = props.agents?.find((agent) => agent.user_id === message.sender_id);
-    const isUser = sender.user_id === props.user.sub;
-    const direction = isUser ? 'row' : 'row reverse';
-    const alignment = isUser? 'start' : 'end';
-
-    return (
-      <>
-        <ListItem
-          className='message-component'
-          key={`message-${i}`}
-          sx={{flexDirection: {direction}, textAlign: {alignment}}}
-        >
-          <ListItemAvatar className='message-component__avatar'>
-            <Avatar alt="agent" src={sender.picture} />
-          </ListItemAvatar>
-          <section className='message-component__content'>
-            <ListItemText
-              sx={{mr: 2}}
-              primary={sender.name}
-              secondary={message.created_at}
-            />
-            {ReactHtmlParser(message.message)}
-          </section>
-        </ListItem>
-        <Divider variant='inset' component='li'/>
-      </>
-  )});
+  const messages = property?.messages?.map((message, i) => (
+    <Messages 
+      key={`message-${i}`}
+      message={message} 
+    />
+  ));
 
   return (
     <>
       <List 
+        key={'message-box'}
         className='message-box'
         sx={{ 
         display: 'flex',
