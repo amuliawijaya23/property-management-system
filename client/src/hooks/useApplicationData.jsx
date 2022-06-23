@@ -36,6 +36,7 @@ export default function useApplicationData() {
       }));
       try {
         const token = await getAccessTokenSilently();
+        
         const appData = await Promise.all([
         axios.get(`api/listings/${user?.org_id}`),
         axios.get(`user/organization/${user?.org_id}`,
