@@ -13,13 +13,17 @@ const PORT = process.env.PORT || 3001;
 App.use(bodyParser.urlencoded({ extended: true }));
 App.use(bodyParser.json());
 
-App.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // setup morgan middleware
 App.use(morgan('dev'));
 
 // setup cors
 App.use(cors());
+
+if (process.env.NODE_ENV === 'production') {
+  // serve static content
+  App.use(express.static(path.resolve(__dirname, '../client/build')));
+}
 
 // Routers
 const imagesRoutes = require('./routes/imagesRoutes');

@@ -64,7 +64,6 @@ export default function App() {
   };
 
   const setProperty = async(listing) => {
-    console.log('helloooo');
     transition(LOADING);
     await selectProperty(listing);
     transition(PROPERTY);
