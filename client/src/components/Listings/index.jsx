@@ -30,11 +30,11 @@ export default function Listings(props) {
   const selectUpdate = Object.keys(selections).map((selection) => {
     return (
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id={`${selection}-label`}>Age</InputLabel>
+        <InputLabel id={`${selection}-label`}>{selection}</InputLabel>
         <Select
           labelId={`${selection}-select-label`}
           id="demo-simple-select-standard"
-          value={update[selection]}
+          value={selections[selection]}
           // onChange={handleChange}
           label={selection}
         >
