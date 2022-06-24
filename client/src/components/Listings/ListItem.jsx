@@ -23,37 +23,41 @@ export default function ListItem(props) {
 
   return (
     <Item className="list-item">
+
       <div
         className="list-item__image"
         onClick={() => props.setProperty({...props.property})}
       >
         <img src={props.property?.cover_image_url} alt="cover" />
       </div>
-      <div className="list-item__info">
-        <Typography
-          className='list-item__info-title'
-          variant='body'
-          component="b"
-          gutterBottom
-          onClick={() => props.setProperty({...props.property})}
-        >
-          {props.property?.title}
-        </Typography>
-        <Typography variant='body' gutterBottom component="p">
-          {props.property?.address}, {props.property?.zip_code}
-        </Typography>
-        <Typography variant='body' gutterBottom component="b" sx={{mt: "0.5rem"}}>
-          Status: {props.property?.status}&emsp;
-          Type: {props.property?.property_type}&emsp;
-        </Typography>
-      </div>
-      <div className="list-item__status">
-        <AvatarGroup spacing={10}>
-          <Tooltip disableFocusListener title={agent?.name} >
-            <Avatar src={agent?.picture} alt='agent'/>
-          </Tooltip>
-        </AvatarGroup>
-      </div>
+
+      <section className='list-item__info'>
+        <div className="list-item__detail">
+          <Typography
+            className='list-item__info-title'
+            variant='h6'
+            component="h3"
+            gutterBottom
+            onClick={() => props.setProperty({...props.property})}
+          >
+            {props.property?.title}
+          </Typography>
+          <Typography variant='h7' gutterBottom component="p">
+            {props.property?.address}, {props.property?.zip_code}
+          </Typography>
+          <Typography variant='body' gutterBottom component="b" sx={{mt: "0.5rem"}}>
+            Status: {props.property?.status}&emsp;
+            Type: {props.property?.property_type}&emsp;
+          </Typography>
+        </div>
+        <div className="list-item__status">
+          <AvatarGroup spacing={10}>
+            <Tooltip disableFocusListener title={agent?.name} >
+              <Avatar src={agent?.picture} alt='agent'/>
+            </Tooltip>
+          </AvatarGroup>
+        </div>
+      </section>
     </Item>
   );
 };

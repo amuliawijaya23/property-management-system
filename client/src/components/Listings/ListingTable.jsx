@@ -1,9 +1,11 @@
-import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { GridToolbar } from '@mui/x-data-grid';
+
+
 
 import { useSelector } from 'react-redux';
 
-export default function ListingTable() {
+export default function ListingTable(props) {
   const app = useSelector((state) => state.app.value);
 
   const columns = [
@@ -15,33 +17,41 @@ export default function ListingTable() {
     {field: 'propertyStatus', headerName: 'Status', width: '200'}
   ];
 
-  const rows = [];
-  
-  app.properties?.forEach(property => {
-    const seller = app.agents?.find((agent) => agent.user_id === property.seller_id);
+  const createRows = () => {
+    const rows = [];
+    app.properties?.forEach((property) => {
+      const seller = app.agents?.find((agent) => agent.user_id === property.seller_id)
+      const createProperty = {
+        id: property.id,
+        propertyName: property.title,
+        propertyAddress: property.address,
+        propertyZipCode: property.zip_code,
+        propertyAgent: seller.name,
+        propertyStatus: property.status
+      };
+      rows.push(createProperty);
+    });
+    return rows;
+  };
 
-    const createProperty = {
-      id: property.id,
-      propertyName: property.title,
-      propertyAddress: property.address,
-      propertyZipCode: property.zip_code,
-      propertyAgent: seller.name,
-      propertyStatus: property.status
-    };
-
-    rows.push(createProperty);
-  });
+  const rows = createRows();
 
   return (
-    <div style={{height: '80vh', width: '100%'}}>
-      <DataGrid
-        experimentalFeatures={{ newEditingApi: true }}
-        columns={columns}
-        rows={rows}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        checkboxSelection
-      />
-    </div>
+    <DataGrid
+      experimentalFeatures={{ newEditingApi: true }}
+      columns={columns}
+      rows={rows}
+      onSelectionModelChange={(ids) => {
+        const selectedIds = new Set(ids);
+        const selectedRowData = rows.filter((row) =>
+          selectedIds.has(row.id));
+          props.selectRow(selectedRowData);
+      }}
+      pageSize={10}
+      rowsPerPageOptions={[10]}
+      checkboxSelection
+      disableSelectionOnClick
+      components={{Toolbar: GridToolbar}}
+    />
   );
 };

@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.808);
+  background-color: #000000ce;
   color: white;
 
   &__manager {
@@ -27,9 +27,11 @@
     }
 
     &-gallery {
-      height: 60vh;
-      margin-bottom: 0.5rem;
       overflow: auto;
+      margin-bottom: 0.5rem;
+      @media only screen and (max-width: 1365px) {
+        height: 60vh;
+      }
     }
 
     &-dropzone {
@@ -49,7 +51,6 @@
     }
 
     &-list {
-      align-items: flex-start;
       min-height: 8rem;
       width: 99%;
       border-radius: 0.5rem;
@@ -60,7 +61,7 @@
 
     &-file {
       display: flex;
-      width: 99%;
+      width: 100%;
       justify-content: space-between;
       align-items: center;
       padding: 0.1rem;

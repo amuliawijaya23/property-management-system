@@ -45,7 +45,6 @@ export default function Messages(props) {
           {ReactHtmlParser(props.message.message)}
         </section>
       </ListItem>
-      <Divider variant='inset' component='li'/>
     </div>
   )
 }

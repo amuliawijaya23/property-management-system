@@ -46,7 +46,7 @@ export default function PropertyDetail(props) {
 
   return (
     <Box className='property-item'>
-      <Card sx={{ width: '95%', border: 'solid'}}>
+      <Card sx={{ width: '95%', border: 'solid 1px'}}>
         <CardActions className='property-item__actions'>
           <div className="property-item__actions-section">
             <IconButton 
@@ -93,7 +93,7 @@ export default function PropertyDetail(props) {
             variant='h5'
             component='div'
             paddingBottom={2}
-            borderBottom={'solid'}
+            borderBottom={'solid 1px'}
           >
             Comments&nbsp;
             {property?.messages?.length > 0 && `(${property?.messages.length})`}

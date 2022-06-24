@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import usePropertyData from '../../hooks/usePropertyData';
 
 
+
 export default function MediaGallery(props) {
   const property = useSelector((state) => state.property.value);
   const { uploadImages } = usePropertyData();
@@ -122,7 +123,7 @@ export default function MediaGallery(props) {
             {media?.length > 0 && selectedImages}
           </ImageList>
         </div>
-          <Typography variant='body2' component={'span'} alignSelf={'center'}>
+          <Typography variant='body2' component={'span'} alignSelf={'start'} ml={2}>
             You can upload JPEG or PNG files of up to 5 mb each.
           </Typography>
         {media?.length < 1 && (

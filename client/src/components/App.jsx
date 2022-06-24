@@ -36,7 +36,7 @@ export default function App() {
   
   // visual mode
   const [anchorEl, setAnchorEl] = useState(false);
-  const {mode, transition, back} = useVisualMode(user?.sub ? HIDDEN : HIDDEN);
+  const {mode, transition, back} = useVisualMode(user?.sub ? DASHBOARD : DASHBOARD);
 
   const toggleDrawer = (anchor) => (event) => {
     if (
@@ -106,6 +106,9 @@ export default function App() {
           <Property
             onBack={() => modeHandler(LISTINGS)}
           />
+        )}
+        {mode === DASHBOARD && (
+          <></>
         )}
       </CssBaseline>
     </div>
