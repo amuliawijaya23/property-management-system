@@ -6,7 +6,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ButtonAppBar from './Nav';
 import DrawerList from './Drawer';
 import Loading from './Loading';
-import Listings from './Listings';
+import PropertyList from './PropertyList';
 import Form from './Form';
 import Property from './Property';
 
@@ -95,7 +95,9 @@ export default function App() {
         {(mode === LOADING || isLoading) && (
           <Loading />
         )}
-        {mode === LISTINGS && <Listings setProperty={setProperty} />}
+        {mode === LISTINGS && (
+          <PropertyList setProperty={setProperty} />
+        )}
         {mode === FORM && (
           <Form 
             onCancel={returnHandler}

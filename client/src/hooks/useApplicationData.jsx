@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { login } from "../state/reducers/userReducer";
 import { initialize } from "../state/reducers/app";
+import { setTableData } from "../state/reducers/tableReducer";
 
 import axios from "axios";
 
@@ -48,6 +49,8 @@ export default function useApplicationData() {
           properties: listings.data,
           agents: agents.data
         }));
+
+        dispatch(setTableData(listings.data));
       } catch (error) {
         console.error(error);
       }

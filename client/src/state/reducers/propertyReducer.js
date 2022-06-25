@@ -13,11 +13,6 @@ export const propertySlice =  createSlice({
     setPropertyData: (state, action) => {
       state.value = action.payload;
     },
-    updateMediaGallery: (state, action) => {
-      const newState = {...state.value};
-      newState.images = action.payload;
-      state.value = newState;
-    },
     updateDetails: (state, action) => {
       const newState = {...state.value};
       newState.details = action.payload;
