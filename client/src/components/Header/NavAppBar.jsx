@@ -7,7 +7,10 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 
-export default function ButtonAppBar(props) {
+import { useSelector } from 'react-redux';
+
+export default function NavAppBar(props) {
+  const user = useSelector((state) => state.user.value);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -20,7 +23,7 @@ export default function ButtonAppBar(props) {
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={
-              props.isAuthenticated ? 
+              user.isAuthenticated ? 
               props.openDrawer : 
               () => console.log('NOT AUTHORIZED')
             }
@@ -30,7 +33,7 @@ export default function ButtonAppBar(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ProperTee
           </Typography>
-          {props.isAuthenticated && (
+          {user.isAuthenticated && (
             <Button 
               onClick={() => props.logout({ returnTo: window.location.origin })}
               color="inherit"
@@ -38,7 +41,7 @@ export default function ButtonAppBar(props) {
               Logout
             </Button>
           )}
-          {!props.isAuthenticated && (
+          {!user.isAuthenticated && (
             <Button
               onClick={() => props.loginWithRedirect()}
               color="inherit"
@@ -50,4 +53,4 @@ export default function ButtonAppBar(props) {
       </AppBar>
     </Box>
   );
-}
+};

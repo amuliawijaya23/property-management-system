@@ -8,9 +8,19 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+
+import Form from '../Form';
+import ListMenu from './ListMenu';
 import ListTable from './ListTable';
 
 import useTableData from '../../hooks/useTableData';
+
+
+import { 
+  Routes,
+  Route,
+  useNavigate
+} from 'react-router';
 
 export default function PropertyList() {
   const app = useSelector((state) => state.app.value);
@@ -19,16 +29,24 @@ export default function PropertyList() {
 
   const { updateData } = useTableData();
 
+  const navigate = useNavigate();
+
   const selections = {
     status: ['Open', 'Showing', 'Offer Received', 'Offer Accepted', 'Closing'],
     seller_id: app.agents.map((agent) => agent.email)
   };
 
   return (
-    <Box width={'100%'} height={'70vh'} mt={2} > 
+    <Box width={'100%'} mt={2} > 
       <div className='listing-browser'>
+        <div className='listing-browser__navigation'>
+          <Button variant='text' onClick={() => navigate('/properties')}>List</Button>
+          <Button variant='text' onClick={() => navigate('/properties/table')}>Table</Button>
+          <Button variant='text' onClick={() => navigate('/properties/new')}>New</Button>
+        </div>
         {selected.length > 0 && (
-          Object.keys(table.edit).map((key) => (
+        <div className='listing-browser__edit'>
+          {Object.keys(table.edit).map((key) => (
             <FormControl
               key={`${key}-update`}
               variant="outlined" 
@@ -59,17 +77,16 @@ export default function PropertyList() {
                 })}
               </Select>
             </FormControl>
-          ))
+
+          ))}
+        </div>
         )}        
       </div>
-      <ListTable
-        selectRow={setSelected}
-      />
-      {selected.length > 0 && (
-        <Button variant='outlined' fullWidth>
-          Update
-        </Button>
-      )}
+      <Routes>
+        <Route path={'/'} element={<ListMenu />} />
+        <Route path='/new' element={<Form />} />
+        <Route path={'/table'} element={<ListTable selectRow={setSelected} />} />
+      </Routes>
     </Box>
   );
 };

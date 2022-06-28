@@ -7,6 +7,7 @@ exports.up = function(knex) {
       table.string('description', 500).notNullable();
       table.string('address', 255);
       table.string('property_type', 255).notNullable();
+      table.string('service_type', 255).notNullable();
       table.integer('zip_code').notNullable();
       table.integer('size').notNullable();
       table.smallint('number_of_bedrooms').notNullable();

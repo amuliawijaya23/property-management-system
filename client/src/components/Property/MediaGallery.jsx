@@ -1,6 +1,6 @@
 import '../Form/styles.scss';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import Box from '@mui/material/Box';
@@ -16,16 +16,21 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { useSelector } from 'react-redux';
-import usePropertyData from '../../hooks/usePropertyData';
 
+import { useParams, useNavigate, Link } from 'react-router-dom';
+
+
+import usePropertyData from '../../hooks/usePropertyData';
 
 
 export default function MediaGallery(props) {
   const property = useSelector((state) => state.property.value);
-  const { uploadImages } = usePropertyData();
+  const {uploadImages } = usePropertyData();
   const [media, setMedia] = useState([]);
 
-  
+  const id = parseInt(useParams().id);
+
+  let navigate = useNavigate();
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles[0].type === "image/jpeg" || acceptedFiles[0].type === "image/png") {
@@ -38,11 +43,10 @@ export default function MediaGallery(props) {
   const saveHandler = () => {
     const images = {
       images: media,
-      listing_id: property?.details?.id,
       organization_id: property?.details?.organization_id,
       seller_id: property?.details?.seller_id
     };
-    uploadImages(images);
+    uploadImages(images, property?.details?.id);
     setMedia([]);
   };
 
@@ -91,7 +95,7 @@ export default function MediaGallery(props) {
         <div className="image-form__manager-actions">
           <IconButton 
             size='large'
-            onClick={() => props.onBack()}
+            onClick={() => navigate(`/property/${id}`)}
           >
             <ArrowBackIcon sx={{fontSize: '2rem', color: 'white'}} />
           </IconButton>

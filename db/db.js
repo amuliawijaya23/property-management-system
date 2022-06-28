@@ -10,17 +10,30 @@ const getListings = (org) => {
     .catch(e => console.log(e.message));
 };
 
+// GET LISTING DATA
+
+const getListing = (id) => {
+  return knex('listings')
+    .where({id: id})
+    .then((res) => res[0])
+    .catch(e => console.log(e.message));
+};
+
 // POST NEW LISTING
 
 const addListing = (listing) => {
 
   return knex('listings')
     .insert({...listing})
-    .then(() => listing)
+    .then((res) => res)
     .catch(e => console.log(e.message));
 };
 
-
+const getListingSum = () => {
+  return knex('listings')
+    .count('id')
+    .catch(e => console.log(e.message));
+};
 
 // GET LISTING ASSETS, FILES, MESSAGES
 
@@ -57,7 +70,9 @@ const createMessage = (msg) => {
 
 module.exports = {
   getListings,
+  getListing,
   addListing,
+  getListingSum,
   getListingImages,
   getListingMessages,
   uploadImageData,

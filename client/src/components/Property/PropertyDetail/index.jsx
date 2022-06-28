@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
@@ -19,7 +19,13 @@ import Collapsable from './Collapsable';
 import Status from './Status';
 import MessageBox from './MessageBox';
 
+import usePropertyData from '../../../hooks/usePropertyData';
+
 import { useSelector } from 'react-redux';
+
+import { 
+  useNavigate,
+} from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,17 +38,28 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function PropertyDetail(props) {
-  const property = useSelector((state) => state.property.value);
+const cardContentSx = {
+  display: 'flex', 
+  flexDirection: 'column', 
+  alignItems: 'center', 
+  mt: 5
+};
+
+export default function PropertyDetail() {
+  
+  
   const app = useSelector((state) => state.app.value);
+  const property = useSelector((state) => state.property.value);
+
+  const navigate = useNavigate();
+
+  const seller = app.agents?.find((agent) => agent.user_id === property.details?.seller_id);
+  
   const [expanded, setExpanded] = useState(false);
   
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  const seller = app.agents?.find((agent) => agent.user_id === property?.details?.seller_id);
 
   return (
     <Box className='property-item'>
@@ -51,7 +68,7 @@ export default function PropertyDetail(props) {
           <div className="property-item__actions-section">
             <IconButton 
               size='large'
-              onClick={() => props.onBack()}
+              onClick={() => navigate('/properties')}
             >
               <ArrowBackIcon
                 sx={{fontSize: '2rem'}} 
@@ -63,7 +80,13 @@ export default function PropertyDetail(props) {
             </AvatarGroup>
           </div>
           <div className="property-item__actions-section">
-            <Button onClick={() => props.onMedia()} variant='text' size='large'>Media</Button>
+            <Button
+              onClick={() => navigate(`/property/media/${property?.details.id}`)}
+              variant='text' 
+              size='large'
+            >
+              Media
+            </Button>
             <Button variant='text' size='large'>Tasks</Button>  
             <Button variant='text' size='large'>Edit</Button>            
           </div>
@@ -71,8 +94,8 @@ export default function PropertyDetail(props) {
         <MediaCarousel/>
         <div className='property-item__header'>
           <CardHeader
-            title={property?.details?.title}
-            subheader={property?.details?.address}
+            title={property.details?.title}
+            subheader={property.details?.address}
           />
           <ExpandMore
             className='property-item__expandable'
@@ -87,7 +110,7 @@ export default function PropertyDetail(props) {
         </div>
         <Collapsable expanded={expanded} />
         <Status />
-        <CardContent sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }} >
+        <CardContent sx={cardContentSx} >
           <Typography 
             width={'100%'}
             variant='h5'
@@ -96,7 +119,9 @@ export default function PropertyDetail(props) {
             borderBottom={'solid 1px'}
           >
             Comments&nbsp;
-            {property?.messages?.length > 0 && `(${property?.messages.length})`}
+            {property?.messages?.length > 0 && (
+              `(${property?.messages.length})`
+            )}
           </Typography>
           <MessageBox />
         </CardContent>

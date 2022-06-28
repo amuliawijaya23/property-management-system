@@ -12,11 +12,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import PersonIcon from '@mui/icons-material/Person';
 
+import { useNavigate } from 'react-router-dom';
+
 export default function DrawerList(props) {
 
+  const navigate = useNavigate();
+
   const clickHandlers = (i) => {
-    const mode = ['DASHBOARD', 'LISTINGS', 'FORM'];
-    props.modeHandler(mode[i]);
+    const path = ['/', '/properties'];
+    navigate(path[i]);
   };
 
   return (
@@ -27,7 +31,7 @@ export default function DrawerList(props) {
       onKeyDown={props.toggleDrawer(false)}
     >
       <List>
-        {['Dashboard', 'Listings', 'New Listing'].map((text, index) => (
+        {['Dashboard', 'Listings'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton
               onClick={() => clickHandlers(index)}
@@ -35,7 +39,6 @@ export default function DrawerList(props) {
               <ListItemIcon>
                 {text === 'Dashboard' && <DashboardIcon />}
                 {text === 'Listings' && <HomeIcon />}
-                {text === 'New Listing' && <AddBusinessIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

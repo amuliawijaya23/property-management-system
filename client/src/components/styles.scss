@@ -11,6 +11,11 @@
     width: 100vw;
   }
 
+  &__link {
+    text-decoration: none;
+    color: black;
+  }
+
   &__user {
     height: 2.5rem;
     width: 2.5rem;

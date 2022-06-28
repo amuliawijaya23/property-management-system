@@ -13,16 +13,18 @@ router.get('/listing/:id', async(req, res) => {
   res.send(images);
 });
 
-router.post('/listing', upload.single('image') ,async(req, res) => {
+router.post('/listing/:id', upload.single('image') ,async(req, res) => {
   const file = req.file;
   const result = await uploadFile(file);
   const img = {
     id: result.key,
-    link: `images/${result.key}`,
+    link: `/images/${result.key}`,
+    listing_id: req.params.id,
     ...req.body
   };
+
   await uploadImageData(img);
-  const images = await getListingImages(req.body.listing_id);
+  const images = await getListingImages(req.params.id);
   res.send(images);
 });
 
