@@ -22,19 +22,23 @@ App.use(cors());
 
 
 // Routers
-const imagesRoutes = require('./routes/imagesRoutes');
 const apiRoutes = require('./routes/apiRoutes');
+const gpRoutes = require('./routes/gpRoutes');
+const imagesRoutes = require('./routes/imagesRoutes');
 const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 
-App.use('/images', imagesRoutes);
 App.use('/api', apiRoutes);
+App.use('/gp', gpRoutes);
+App.use('/images', imagesRoutes);
 App.use('/user', userRoutes);
 App.use('/message', messageRoutes);
+
 
 if (process.env.NODE_ENV === 'production') {
   // serve static content
   App.use(express.static(path.resolve(__dirname, '../client/build')));
+
   App.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
   });

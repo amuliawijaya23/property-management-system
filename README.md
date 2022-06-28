@@ -29,4 +29,4 @@ Real Estate CRM built with React.
 
 ### Tech Stack
 
-- React, MUI, Axios, Auth0, AWS SDK, SASS, tinymce, express-jwt, knex, PostgreSQL
+- React, React-Redux, React-Router, MUI, Axios, OpenAI, Auth0, AWS SDK, SASS, tinymce, express-jwt, knex, PostgreSQL, Node, Express

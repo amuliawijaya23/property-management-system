@@ -4,6 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 // state management
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+
+// reducers
 import { login } from "../state/reducers/userReducer";
 import { initialize } from "../state/reducers/app";
 import { setTableData } from "../state/reducers/tableReducer";
@@ -11,8 +13,6 @@ import { setTableData } from "../state/reducers/tableReducer";
 import axios from "axios";
 
 export default function useApplicationData() {
-  const app = useSelector((state) => state.app?.value);
-
   const { 
     isLoading, 
     isAuthenticated,
@@ -33,14 +33,15 @@ export default function useApplicationData() {
         email: user.email,
         email_verified: user.email_verified,
         sub: user.sub,
-        org_id: user.org_id
+        org_id: user.org_id,
+        isAuthenticated: isAuthenticated
       }));
       try {
         const token = await getAccessTokenSilently();
         
         const appData = await Promise.all([
-        axios.get(`api/listings/${user?.org_id}`),
-        axios.get(`user/organization/${user?.org_id}`,
+        axios.get(`/api/listings/${user?.org_id}`),
+        axios.get(`/user/organization/${user?.org_id}`,
             {headers: { Authorization: `Bearer ${token}` }})
         ]);
         const [listings, agents] = appData;
@@ -61,23 +62,6 @@ export default function useApplicationData() {
     };
   }, [isAuthenticated, user, getAccessTokenSilently, dispatch]);
 
-  const addListing = async(listing) => {
-    const formData = new FormData();
-    Object.keys(listing).forEach((key) => {
-      formData.append(key, listing[key]);
-    });
-
-    try {
-      const response = await axios.post('/api/listings', formData);
-      dispatch(initialize({
-        properties: response.data,
-        agents: app.agents
-      }));
-    } catch (error) {
-      console.error(error);
-    };
-  };
-
   return { 
     isLoading,
     error,
@@ -85,6 +69,5 @@ export default function useApplicationData() {
     getAccessTokenSilently,
     loginWithRedirect,
     logout,
-    addListing,
   };
 };

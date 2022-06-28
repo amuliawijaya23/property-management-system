@@ -1,29 +1,53 @@
+import { useEffect } from 'react';
 import axios from "axios";
 
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { setPropertyData } from "../state/reducers/propertyReducer";
+
+import { setPropertyData, setPropertyImages } from "../state/reducers/propertyReducer";
+import { updatePropertiesData  } from "../state/reducers/app";
+import { setTableData } from "../state/reducers/tableReducer";
+
+import { 
+  Routes, 
+  Route, 
+  useNavigate,
+  Link, 
+  useParams 
+} from 'react-router-dom';
 
 export default function usePropertyData() {
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
   const property = useSelector((state) => state.property.value);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getPropertyData = async(id) => {
+      try {
+        const [details, images, messages] = await Promise.all([
+          axios.get(`/api/listing/${id}`),
+          axios.get(`/images/listing/${id}`),
+          axios.get(`/message/${id}`)
+        ]);
   
-  const selectProperty = async(newProperty) => {
-    try {
-      const response = await Promise.all([
-        axios.get(`/images/listing/${newProperty.id}`),
-        axios.get(`/message/${newProperty.id}`)
-      ]);
-      const [images, messages] = response;
-      dispatch(setPropertyData({
-        details: newProperty,
-        images: images.data,
-        messages: messages.data
-      }));
-    } catch (error) {
-      console.error(error);
+        dispatch(setPropertyData({
+          details: details.data,
+          images: images.data,
+          messages: messages.data
+        }))
+  
+      } catch (error) {
+        console.error(error);
+      };
+    };
+
+    if (id) {
+      getPropertyData(parseInt(id));
     }
-  };
+  }, [id, dispatch]);
 
   const sendMessage  = async(message) => {
     try {
@@ -34,7 +58,7 @@ export default function usePropertyData() {
     }
   };
 
-  const uploadImages = (images) => {
+  const uploadImages = (images, id) => {
     images.images.map(async(image) => {
       const formData = new FormData();
       formData.append('image', image);
@@ -43,7 +67,7 @@ export default function usePropertyData() {
         formData.append(key, images[key]);
       });
       try {
-        const response = await axios.post('/images/listing', formData);
+        const response = await axios.post(`/images/listing/${id}`, formData);
         dispatch((setPropertyData({...property, images: response.data})));
       } catch (error) {
         console.error(error);
@@ -51,9 +75,39 @@ export default function usePropertyData() {
     });
   };
 
+  const getPropertyDescription = async(listing) => {
+    try {
+      const response = await axios.post('/gp/description', listing);
+      return response.data;
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const addProperty = async(listing) => {
+    const formData = new FormData();
+    formData.append('seller_id', user.sub);
+    formData.append('organization_id', user.org_id);
+
+    Object.keys(listing).forEach((key) => {
+      formData.append(key, listing[key]);
+    });
+
+    try {
+      const response = await axios.post('/api/listings', formData);
+      dispatch(updatePropertiesData(response.data));
+      dispatch(setTableData(response.data));
+      navigate(`/property/${response.data.length}`);
+    } catch (error) {
+      console.error(error);
+    };
+  };
+
   return {
-    selectProperty,
     sendMessage,
-    uploadImages
+    getPropertyDescription,
+    uploadImages,
+    addProperty
   };
 }

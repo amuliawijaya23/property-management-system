@@ -6,7 +6,16 @@ import Tab from '@mui/material/Tab';
 
 import { useSelector } from 'react-redux';
 
+import { 
+  Routes, 
+  Route, 
+  useNavigate, 
+  useParams 
+} from 'react-router-dom';
+
 export default function MediaCarousel() {
+  const app = useSelector((state) => state.app.value);
+  const id = parseInt(useParams().id);
   const property = useSelector((state) => state.property.value);
   
   const [value, setValue] = useState(0);
@@ -15,16 +24,13 @@ export default function MediaCarousel() {
     setValue(newValue);
   };
 
-  const currentImages = [{link: property.details.cover_image_url}];
+  const currentImages = [{link: property?.details?.cover_image_url}];
   const imagePanel = [...currentImages, ...property?.images].map((image, i) => (
     <ImagePanel
       key={`image-${i}`}
       value={value}
       index={i}
-      link={i === 0 ?
-        property.details.cover_image_url :
-        image.link
-      }
+      link={image.link}
     />
   ));
 
@@ -60,7 +66,7 @@ export default function MediaCarousel() {
             aria-controls={`full-width-tabpanel-${0}`}
             id={`full-width-tab-${0}`}
             label={(
-            <img src={property.details.cover_image_url} alt='thumbnail-gallery'/>
+            <img src={property?.details?.cover_image_url} alt='thumbnail-gallery'/>
             )}
           />
           {imageTabs}

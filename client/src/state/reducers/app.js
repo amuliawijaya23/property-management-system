@@ -12,9 +12,12 @@ export const appSlice =  createSlice({
     initialize: (state, action) => {
       state.value = action.payload;
     },
+    updatePropertiesData: (state, action) => {
+      state.value.properties = action.payload;
+    }
   },
 });
 
-export const { initialize } = appSlice.actions
+export const { initialize, updatePropertiesData } = appSlice.actions
 
 export default appSlice.reducer;

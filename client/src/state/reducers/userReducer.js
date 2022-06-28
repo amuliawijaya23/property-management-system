@@ -6,7 +6,8 @@ const initialState = {
   email: '',
   email_verified: false,
   sub: '',
-  org_id: ''
+  org_id: '',
+  isAuthenticated: false
 };
 
 export const userSlice =  createSlice({
