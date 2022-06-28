@@ -70,12 +70,9 @@ export default function Form(props) {
 
     await fields.forEach((field) => {
       if(state[field] === '' || state[field] === false || state[field] === null) {
+        console.log('State field', field);
         isValid = false;
         setError('Missing required Field');
-        return;
-      } else if (typeof state[field] === 'string' && state[field].length > 255) {
-        isValid = false;
-        setError(`${field} exceeds character limit`);
         return;
       } else if (typeof state[field] === 'number' && state[field] < 1) {
         isValid = false;
@@ -112,7 +109,7 @@ export default function Form(props) {
     />
   ));
 
-  const numberField = Object.keys(state).slice(6, 11).map((field) => (
+  const numberField = Object.keys(state).slice(6, 12).map((field) => (
     <TextField
       key={`form-${field}`}
       required={error && !state[field] ? true : false}
