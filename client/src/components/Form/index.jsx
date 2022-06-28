@@ -112,7 +112,7 @@ export default function Form(props) {
     />
   ));
 
-  const numberField = Object.keys(state).slice(5, 11).map((field) => (
+  const numberField = Object.keys(state).slice(6, 11).map((field) => (
     <TextField
       key={`form-${field}`}
       required={error && !state[field] ? true : false}
