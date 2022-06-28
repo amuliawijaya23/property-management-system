@@ -78,7 +78,9 @@ export default function usePropertyData() {
   const getPropertyDescription = async(listing) => {
     try {
       const response = await axios.post('/gp/description', listing);
+      
       return response.data;
+
 
     } catch (error) {
       console.error(error);

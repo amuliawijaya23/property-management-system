@@ -4,7 +4,7 @@ exports.up = function(knex) {
       table.increments('id').primary().notNullable();
       table.string('cover_image_url', 500).notNullable();
       table.string('title', 255).notNullable();
-      table.string('description', 500).notNullable();
+      table.string('description', 1000).notNullable();
       table.string('address', 255);
       table.string('property_type', 255).notNullable();
       table.string('service_type', 255).notNullable();
