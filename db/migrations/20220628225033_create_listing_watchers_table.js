@@ -1,18 +1,15 @@
 exports.up = async function(knex) {
   await knex.schema
-    .createTable('messages', (table) => {
-      table.increments('id').primary().notNullable();
-      table.string('message', 50000).notNullable();
+    .createTable('listing_watchers', (table) => {
+      table.string('user_id').notNullable();
       table.integer('listing_id').unsigned().references('id').inTable('listings').onDelete('cascade').notNullable();
-      table.string('organization_id').notNullable();
-      table.string('sender_id').notNullable();
       table.timestamps(false, true);
     });
 
   await knex.raw(`
     CREATE TRIGGER update_timestamp
     BEFORE UPDATE
-    ON ${'messages'}
+    ON ${'listing_watchers'}
     FOR EACH ROW
     EXECUTE PROCEDURE update_timestamp();
   `);
@@ -20,5 +17,5 @@ exports.up = async function(knex) {
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTable('messages');
+    .dropTable('listing_watchers');
 };

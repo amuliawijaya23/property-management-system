@@ -27,12 +27,14 @@ const gpRoutes = require('./routes/gpRoutes');
 const imagesRoutes = require('./routes/imagesRoutes');
 const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
+const sgRoutes = require('./routes/sgRoutes');
 
 App.use('/api', apiRoutes);
 App.use('/gp', gpRoutes);
 App.use('/images', imagesRoutes);
 App.use('/user', userRoutes);
 App.use('/message', messageRoutes);
+App.use('/sg', sgRoutes);
 
 
 if (process.env.NODE_ENV === 'production') {

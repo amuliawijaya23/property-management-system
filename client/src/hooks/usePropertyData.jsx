@@ -27,16 +27,18 @@ export default function usePropertyData() {
   useEffect(() => {
     const getPropertyData = async(id) => {
       try {
-        const [details, images, messages] = await Promise.all([
+        const [details, images, messages, watchers] = await Promise.all([
           axios.get(`/api/listing/${id}`),
           axios.get(`/images/listing/${id}`),
-          axios.get(`/message/${id}`)
+          axios.get(`/message/${id}`),
+          axios.get(`/api/watchers/${id}`)
         ]);
   
         dispatch(setPropertyData({
           details: details.data,
           images: images.data,
-          messages: messages.data
+          messages: messages.data,
+          watchers: watchers.data
         }))
   
       } catch (error) {

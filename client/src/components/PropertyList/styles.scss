@@ -14,8 +14,16 @@
 
   &__navigation {
     display: flex;
+    flex: 2;
     justify-content: flex-start;
+    padding: 0.5rem;
+  }
+
+  &__search {
+    display: flex;
     flex: 1;
+    flex-direction: row;
+    padding: 0.5rem;
   }
 
   &__edit {
@@ -86,6 +94,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+
+  &__add-watcher {
+    cursor: pointer;
+  }
 
   .list-item {
     width: 100%;

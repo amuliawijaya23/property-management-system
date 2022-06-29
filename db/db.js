@@ -68,6 +68,13 @@ const createMessage = (msg) => {
     .catch(e => console.log(e.message));
 };
 
+const getListingWatchers = (id) => {
+  return knex('listing_watchers')
+    .where({listing_id: id})
+    .then((res) => res)
+    .catch((error) => error);
+};
+
 module.exports = {
   getListings,
   getListing,
@@ -76,5 +83,6 @@ module.exports = {
   getListingImages,
   getListingMessages,
   uploadImageData,
-  createMessage
+  createMessage,
+  getListingWatchers
 };

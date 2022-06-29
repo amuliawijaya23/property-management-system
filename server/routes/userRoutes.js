@@ -5,6 +5,8 @@ const { expressjwt: jwt } = require('express-jwt');
 const jwks = require('jwks-rsa');
 const axios = require('axios');
 
+const { getListingWatchers } = require('../../db/db');
+
 const { getManagementApiJwt } = require('../helper');
 
 const jwtCheck = jwt({
@@ -21,21 +23,17 @@ const jwtCheck = jwt({
 
 router.use(jwtCheck);
 
-router.get('/organization/:id', jwtCheck,  (req, res) => {
+router.get('/organization/:id', jwtCheck,  async(req, res) => {
+  const token = await getManagementApiJwt();
+  const url = `${process.env.MANAGEMENT_API}/organizations/${req.params.id}/members`;
+  const headers = { Authorization: `Bearer ${token.access_token}` };
 
-  getManagementApiJwt()
-    .then(data => {
-      const token = data.access_token;
-  
-      axios.get(`${process.env.MANAGEMENT_API}/organizations/${req.params.id}/members`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-        .then((response) => res.send(response.data))
-        .catch((error) => console.log(error.message));
-    })
-    .catch((error) => console.error(error));
+  try {
+    const response = await axios.get(url, { headers: headers });
+    res.send(response.data);
+  } catch (error) {
+    error.response ? console.error(error.response.body) : console.error(error);
+  }
 });
 
 module.exports = router;

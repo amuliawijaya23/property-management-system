@@ -6,7 +6,8 @@ export const propertySlice =  createSlice({
     value: {
       details: {},
       images: [],
-      messages: []
+      messages: [],
+      watchers: []
     },
   },
   reducers: {
@@ -15,6 +16,9 @@ export const propertySlice =  createSlice({
     },
     setPropertyImages: (state, action) => {
       state.value.images = action.payload;
+    },
+    setPropertyWatchers: (state, action) => {
+      state.value.watchers = action.payload;
     },
     updateDetails: (state, action) => {
       const newState = {...state.value};
@@ -29,7 +33,8 @@ export const {
   setPropertyImages,
   updateMediaGallery, 
   updateMessages, 
-  updateDetails 
+  updateDetails ,
+  setPropertyWatchers
 } = propertySlice.actions
 
 export default propertySlice.reducer;

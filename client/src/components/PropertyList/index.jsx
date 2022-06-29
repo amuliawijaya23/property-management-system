@@ -8,6 +8,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
 
 import Form from '../Form';
 import ListMenu from './ListMenu';
@@ -26,6 +29,7 @@ export default function PropertyList() {
   const app = useSelector((state) => state.app.value);
   const table = useSelector((state) => state.table.value);
   const [selected, setSelected] = useState([]);
+  const [search, setSearch] = useState('');
 
   const { updateData } = useTableData();
 
@@ -43,6 +47,25 @@ export default function PropertyList() {
           <Button variant='text' onClick={() => navigate('/properties')}>List</Button>
           <Button variant='text' onClick={() => navigate('/properties/table')}>Table</Button>
           <Button variant='text' onClick={() => navigate('/properties/new')}>New</Button>
+        </div>
+        <div className="listing-browser__search">
+          <TextField
+            className='search-bar'
+            size='small'
+            variant='outlined'
+            placeholder='Search...'
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            sx={{ml: '0.25rem', mr: '0.25rem'}}
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchIcon/>
+                </InputAdornment>
+              )
+          }}/>
+          <Button variant='contained'>Search</Button>
         </div>
         {selected.length > 0 && (
         <div className='listing-browser__edit'>
@@ -83,9 +106,9 @@ export default function PropertyList() {
         )}        
       </div>
       <Routes>
-        <Route path={'/'} element={<ListMenu />} />
         <Route path='/new' element={<Form />} />
         <Route path={'/table'} element={<ListTable selectRow={setSelected} />} />
+        <Route path={'/*'} element={<ListMenu />} />
       </Routes>
     </Box>
   );

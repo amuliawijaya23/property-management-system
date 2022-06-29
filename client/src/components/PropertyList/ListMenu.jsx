@@ -34,18 +34,6 @@ export default function ListMenu() {
 
   const navigate = useNavigate();
 
-
-  
-  const listItems = app.properties?.map((property, i) => (
-    <ListPanel
-
-      index={i}
-      value={value}
-      property={property}
-      id={id}
-    />
-  ));
-
   const listSelections = app.properties?.map((property, i) => {
     const agent = app?.agents.find((user) => user?.user_id === property?.seller_id);
     
@@ -54,7 +42,11 @@ export default function ListMenu() {
           <ListItem 
             className='property-list-item'
             alignItems="flex-start"
-            onClick={() => {setValue(i)}}
+            onClick={() => navigate(`/property/${property.id}`)}
+            onMouseEnter={() => {
+              navigate(`/properties/${property.id}`)
+              setValue(i)
+            }}
             key={`list-menu-${i}`}
             id={`list-menu-${i}`}
             aria-controls={`list-item-${i}`}
@@ -64,7 +56,7 @@ export default function ListMenu() {
             </ListItemAvatar>
             <div>
             <ListItemText
-              primary={<Link to={`/property/${property.id}`} >{`LIST-${property.id}`}</Link>}
+              primary={<Link to={`/property/${property.id}`}>{`LIST-${property.id}`}</Link>}
             />
               <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
                 {property.title}
@@ -83,10 +75,12 @@ export default function ListMenu() {
         </List>
       </div>
       <div className="list-menu__info">
-        {value === false && (
+        {value === 0 && (
           <></>
         )}
-        {listItems}
+        <Routes>
+          <Route path='/:id' element={<ListPanel />}/>
+        </Routes>
       </div>
     </div>
   )

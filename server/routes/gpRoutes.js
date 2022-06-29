@@ -38,6 +38,23 @@ router.post('/description', async(req, res) => {
   res.json((response.data.choices[0].text).trim());
 });
 
+router.post('/email', async(req, res) => {
+  const service = req.body.service;
+  
+  const setPrompt = `Write me a professional and smart cold email for real estate ${service}`;
+  
+  
+  const response = await openai.createCompletion({
+    model: 'text-davinci-002',
+    prompt: setPrompt,
+    temperature: 0.8,
+    max_tokens: 500,
+    top_p: 1,
+  });
+  
+  res.json((response.data.choices[0].text));
+});
+
 
 
 module.exports = router;

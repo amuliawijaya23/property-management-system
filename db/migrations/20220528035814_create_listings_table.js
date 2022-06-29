@@ -1,5 +1,5 @@
-exports.up = function(knex) {
-  return knex.schema
+exports.up = async function(knex) {
+  await knex.schema
     .createTable('listings', (table) => {
       table.increments('id').primary().notNullable();
       table.string('cover_image_url', 500).notNullable();
@@ -17,8 +17,16 @@ exports.up = function(knex) {
       table.string('status', 255).notNullable().defaultTo('Open');
       table.string('organization_id').notNullable();
       table.string('seller_id').notNullable();
-      table.timestamps(true, true);
+      table.timestamps(false, true);
     });
+
+  await knex.raw(`
+    CREATE TRIGGER update_timestamp
+    BEFORE UPDATE
+    ON ${'listings'}
+    FOR EACH ROW
+    EXECUTE PROCEDURE update_timestamp();
+  `);
 };
 
 exports.down = function(knex) {

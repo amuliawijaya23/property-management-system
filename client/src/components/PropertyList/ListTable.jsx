@@ -59,23 +59,12 @@ export default function ListTable(props) {
         pageSize={10}
         rowsPerPageOptions={[10]}
         checkboxSelection
-        disableSelectionOnClick
         components={{Toolbar: GridToolbar}}
         loading={table.properties.length < 1}
         rowHover={false}
-        onRowClick={(params, event) => {
-          event.defaultMuiPrevented = true;
+        onRowDoubleClick={(params, event) => {
+          // event.defaultMuiPrevented = true;
           // console.log(params);
-        }}
-        onCellClick={(params, event) => {
-          event.defaultMuiPrevented = true;
-          // console.log(params);
-        }}
-        onCellDoubleClick={(params, event) => {
-          event.defaultMuiPrevented = true;
-          if (!event.ctrlKey) {
-            // console.log(params);
-          }
         }}
       />
       <Button variant='outlined' fullWidth>

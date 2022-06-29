@@ -1,0 +1,10 @@
+.communications-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .communications-actions__generate {
+    display: flex;
+    flex-direction: row;
+  }
+}
