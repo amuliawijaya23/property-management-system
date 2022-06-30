@@ -1,6 +1,6 @@
 import '../Form/styles.scss';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import Box from '@mui/material/Box';
@@ -25,10 +25,6 @@ export default function MediaGallery(props) {
 	const property = useSelector((state) => state.property.value);
 	const { uploadImages } = usePropertyData();
 	const [media, setMedia] = useState([]);
-
-	const id = parseInt(useParams().id);
-
-	let navigate = useNavigate();
 
 	const onDrop = useCallback((acceptedFiles) => {
 		if (

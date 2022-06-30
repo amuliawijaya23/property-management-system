@@ -8,22 +8,25 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Editor } from '@tinymce/tinymce-react';
 
+import { useSelector } from 'react-redux';
+
 import useCommunicationsData from '../../hooks/useCommunicationData';
-import axios from 'axios';
 
 const initialState = {
-	recepient: '',
-	sender: '',
+	to: '',
+	cc: '',
+	bcc: '',
 	subject: ''
 };
 
 export default function Communication(props) {
-	const { getColdEmail } = useCommunicationsData();
+	const user = useSelector((state) => state.user.value);
+
+	const { generateColdEmail, sendColdEmail } = useCommunicationsData();
 
 	const [state, setState] = useState(initialState);
 
@@ -32,20 +35,21 @@ export default function Communication(props) {
 	const editorRef = useRef(null);
 
 	const clickHandler = async () => {
-		if (editorRef.current) {
+		if (editorRef.current && state.to && state.subject) {
 			const message = editorRef.current.getContent();
-			const email = {
-				recepient: state.recepient,
-				sender: state.sender,
-				subject: state.subject,
+			let email = {
+				from: user.email,
 				text: message,
 				html: message
 			};
-			await setState(initialState);
-			await editorRef.current.setContent('');
+			Object.keys(state).forEach((key) => {
+				if (state[key]) email[key] = state[key];
+			});
 
 			try {
-				await axios.post('/sg/send', email);
+				await setState(initialState);
+				await editorRef.current.setContent('');
+				await sendColdEmail(email);
 			} catch (error) {
 				console.error(error);
 			}
@@ -54,7 +58,7 @@ export default function Communication(props) {
 
 	const generateHandler = async (service) => {
 		try {
-			const email = await getColdEmail(service);
+			const email = await generateColdEmail(service);
 			editorRef.current.setContent(`${email}`);
 		} catch (error) {
 			console.error(error);
@@ -70,45 +74,33 @@ export default function Communication(props) {
 			<Stack spacing={3}>
 				<FormControl variant='standard' fullWidth>
 					<Input
-						value={state.sender}
-						onChange={(event) =>
-							setState({ ...state, sender: event.target.value })
-						}
+						value={state.to}
+						onChange={(event) => setState({ ...state, to: event.target.value })}
 						id='email-recepienct'
 						startAdornment={
-							<InputAdornment position='start'>from:</InputAdornment>
+							<InputAdornment position='start'>To:</InputAdornment>
 						}
 					/>
 				</FormControl>
 				<FormControl variant='standard' fullWidth>
 					<Input
-						value={state.recepient}
-						onChange={(event) =>
-							setState({ ...state, recepient: event.target.value })
-						}
-						id='email-recepienct'
-						startAdornment={
-							<InputAdornment position='start'>to:</InputAdornment>
-						}
-					/>
-				</FormControl>
-				<FormControl variant='standard' fullWidth>
-					<Input
+						value={state.cc}
 						onChange={(event) => setState({ ...state, cc: event.target.value })}
 						id='email-recepienct'
 						startAdornment={
-							<InputAdornment position='start'>cc:</InputAdornment>
+							<InputAdornment position='start'>Cc:</InputAdornment>
 						}
 					/>
 				</FormControl>
 				<FormControl variant='standard' fullWidth>
 					<Input
+						value={state.bcc}
 						onChange={(event) =>
 							setState({ ...state, bcc: event.target.value })
 						}
 						id='email-recepienct'
 						startAdornment={
-							<InputAdornment position='start'>bcc:</InputAdornment>
+							<InputAdornment position='start'>Bcc:</InputAdornment>
 						}
 					/>
 				</FormControl>
@@ -120,7 +112,7 @@ export default function Communication(props) {
 							setState({ ...state, subject: event.target.value })
 						}
 						startAdornment={
-							<InputAdornment position='start'>subject:</InputAdornment>
+							<InputAdornment position='start'>Subject:</InputAdornment>
 						}
 					/>
 				</FormControl>

@@ -9,15 +9,8 @@ sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 
 router.post('/send', async(req, res) => {
-  const mail = {
-    to: req.body.recepient,
-    from: req.body.sender,
-    subject: req.body.subject,
-    text: req.body.text,
-    html: req.body.html,
-  };
   try {
-    await sgMail.send(mail);
+    await sgMail.send({...req.body});
     res.sendStatus(200);
   } catch (error) {
     console.error(error);
