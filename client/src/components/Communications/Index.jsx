@@ -23,7 +23,7 @@ const initialState = {
 	subject: ''
 };
 
-export default function Communication(props) {
+export default function Communications(props) {
 	const user = useSelector((state) => state.user.value);
 
 	const { generateColdEmail, sendColdEmail } = useCommunicationsData();
@@ -73,47 +73,25 @@ export default function Communication(props) {
 		<Box sx={{ width: '80%', alignSelf: 'center', marginTop: '2rem' }}>
 			<Stack spacing={3}>
 				<FormControl variant='standard' fullWidth>
-					<Input
-						value={state.to}
-						onChange={(event) => setState({ ...state, to: event.target.value })}
-						id='email-recepienct'
-						startAdornment={
-							<InputAdornment position='start'>To:</InputAdornment>
-						}
-					/>
+					<Input value={state.to} onChange={(event) => setState({ ...state, to: event.target.value })} id='email-recepienct' startAdornment={<InputAdornment position='start'>To:</InputAdornment>} />
 				</FormControl>
 				<FormControl variant='standard' fullWidth>
-					<Input
-						value={state.cc}
-						onChange={(event) => setState({ ...state, cc: event.target.value })}
-						id='email-recepienct'
-						startAdornment={
-							<InputAdornment position='start'>Cc:</InputAdornment>
-						}
-					/>
+					<Input value={state.cc} onChange={(event) => setState({ ...state, cc: event.target.value })} id='email-recepienct' startAdornment={<InputAdornment position='start'>Cc:</InputAdornment>} />
 				</FormControl>
 				<FormControl variant='standard' fullWidth>
 					<Input
 						value={state.bcc}
-						onChange={(event) =>
-							setState({ ...state, bcc: event.target.value })
-						}
+						onChange={(event) => setState({ ...state, bcc: event.target.value })}
 						id='email-recepienct'
-						startAdornment={
-							<InputAdornment position='start'>Bcc:</InputAdornment>
-						}
+						startAdornment={<InputAdornment position='start'>Bcc:</InputAdornment>}
 					/>
 				</FormControl>
 				<FormControl variant='standard' fullWidth>
 					<Input
 						value={state.subject}
 						id='email-recepienct'
-						onChange={(event) =>
-							setState({ ...state, subject: event.target.value })
-						}
-						startAdornment={
-							<InputAdornment position='start'>Subject:</InputAdornment>
-						}
+						onChange={(event) => setState({ ...state, subject: event.target.value })}
+						startAdornment={<InputAdornment position='start'>Subject:</InputAdornment>}
 					/>
 				</FormControl>
 				<Editor
@@ -147,43 +125,25 @@ export default function Communication(props) {
 							'emoticons',
 							'mentions'
 						],
-						toolbar:
-							'code | blocks | bold italic forecolor | ' +
-							'alignleft aligncenter ' +
-							'alignright alignjustify | bullist numlist outdent indent | ' +
-							'link table | ' +
-							'emoticons ',
-						table_toolbar:
-							'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
-						content_style:
-							'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+						toolbar: 'code | blocks | bold italic forecolor | ' + 'alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'link table | ' + 'emoticons ',
+						table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
+						content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 					}}
 				/>
 				<div className='communications-actions'>
 					<div className='communications-actions__generate'>
 						<FormControl>
 							<InputLabel id='demo-simple-select-label'>Service</InputLabel>
-							<Select
-								labelId='demo-simple-select-label'
-								id='demo-simple-select'
-								value={service}
-								label='Service'
-								onChange={handleChange}>
+							<Select labelId='demo-simple-select-label' id='demo-simple-select' value={service} label='Service' onChange={handleChange}>
 								<MenuItem value={'Buyer'}>Buyer</MenuItem>
 								<MenuItem value={'Seller'}>Seller</MenuItem>
 							</Select>
 						</FormControl>
-						<Button
-							sx={{ ml: 1 }}
-							onClick={() => generateHandler(service)}
-							variant='contained'>
+						<Button sx={{ ml: 1 }} onClick={() => generateHandler(service)} variant='contained'>
 							Generate Email
 						</Button>
 					</div>
-					<Button
-						variant='contained'
-						endIcon={<SendIcon />}
-						onClick={clickHandler}>
+					<Button variant='contained' endIcon={<SendIcon />} onClick={clickHandler}>
 						Send
 					</Button>
 				</div>

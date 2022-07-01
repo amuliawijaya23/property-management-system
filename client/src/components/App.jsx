@@ -8,7 +8,7 @@ import Dashboard from './Dashboard';
 import Properties from './Properties';
 import Property from './Property';
 import Tasks from './Tasks';
-import Communication from './Communications';
+import Communications from './Communications';
 import Contacts from './Contacts';
 
 import useApplicationData from '../hooks/useApplicationData';
@@ -28,7 +28,7 @@ export default function App() {
 					<Routes>
 						<Route path='/' element={<Dashboard />} />
 						<Route path='/properties/*' element={<Properties />} />
-						<Route path='communications' element={<Communication />} />
+						<Route path='communications' element={<Communications />} />
 						<Route path='/tasks/*' element={<Tasks />} />
 						<Route path='/property/*' element={<Property />} />
 						<Route path='/contacts/*' element={<Contacts />} />
