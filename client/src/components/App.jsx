@@ -2,12 +2,14 @@ import './styles.scss';
 
 import CssBaseline from '@mui/material/CssBaseline';
 
-import Header from './Header';
+import Navigation from './Navigation';
 import Loading from './Loading';
 import Dashboard from './Dashboard';
-import PropertyList from './PropertyList';
+import Properties from './Properties';
 import Property from './Property';
-import Communication from './Communications/Index';
+import Tasks from './Tasks';
+import Communication from './Communications';
+import Contacts from './Contacts';
 
 import useApplicationData from '../hooks/useApplicationData';
 
@@ -20,14 +22,16 @@ export default function App() {
 		<Router>
 			<div className='App'>
 				<CssBaseline />
-				<Header loginWithRedirect={loginWithRedirect} logout={logout} />
+				<Navigation loginWithRedirect={loginWithRedirect} logout={logout} />
 				{isLoading && <Loading />}
 				{!isLoading && (
 					<Routes>
 						<Route path='/' element={<Dashboard />} />
-						<Route path='/properties/*' element={<PropertyList />} />
+						<Route path='/properties/*' element={<Properties />} />
 						<Route path='communications' element={<Communication />} />
+						<Route path='/tasks/*' element={<Tasks />} />
 						<Route path='/property/*' element={<Property />} />
+						<Route path='/contacts/*' element={<Contacts />} />
 					</Routes>
 				)}
 			</div>

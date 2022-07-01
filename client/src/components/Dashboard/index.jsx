@@ -12,7 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import UserDrawer from './UserDrawer';
-import PropertyList from '../PropertyList';
 
 import Property from '../Property';
 

@@ -28,8 +28,12 @@ const imagesRoutes = require('./routes/imagesRoutes');
 const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const sgRoutes = require('./routes/sgRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 App.use('/api', apiRoutes);
+App.use('/api', contactRoutes);
+App.use('/api', taskRoutes);
 App.use('/gp', gpRoutes);
 App.use('/images', imagesRoutes);
 App.use('/user', userRoutes);

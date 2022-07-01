@@ -186,7 +186,7 @@ export default function Form(props) {
 						size='small'
 						margin='normal'>
 						<MenuItem key={'Buying'} value={'Buying'}>
-							Buying
+							Renting
 						</MenuItem>
 						<MenuItem key={'Selling'} value={'Selling'}>
 							Selling

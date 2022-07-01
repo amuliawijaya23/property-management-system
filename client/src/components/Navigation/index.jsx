@@ -4,7 +4,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import DrawerList from './DrawerList';
 import NavAppBar from './NavAppBar';
 
-export default function Header(props) {
+export default function Navigation(props) {
 	const [anchorEl, setAnchorEl] = useState(false);
 
 	const toggleDrawer = (anchor) => (event) => {

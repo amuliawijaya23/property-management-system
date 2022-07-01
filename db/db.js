@@ -10,6 +10,20 @@ const getListings = (org) => {
     .catch(e => console.log(e.message));
 };
 
+const getContacts = (org) => {
+  return knex('contacts')
+    .where({organization_id: org})
+    .then((res) => res)
+    .catch(e => console.log(e.message));
+};
+
+const getTasks = (org) => {
+  return knex('tasks')
+    .where({organization_id: org})
+    .then((res) => res)
+    .catch(e => console.log(e.message));
+};
+
 // GET LISTING DATA
 
 const getListing = (id) => {
@@ -75,6 +89,30 @@ const getListingWatchers = (id) => {
     .catch((error) => error);
 };
 
+const updateListing = (data) => {
+  return knex('listings')
+    .where({ id: data.id})
+    .update({...data})
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
+const updateContacts = (data) => {
+  return knex('contacts')
+    .where({ id: data.id })
+    .update({...data})
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
+const updateTasks = (data) => {
+  return knex('tasks')
+    .where({ id: data.id })
+    .update({...data})
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
 module.exports = {
   getListings,
   getListing,
@@ -84,5 +122,10 @@ module.exports = {
   getListingMessages,
   uploadImageData,
   createMessage,
-  getListingWatchers
+  getListingWatchers,
+  updateListing,
+  getContacts,
+  getTasks,
+  updateContacts,
+  updateTasks
 };
