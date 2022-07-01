@@ -23,7 +23,7 @@ const initialState = {
 	subject: ''
 };
 
-export default function Communications(props) {
+export default function Outreach(props) {
 	const user = useSelector((state) => state.user.value);
 
 	const { generateColdEmail, sendColdEmail } = useCommunicationsData();
