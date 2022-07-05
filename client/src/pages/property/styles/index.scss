@@ -1,0 +1,55 @@
+.property-item {
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+
+	&__image {
+		height: 30rem;
+		border-top: solid 1px;
+
+		@media only screen and (max-width: 1365px) {
+			height: 15rem;
+		}
+	}
+
+	&__gallery {
+		width: 100%;
+		border-top: solid 1px;
+	}
+
+	&__media {
+		width: 8.5rem;
+		img {
+			border: solid 1px;
+			width: 8rem;
+			height: 5rem;
+		}
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		border-top: solid 1px;
+		align-items: center;
+		margin-bottom: 0.5rem;
+	}
+
+	&__details {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+
+		&-section {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			font-size: 2rem;
+			width: 100%;
+		}
+	}
+}

@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './reducers/userReducer';
 import propertyReducer from './reducers/propertyReducer';
 import tableReducer from './reducers/tableReducer';
+import formReducer from './reducers/formReducer';
 import app from './reducers/app';
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     user: userReducer,
     app: app,
     property: propertyReducer,
-    table: tableReducer
+    table: tableReducer,
+    form: formReducer
   },
 });
