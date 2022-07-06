@@ -1,11 +1,14 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import axios from 'axios';
 
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
+
+import Button from '@mui/material/Button';
 
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,8 +19,12 @@ import MediaCarousel from './MediaCarousel';
 import Collapsable from './Collapsable';
 import Status from './Status';
 import MessageBox from './MessageBox';
+import PropertyFiles from './PropertyFiles';
 
 import { useSelector } from 'react-redux';
+
+import useVisualMode from '../../../hooks/useVisualMode';
+import { COMMENTS, FILES, TASKS } from '../../../helpers/modes';
 
 const ExpandMore = styled((props) => {
 	const { expand, ...other } = props;
@@ -38,7 +45,10 @@ const cardContentSx = {
 };
 
 export default function PropertyDetail() {
+	const { mode, transition } = useVisualMode(COMMENTS);
 	const property = useSelector((state) => state.property.value);
+
+	const [download, setDownload] = useState('');
 
 	const [expanded, setExpanded] = useState(false);
 	const [uploadImage, setUploadImage] = useState(false);
@@ -55,6 +65,10 @@ export default function PropertyDetail() {
 		setUploadImage(true);
 	};
 
+	const onDownload = (link) => {
+		axios.get(`/files/${link}`).then((res) => setDownload(res.data));
+	};
+
 	return (
 		<Box className='property-item'>
 			<Card sx={{ width: '95%', border: 'solid 1px' }}>
@@ -69,12 +83,15 @@ export default function PropertyDetail() {
 				</div>
 				<Collapsable expanded={expanded} />
 				<Status />
+				<CardActions sx={{ mt: 5, borderBottom: 'solid 1px' }}>
+					<Button onClick={() => transition(COMMENTS)}>Comments</Button>
+					<Button onClick={() => transition(FILES)}>Files</Button>
+					<Button>Tasks</Button>
+				</CardActions>
 				<CardContent sx={cardContentSx}>
-					<Typography width={'100%'} variant='h5' component='div' paddingBottom={2} borderBottom={'solid 1px'}>
-						Comments&nbsp;
-						{property?.messages?.length > 0 && `(${property?.messages.length})`}
-					</Typography>
-					<MessageBox />
+					{mode === COMMENTS && <MessageBox />}
+					{mode === FILES && <PropertyFiles />}
+					{mode === TASKS && <></>}
 				</CardContent>
 			</Card>
 		</Box>

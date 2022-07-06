@@ -11,18 +11,20 @@ import Button from '@mui/material/Button';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import usePropertyData from '../hooks/usePropertyData';
 import ImageIcon from '@mui/icons-material/Image';
 import ClearIcon from '@mui/icons-material/Clear';
+import Typography from '@mui/material/Typography';
 
 import { useSelector } from 'react-redux';
-import { Typography } from '@mui/material';
+
+import useImageForm from '../hooks/useImageForm';
 
 export default function ImageForm(props) {
-	const { onClose, selectedValue, open } = props;
+	const { onClose, open } = props;
+
+	const { uploadImages } = useImageForm();
 
 	const property = useSelector((state) => state.property.value);
-	const { uploadImages } = usePropertyData();
 	const [media, setMedia] = useState([]);
 
 	const onDrop = useCallback((acceptedFiles) => {
@@ -39,8 +41,23 @@ export default function ImageForm(props) {
 		setMedia(newMedia);
 	};
 
+	const onCancel = () => {
+		setMedia([]);
+		onClose();
+	};
+
+	const saveImages = () => {
+		const images = {
+			images: media,
+			organization_id: property?.details?.organization_id,
+			seller_id: property?.details?.seller_id
+		};
+		uploadImages(images, property?.details?.id);
+		onCancel();
+	};
+
 	return (
-		<Dialog onClose={props.onClose} open={open} className='image-form'>
+		<Dialog onClose={onCancel} open={open} className='image-form'>
 			<List sx={{ pt: 0 }} className='image-form__list'>
 				{media.map((image, i) => (
 					<ListItem button key={`image-${i}`}>
@@ -64,10 +81,12 @@ export default function ImageForm(props) {
 				)}
 				{media?.length >= 1 && (
 					<div className='image-form__submit-confirm'>
-						<Button variant='contained' sx={{ mr: 1 }}>
+						<Button variant='contained' sx={{ mr: 1 }} onClick={saveImages}>
 							Upload
 						</Button>
-						<Button variant='contained'>Cancel</Button>
+						<Button variant='contained' onClick={onCancel}>
+							Cancel
+						</Button>
 					</div>
 				)}
 			</div>

@@ -30,6 +30,7 @@ const messageRoutes = require('./routes/messageRoutes');
 const sgRoutes = require('./routes/sgRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const fileRoutes = require('./routes/fileRoutes');
 
 App.use('/api', apiRoutes);
 App.use('/api', contactRoutes);
@@ -39,6 +40,7 @@ App.use('/images', imagesRoutes);
 App.use('/user', userRoutes);
 App.use('/message', messageRoutes);
 App.use('/sg', sgRoutes);
+App.use('/files', fileRoutes);
 
 
 if (process.env.NODE_ENV === 'production') {

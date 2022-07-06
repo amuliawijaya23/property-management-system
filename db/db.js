@@ -67,6 +67,14 @@ const getListingMessages = (id) => {
     .catch(e => console.log(e.message));
 };
 
+const getListingFiles = (id) => {
+  return knex('files')
+    .where({listing_id: id})
+    .orderBy('created_at', 'desc')
+    .then((res) => res)
+    .catch(e => console.log(e.message));
+};
+
 // POST NEW ASSETS, FILES, MESSAGES
 
 const uploadImageData = (img) => {
@@ -80,6 +88,12 @@ const createMessage = (msg) => {
     .insert({...msg})
     .then(() => msg)
     .catch(e => console.log(e.message));
+};
+
+const uploadFileData = (file) => {
+  return knex('files')
+    .insert({ ...file })
+    .then(() => file);
 };
 
 const getListingWatchers = (id) => {
@@ -127,5 +141,7 @@ module.exports = {
   getContacts,
   getTasks,
   updateContacts,
-  updateTasks
+  updateTasks,
+  uploadFileData,
+  getListingFiles
 };

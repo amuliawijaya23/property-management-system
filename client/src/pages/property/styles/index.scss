@@ -4,6 +4,25 @@
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 
+	&__submit {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin-top: 2rem;
+	}
+
+	&__dropzone {
+		cursor: pointer;
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		border: dotted 1px;
+		padding: 2rem;
+		margin-top: 0.5rem;
+	}
+
 	&__image {
 		height: 30rem;
 		border-top: solid 1px;

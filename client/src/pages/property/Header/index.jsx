@@ -55,9 +55,6 @@ export default function PropertyHeader() {
 				</AvatarGroup>
 			</div>
 			<div className='property-item__actions-section'>
-				<Button onClick={() => navigate(`/property/media/${property?.details.id}`)} variant='text' size='large'>
-					Media
-				</Button>
 				<Button variant='text' size='large'>
 					Tasks
 				</Button>

@@ -2,6 +2,7 @@ require('dotenv').config();
 const S3 = require('aws-sdk/clients/s3');
 const crypto = require('crypto');
 const { promisify } = require('util');
+const Blob = require('buffer');
 
 const randomBytes = promisify(crypto.randomBytes);
 
@@ -33,6 +34,22 @@ const uploadFile = async(file) => {
   return s3.upload(uploadParams).promise();
 };
 
+const uploadDoc = async(file) => {
+  const rawBytes = await randomBytes(16);
+  const docName = `${rawBytes.toString('hex')}-${file.originalname}`;
+
+  const { buffer, mimetype } = file;
+
+  const uploadParams = {
+    Bucket: bucketName,
+    Body: buffer,
+    Key: docName,
+    ContentType: mimetype
+  };
+
+  return s3.upload(uploadParams).promise();
+};
+
 // download a file from s3
 const getFile = (fileKey) => {
 
@@ -44,4 +61,13 @@ const getFile = (fileKey) => {
   return s3.getObject(downloadParams).createReadStream();
 };
 
-module.exports = { uploadFile, getFile };
+const getDoc = (fileKey) => {
+  const params = {
+    Key: fileKey,
+    Bucket: bucketName
+  };
+
+  return s3.getSignedUrl('getObject', params);
+};
+
+module.exports = { uploadFile, uploadDoc, getFile, getDoc };
