@@ -65,10 +65,6 @@ export default function PropertyDetail() {
 		setUploadImage(true);
 	};
 
-	const onDownload = (link) => {
-		axios.get(`/files/${link}`).then((res) => setDownload(res.data));
-	};
-
 	return (
 		<Box className='property-item'>
 			<Card sx={{ width: '95%', border: 'solid 1px' }}>

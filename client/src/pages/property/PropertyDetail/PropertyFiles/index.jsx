@@ -12,13 +12,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import Confirm from '../Confirm';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setPropertyFiles } from '../../../../state/reducers/propertyReducer';
 
 export default function PropertyFiles() {
 	const property = useSelector((state) => state.property.value);
+	const [download, setDownload] = useState('');
 	const [files, setFiles] = useState([]);
+	const [open, setOpen] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -40,25 +43,24 @@ export default function PropertyFiles() {
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+	const handleClose = () => {
+		setOpen(false);
+		setTimeout(() => {
+			setDownload('');
+		}, 500);
+	};
+
+	const onDownload = (link) => {
+		axios.get(`/files/${link}`).then((res) => {
+			setDownload(res.data);
+			setOpen(true);
+		});
+	};
+
 	const removeFile = (selected) => {
 		const currentFiles = [...files];
 		const newFiles = currentFiles.filter((file) => file.name !== selected.name);
 		setFiles(newFiles);
-	};
-
-	const onUpload = async (link) => {
-		files.map(async (file) => {
-			const formData = await new FormData();
-			formData.append('file', file);
-			formData.append('organization_id', property.details?.organization_id);
-			formData.append('agent_id', property.details?.seller_id);
-
-			try {
-				const response = await axios.post(`/files/listing/${property.details?.id}`, formData);
-			} catch (error) {
-				console.error(error);
-			}
-		});
 	};
 
 	return (
@@ -77,7 +79,7 @@ export default function PropertyFiles() {
 							<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
 							<ListItemText primary={file.id} />
 							<Button variant='contained' sx={{ mr: 1 }}>
-								<DownloadIcon />
+								<DownloadIcon onClick={() => onDownload(file.id)} />
 							</Button>
 							<Button variant='contained'>
 								<DeleteIcon />
@@ -86,6 +88,7 @@ export default function PropertyFiles() {
 					);
 				})}
 			</List>
+			<Confirm open={open} onClose={handleClose} download={download} />
 		</Box>
 	);
 }
