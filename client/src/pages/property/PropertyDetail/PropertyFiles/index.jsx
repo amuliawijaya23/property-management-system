@@ -51,8 +51,8 @@ export default function PropertyFiles() {
 	};
 
 	const onDownload = (link) => {
-		axios.get(`/files/${link}`).then((res) => {
-			setDownload(res.data);
+		axios.get(`/files/${link}`).then(async (res) => {
+			await setDownload(res.data);
 			setOpen(true);
 		});
 	};

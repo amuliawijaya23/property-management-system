@@ -7,6 +7,7 @@ export const propertySlice =  createSlice({
       details: {},
       images: [],
       files: [],
+      tasks: [],
       messages: [],
       watchers: []
     },
@@ -24,6 +25,9 @@ export const propertySlice =  createSlice({
     setPropertyWatchers: (state, action) => {
       state.value.watchers = action.payload;
     },
+    setPropertyTasks: (state, action) => {
+      state.value.tasks= action.payload;
+    },
     updateDetails: (state, action) => {
       const newState = {...state.value};
       newState.details = action.payload;
@@ -39,7 +43,8 @@ export const {
   updateMessages, 
   updateDetails ,
   setPropertyWatchers,
-  setPropertyFiles
+  setPropertyFiles,
+  setPropertyTasks
 } = propertySlice.actions
 
 export default propertySlice.reducer;

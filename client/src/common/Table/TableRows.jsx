@@ -3,6 +3,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Checkbox from '@mui/material/Checkbox';
 import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
 
 import { getComparator, stableSort } from '../../helpers/sortTable';
 import { Link } from 'react-router-dom';
@@ -40,6 +41,30 @@ export default function TableRows(props) {
 		?.map((row, index) => {
 			const isItemSelected = isSelected(row.id);
 			const labelId = `enhanced-table-checkbox-${index}`;
+			const color = (() => {
+				switch (row.status) {
+					case 'Open':
+						return 'primary';
+
+					case 'Active':
+						return 'primary';
+
+					case 'Blocked':
+						return 'error';
+
+					case 'Overdue':
+						return 'warning';
+
+					case 'Closed':
+						return 'success';
+
+					case 'Canceled':
+						return 'default';
+
+					default:
+						return;
+				}
+			})();
 
 			switch (table.type) {
 				case 'properties':
@@ -62,7 +87,9 @@ export default function TableRows(props) {
 							<TableCell align='left'>{row.title}</TableCell>
 							<TableCell align='left'>{row.address.length < 40 ? row.address : `${row.address.substring(0, 45)}...`}</TableCell>
 							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
-							<TableCell align='left'>{row.status}</TableCell>
+							<TableCell align='left'>
+								<Chip label={row.status} color={color} />
+							</TableCell>
 						</TableRow>
 					);
 
@@ -103,7 +130,9 @@ export default function TableRows(props) {
 							<TableCell align='left'>{row.summary.length < 40 ? row.summary : `${row.address.substring(0, 40)}...`}</TableCell>
 							<TableCell align='left'>{row.category}</TableCell>
 							<TableCell align='left'>{row.due_date}</TableCell>
-							<TableCell align='left'>{row.status}</TableCell>
+							<TableCell align='left'>
+								<Chip label={row.status} color={color} />
+							</TableCell>
 						</TableRow>
 					);
 

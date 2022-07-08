@@ -39,7 +39,7 @@ const addListing = (listing) => {
 
   return knex('listings')
     .insert({...listing})
-    .then((res) => res)
+    .returning('*')
     .catch(e => console.log(e.message));
 };
 
@@ -69,6 +69,14 @@ const getListingMessages = (id) => {
 
 const getListingFiles = (id) => {
   return knex('files')
+    .where({listing_id: id})
+    .orderBy('created_at', 'desc')
+    .then((res) => res)
+    .catch(e => console.log(e.message));
+};
+
+const getListingTasks = (id) => {
+  return knex('tasks')
     .where({listing_id: id})
     .orderBy('created_at', 'desc')
     .then((res) => res)

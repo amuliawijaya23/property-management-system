@@ -11,7 +11,7 @@ export default function Confirm(props) {
 		<Dialog onClose={onClose} open={open}>
 			<DialogTitle>Download File?</DialogTitle>
 			<DialogContent>
-				<a href={download} download={true} target={'_blank'} rel={'noreferrer'} onClick={onClose}>
+				<a href={download} download={true} target={'_blank'} rel={'noreferrer'} onClick={onClose} style={{ textDecoration: 'none' }}>
 					<Button variant='contained' onClick={onClose} sx={{ mr: 1 }}>
 						Confirm
 					</Button>

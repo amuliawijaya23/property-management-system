@@ -2,6 +2,7 @@ import './styles.scss';
 
 import Box from '@mui/material/Box';
 import EnhancedTable from '../../common/Table';
+import TasksForm from './Form';
 
 import useTasksData from './hooks/useTasksData';
 
@@ -14,7 +15,7 @@ export default function Tasks() {
 		<Box width={'100%'} mt={2}>
 			<Routes>
 				<Route path={'/'} element={<EnhancedTable resetData={resetTasksData} resetRow={resetTasksRow} updateTableData={updateTasksTableData} />} />
-				<Route path={'/new'} element={<></>} />
+				<Route path={'/new'} element={<TasksForm />} />
 			</Routes>
 		</Box>
 	);
