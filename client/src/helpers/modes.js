@@ -4,6 +4,7 @@ const TASK = 'TASK';
 const COMMENTS = 'COMMENTS';
 const FILES = 'FILES';
 const TASKS = 'TASKS';
+const MEDIA = 'MEDIA';
 
 
 export {
@@ -12,5 +13,6 @@ export {
   TASK,
   COMMENTS,
   FILES,
-  TASKS
+  TASKS,
+  MEDIA
 };

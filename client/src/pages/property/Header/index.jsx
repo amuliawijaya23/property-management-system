@@ -56,10 +56,7 @@ export default function PropertyHeader() {
 			</div>
 			<div className='property-item__actions-section'>
 				<Button variant='text' size='large'>
-					Tasks
-				</Button>
-				<Button variant='text' size='large'>
-					Edit
+					Update
 				</Button>
 			</div>
 		</CardActions>

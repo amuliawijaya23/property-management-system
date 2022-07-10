@@ -8,11 +8,11 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 60vw;
+			width: 55vw;
 			height: 25rem;
 			border: dotted black 1px;
 			border-radius: 0.5rem;
-			background-color: rgba(192, 189, 189, 0.411);
+			background-color: rgba(236, 230, 230, 0.253);
 
 			@media only screen and (max-width: 1365px) {
 				height: 15rem;
@@ -25,7 +25,7 @@
 
 		&-preview {
 			img {
-				width: 60vw;
+				width: 55vw;
 				height: 25rem;
 				border: solid 1px;
 				border-radius: 0.5rem;

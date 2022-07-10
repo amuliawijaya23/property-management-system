@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../../state/reducers/tableReducer';
 
+import format from 'date-fns/format';
+
 export default function TableRows(props) {
 	const dispatch = useDispatch();
 
@@ -85,7 +87,7 @@ export default function TableRows(props) {
 								<Link to={`/property/${row.id}`}>LIST-{row.id}</Link>
 							</TableCell>
 							<TableCell align='left'>{row.title}</TableCell>
-							<TableCell align='left'>{row.address.length < 40 ? row.address : `${row.address.substring(0, 45)}...`}</TableCell>
+							<TableCell align='left'>{row.address.length < 40 ? row.address : `${row.address?.substring(0, 45)}...`}</TableCell>
 							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
 							<TableCell align='left'>
 								<Chip label={row.status} color={color} />
@@ -124,12 +126,12 @@ export default function TableRows(props) {
 								<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
 							</TableCell>
 							<TableCell component='th' id={labelId} scope='row' padding='none'>
-								PRO-{row.id}
+								TASK-{row.id}
 							</TableCell>
 							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
-							<TableCell align='left'>{row.summary.length < 40 ? row.summary : `${row.address.substring(0, 40)}...`}</TableCell>
+							<TableCell align='left'>{row.summary.length < 40 ? row.summary : `${row.summary?.substring(0, 40)}...`}</TableCell>
 							<TableCell align='left'>{row.category}</TableCell>
-							<TableCell align='left'>{row.due_date}</TableCell>
+							<TableCell align='left'>{format(new Date(row.due_date), 'PPPPpp')}</TableCell>
 							<TableCell align='left'>
 								<Chip label={row.status} color={color} />
 							</TableCell>

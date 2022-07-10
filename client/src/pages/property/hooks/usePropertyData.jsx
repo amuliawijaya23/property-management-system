@@ -19,12 +19,13 @@ export default function usePropertyData() {
 	useEffect(() => {
 		const getPropertyData = async (id) => {
 			try {
-				const [details, images, messages, watchers, files] = await Promise.all([
+				const [details, images, messages, watchers, files, tasks] = await Promise.all([
 					axios.get(`/api/listing/${id}`),
 					axios.get(`/images/listing/${id}`),
 					axios.get(`/message/${id}`),
 					axios.get(`/api/watchers/${id}`),
-					axios.get(`/files/listing/${id}`)
+					axios.get(`/files/listing/${id}`),
+					axios.get(`/api/tasks/listing/${id}`)
 				]);
 
 				dispatch(
@@ -33,7 +34,8 @@ export default function usePropertyData() {
 						images: images.data,
 						files: files.data,
 						messages: messages.data,
-						watchers: watchers.data
+						watchers: watchers.data,
+						tasks: tasks.data
 					})
 				);
 			} catch (error) {

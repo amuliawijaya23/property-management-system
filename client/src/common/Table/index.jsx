@@ -17,6 +17,7 @@ import TableRows from './TableRows';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSelected } from '../../state/reducers/tableReducer';
+import { height } from '@mui/system';
 
 export default function EnhancedTable(props) {
 	const [order, setOrder] = useState('desc');
@@ -61,7 +62,7 @@ export default function EnhancedTable(props) {
 			<Paper sx={{ width: '100%', mb: 2 }}>
 				<TableSearch handleOpen={props.handleOpen} />
 				<EnhancedTableToolbar numSelected={table.selected.length} updateTableData={props.updateTableData} />
-				<TableContainer>
+				<TableContainer sx={{ minHeight: 500 }} r>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead
 							numSelected={table.selected.length}

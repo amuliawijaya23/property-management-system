@@ -19,7 +19,7 @@ export default function TableSearch(props) {
 		<div className='table-browser'>
 			<div className='table-browser__navigation'>
 				<Button onClick={() => navigate(`/${table.type}/new`)} variant='text'>
-					New
+					CREATE
 				</Button>
 			</div>
 			<div className='table-browser__search'>

@@ -62,7 +62,6 @@ export default function MessageBox() {
 					menubar: false,
 					plugins: [
 						'advlist',
-						'advcode',
 						'autolink',
 						'lists',
 						'link',
@@ -79,10 +78,9 @@ export default function MessageBox() {
 						'preview',
 						'help',
 						'wordcount',
-						'emoticons',
-						'mentions'
+						'emoticons'
 					],
-					toolbar: 'code | blocks | bold italic forecolor | ' + 'alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'link table | ' + 'emoticons ',
+					toolbar: 'blocks | bold italic forecolor | ' + 'alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'link table | ' + 'emoticons ',
 					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
 					content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 				}}

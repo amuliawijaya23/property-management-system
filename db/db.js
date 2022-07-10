@@ -43,6 +43,13 @@ const addListing = (listing) => {
     .catch(e => console.log(e.message));
 };
 
+const addTask = (task) => {
+  return knex('tasks')
+    .insert({ ...task })
+    .returning('*')
+    .catch(e => console.log(e.message));
+};
+
 const getListingSum = () => {
   return knex('listings')
     .count('id')
@@ -151,5 +158,7 @@ module.exports = {
   updateContacts,
   updateTasks,
   uploadFileData,
-  getListingFiles
+  getListingFiles,
+  getListingTasks,
+  addTask
 };

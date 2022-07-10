@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 import { useDropzone } from 'react-dropzone';
 
@@ -34,7 +36,7 @@ export default function ListingFormImage(props) {
 			{!props.form.thumbnailImage && (
 				<div {...getRootProps()} className='listing-form__image-dropzone'>
 					<input {...getInputProps()} />
-					{isDragActive ? <p>Drop image here...</p> : <p>Drop or click to select image</p>}
+					{isDragActive ? <FileUploadIcon sx={{ fontSize: '3rem' }} /> : <CloudUploadIcon sx={{ fontSize: '3rem' }} />}
 				</div>
 			)}
 			<Box sx={{ mb: 2 }}>

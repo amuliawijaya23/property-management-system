@@ -10,6 +10,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import { Editor } from '@tinymce/tinymce-react';
 
@@ -26,6 +27,7 @@ const initialState = {
 
 export default function Outreach(props) {
 	const user = useSelector((state) => state.user.value);
+	const app = useSelector((state) => state.app.value);
 
 	const { generateColdEmail, sendColdEmail } = useOutreachData();
 
@@ -73,9 +75,24 @@ export default function Outreach(props) {
 	return (
 		<Box sx={{ width: '80%', marginTop: '2rem', alignItems: 'center' }}>
 			<Stack spacing={3} sx={{ width: '100%', alignSelf: 'center' }}>
-				<FormControl variant='standard' fullWidth>
-					<Input value={state.to} onChange={(event) => setState({ ...state, to: event.target.value })} id='email-recepienct' startAdornment={<InputAdornment position='start'>To:</InputAdornment>} />
-				</FormControl>
+				<TextField
+					id='form-service-to'
+					variant='standard'
+					select
+					label='To'
+					value={state.to}
+					onChange={(event) => setState({ ...state, to: event.target.value })}
+					size='small'
+					fullWidth
+					margin='normal'>
+					{app.contacts.map((contact) => (
+						<MenuItem key={contact.name} value={contact.email}>
+							<>
+								{contact.last_name}, {contact.first_name} - {contact.email}
+							</>
+						</MenuItem>
+					))}
+				</TextField>
 				<FormControl variant='standard' fullWidth>
 					<Input value={state.cc} onChange={(event) => setState({ ...state, cc: event.target.value })} id='email-recepienct' startAdornment={<InputAdornment position='start'>Cc:</InputAdornment>} />
 				</FormControl>
@@ -106,7 +123,6 @@ export default function Outreach(props) {
 						menubar: false,
 						plugins: [
 							'advlist',
-							'advcode',
 							'autolink',
 							'lists',
 							'link',
@@ -123,10 +139,9 @@ export default function Outreach(props) {
 							'preview',
 							'help',
 							'wordcount',
-							'emoticons',
-							'mentions'
+							'emoticons'
 						],
-						toolbar: 'code | blocks | bold italic forecolor | ' + 'alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'link table | ' + 'emoticons ',
+						toolbar: 'blocks | bold italic forecolor | ' + 'alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'link table | ' + 'emoticons ',
 						table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
 						content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 					}}
