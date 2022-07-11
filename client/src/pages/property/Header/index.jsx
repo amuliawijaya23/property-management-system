@@ -6,7 +6,8 @@ import Button from '@mui/material/Button';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
-import SelectAgent from '../../../common/Dialog/SelectAgent';
+
+import PropertyUpdate from '../Form';
 
 import { useSelector } from 'react-redux';
 
@@ -28,9 +29,8 @@ export default function PropertyHeader() {
 		setOpen(true);
 	};
 
-	const handleClose = (value) => {
+	const handleClose = () => {
 		setOpen(false);
-		setSelectedValue(value);
 	};
 
 	return (
@@ -48,17 +48,14 @@ export default function PropertyHeader() {
 							</Tooltip>
 						);
 					})}
-					<Avatar className='list-panel__add-watcher'>
-						<AddIcon onClick={handleClickOpen} />
-					</Avatar>
-					<SelectAgent selectedValue={selectedValue} open={open} onClose={handleClose} options={options} waatchers={watchers} />
 				</AvatarGroup>
 			</div>
 			<div className='property-item__actions-section'>
-				<Button variant='text' size='large'>
+				<Button variant='text' size='large' onClick={handleClickOpen}>
 					Update
 				</Button>
 			</div>
+			<PropertyUpdate open={open} onClose={handleClose} property={property} />
 		</CardActions>
 	);
 }

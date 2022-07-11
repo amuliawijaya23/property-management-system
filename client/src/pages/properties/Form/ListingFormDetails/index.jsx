@@ -85,7 +85,7 @@ export default function ListingFormDetails(props) {
 				size='small'
 				fullWidth
 				margin='normal'>
-				{['House', 'Apartment', 'Townhouse', 'Penthouse'].map((option) => (
+				{['House', 'Apartment', 'Townhouse', 'Penthouse', 'Ruko'].map((option) => (
 					<MenuItem key={option} value={option}>
 						{option}
 					</MenuItem>

@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -15,7 +16,10 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Confirm from '../Confirm';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setPropertyFiles } from '../../../../state/reducers/propertyReducer';
+import { setPropertyFiles } from '../../../state/reducers/propertyReducer';
+import { ListItemAvatar } from '@mui/material';
+
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 
 export default function PropertyFiles() {
 	const property = useSelector((state) => state.property.value);
@@ -74,17 +78,23 @@ export default function PropertyFiles() {
 			</div>
 			<List sx={{ mt: 2 }}>
 				{property.files.map((file) => {
+					console.log('file is', file);
 					return (
-						<ListItem sx={{ border: 'solid 1px', justifyContent: 'space-between', borderRadius: 1, mb: 1 }}>
-							<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
-							<ListItemText primary={file.id} />
-							<Button variant='contained' sx={{ mr: 1 }}>
-								<DownloadIcon onClick={() => onDownload(file.id)} />
-							</Button>
-							<Button variant='contained'>
-								<DeleteIcon />
-							</Button>
-						</ListItem>
+						<>
+							<ListItem button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => onDownload(file.id)}>
+								<ListItemAvatar>
+									<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
+								</ListItemAvatar>
+								<ListItemText primary={file.id} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
+								{/* <Button variant='contained' sx={{ mr: 1 }}>
+									<DownloadIcon onClick={() => onDownload(file.id)} />
+								</Button> */}
+								{/* <Button variant='contained'>
+									<DeleteIcon />
+								</Button> */}
+							</ListItem>
+							<Divider />
+						</>
 					);
 				})}
 			</List>

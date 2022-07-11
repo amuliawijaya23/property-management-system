@@ -12,7 +12,7 @@ import { Editor } from '@tinymce/tinymce-react';
 
 import usePropertyData from '../hooks/usePropertyData';
 
-export default function MessageBox() {
+export default function PropertyMessages() {
 	const { sendMessage } = usePropertyData();
 
 	const user = useSelector((state) => state.user.value);

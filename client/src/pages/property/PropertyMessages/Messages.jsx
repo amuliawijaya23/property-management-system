@@ -4,6 +4,9 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 
+import format from 'date-fns/format';
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
+
 import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
 
@@ -30,7 +33,7 @@ export default function Messages(props) {
 					<ListItemAvatar>
 						<Avatar alt='agent' src={sender?.picture} />
 					</ListItemAvatar>
-					<ListItemText sx={{ mr: 2 }} primary={sender?.name} secondary={props?.message?.created_at} />
+					<ListItemText sx={{ mr: 2 }} primary={sender?.name} secondary={formatDistanceToNowStrict(new Date(props?.message?.created_at), { addSuffix: true })} />
 				</section>
 				<section className='message-component__content' style={{ alignItems: `${alignment}` }}>
 					{ReactHtmlParser(props.message?.message)}

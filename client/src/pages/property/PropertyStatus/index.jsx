@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 const steps = ['Open', 'Accepting Offers', 'Offer Accepted', 'Completion'];
 
-export default function Status() {
+export default function PropertyStatus() {
 	const property = useSelector((state) => state.property.value);
 	const status = steps.indexOf(property?.details?.status);
 

@@ -2,9 +2,6 @@ import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import Box from '@mui/material/Box';
-import ImagePanel from './ImagePanel';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
@@ -15,11 +12,9 @@ import useImageForm from '../hooks/useImageForm';
 
 import { useSelector } from 'react-redux';
 
-import { Routes, Route, useNavigate, useParams } from 'react-router-dom';
-import { Button } from '@mui/material';
-import { height } from '@mui/system';
+import { useParams } from 'react-router-dom';
 
-export default function MediaCarousel(props) {
+export default function PropertyImages(props) {
 	const app = useSelector((state) => state.app.value);
 	const id = parseInt(useParams().id);
 	const property = useSelector((state) => state.property.value);
@@ -42,20 +37,6 @@ export default function MediaCarousel(props) {
 	}, []);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-	// const currentImages = [{ link: property?.details?.cover_image_url }];
-	// const imagePanel = [...currentImages, ...property?.images].map((image, i) => <ImagePanel key={`image-${i}`} value={value} index={i} link={image.link} />);
-
-	// const imageTabs = property.images.map((image, i) => (
-	// 	<Tab
-	// 		key={`thumbnail-${i}`}
-	// 		className='property-item__media'
-	// 		sx={{ m: 0 }}
-	// 		aria-controls={`full-width-tabpanel-${i}`}
-	// 		id={`full-width-tab-${i}`}
-	// 		label={<img src={image.link} alt='property-gallery' />}
-	// 	/>
-	// ));
 
 	return (
 		<Box width={'100%'}>

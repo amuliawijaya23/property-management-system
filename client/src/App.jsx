@@ -36,7 +36,7 @@ export default function App() {
 							<Route path='/properties/*' element={<Properties />} />
 							<Route path='/tasks/*' element={<Tasks />} />
 							<Route path='/contacts/*' element={<Contacts />} />
-							<Route path='/property/*' element={<Property />} />
+							<Route path='/property/:id' element={<Property />} />
 							<Route path='/outreach' element={<Outreach />} />
 						</Routes>
 						<BasicSpeedDial />
