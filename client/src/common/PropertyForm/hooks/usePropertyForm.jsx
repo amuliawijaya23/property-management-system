@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { updatePropertiesData } from '../../../state/reducers/app';
+import { setPropertyDetails } from '../../../state/reducers/propertyReducer';
 import { useNavigate } from 'react-router-dom';
 
 export default function usePropertyForm() {
@@ -39,8 +40,22 @@ export default function usePropertyForm() {
 		}
 	};
 
+	const updateProperty = async (form) => {
+		try {
+			const response = await axios.put(`/api/listing`, form);
+			let properties = [...app.properties];
+			const index = properties.map((property) => property.id).indexOf(response.data[0].id);
+			properties[index] = response.data[0];
+			await dispatch(updatePropertiesData(properties));
+			await dispatch(setPropertyDetails(response.data[0]));
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return {
 		generateDescription,
-		addProperty
+		addProperty,
+		updateProperty
 	};
 }

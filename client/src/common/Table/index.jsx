@@ -62,7 +62,7 @@ export default function EnhancedTable(props) {
 			<Paper sx={{ width: '100%', mb: 2 }}>
 				<TableSearch handleOpen={props.handleOpen} />
 				<EnhancedTableToolbar numSelected={table.selected.length} updateTableData={props.updateTableData} />
-				<TableContainer sx={{ minHeight: 500 }} r>
+				<TableContainer sx={{ minHeight: 500 }}>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead
 							numSelected={table.selected.length}

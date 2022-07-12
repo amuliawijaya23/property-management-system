@@ -36,7 +36,7 @@ const uploadFile = async(file) => {
 
 const uploadDoc = async(file) => {
   const rawBytes = await randomBytes(16);
-  const docName = `${rawBytes.toString('hex')}-${file.originalname}`;
+  const docName = `${rawBytes.toString('hex')}__${file.originalname}`;
 
   const { buffer, mimetype } = file;
 

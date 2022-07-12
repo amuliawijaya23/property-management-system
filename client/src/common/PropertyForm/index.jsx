@@ -29,11 +29,10 @@ const initialForm = {
 };
 
 export default function PropertyForm(props) {
-	const { generateDescription, addProperty } = usePropertyForm();
+	const { generateDescription, addProperty, updateProperty } = usePropertyForm();
 	const { open, onClose, property } = props;
 
 	const app = useSelector((state) => state.app.value);
-	// const property = useSelector((state) => state.property.value);
 
 	const [form, setForm] = useState(initialForm);
 	const [alert, setAlert] = useState('');
@@ -42,23 +41,14 @@ export default function PropertyForm(props) {
 
 	useEffect(() => {
 		if (property) {
-			setForm({
-				title: property?.title,
-				address: property?.address,
-				zip_code: property?.zip_code,
-				service_type: property?.service_type,
-				property_type: property?.property_type,
-				description: property?.description,
-				number_of_bedrooms: property?.number_of_bedrooms,
-				number_of_bathrooms: property?.number_of_bathrooms,
-				size: property?.size,
-				parking_space: property?.parking_space,
-				status: property?.status,
-				seller_id: property?.seller_id,
-				price: property?.price
-			});
+			setForm({ ...property });
 		}
 	}, [property]);
+
+	const handleClose = () => {
+		property ? setForm({ ...property }) : setForm(initialForm);
+		onClose();
+	};
 
 	const selectAgent = (input) => {
 		let data = { ...form };
@@ -99,7 +89,7 @@ export default function PropertyForm(props) {
 		setOpenAlert(false);
 	};
 
-	const createListing = () => {
+	const createUpdateListing = () => {
 		let valid = true;
 		Object.keys(form).forEach((key) => {
 			if (!form[key]) {
@@ -115,10 +105,16 @@ export default function PropertyForm(props) {
 			setOpenAlert(true);
 		}
 
-		if (valid) {
+		if (valid && property) {
+			updateProperty({ ...form });
+			setAlert('Listing updated!');
+			setOpenAlert(true);
+			handleClose();
+		} else if (valid && !property) {
 			addProperty({ ...form });
 			setAlert('New listing created!');
 			setOpenAlert(true);
+			handleClose();
 		}
 	};
 
@@ -278,17 +274,12 @@ export default function PropertyForm(props) {
 						</Button>
 					</Grid>
 					<Grid item md={12} xs={12} sx={{ mb: 2 }}>
-						{property?.id && (
-							<Button variant='contained' sx={{ mr: 1 }}>
-								Update
-							</Button>
-						)}
-						{!property?.id && (
-							<Button variant='contained' sx={{ mr: 1 }} onClick={createListing}>
-								Create
-							</Button>
-						)}
-						<Button variant='contained'>Cancel</Button>
+						<Button variant='contained' sx={{ mr: 1 }} onClick={createUpdateListing}>
+							{property ? 'Update' : 'Create'}
+						</Button>
+						<Button variant='contained' onClick={handleClose}>
+							Cancel
+						</Button>
 					</Grid>
 				</Grid>
 			</Box>

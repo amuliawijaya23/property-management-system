@@ -1,24 +1,12 @@
 import './styles.scss';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { visuallyHidden } from '@mui/utils';
 
+import { Box, TableCell, TableHead, TableRow, TableSortLabel, Checkbox } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { useSelector } from 'react-redux';
 
 export default function EnhancedTableHead(props) {
-	const {
-		onSelectAllClick,
-		order,
-		orderBy,
-		numSelected,
-		rowCount,
-		onRequestSort
-	} = props;
+	const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
 
 	const table = useSelector((state) => state.table.value);
 
@@ -41,15 +29,8 @@ export default function EnhancedTableHead(props) {
 					/>
 				</TableCell>
 				{table.columns.map((headCell) => (
-					<TableCell
-						key={headCell.id}
-						align={'left'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
-						sortDirection={orderBy === headCell.id ? order : false}>
-						<TableSortLabel
-							active={orderBy === headCell.id}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							onClick={createSortHandler(headCell.id)}>
+					<TableCell key={headCell.id} align={'left'} padding={headCell.disablePadding ? 'none' : 'normal'} sortDirection={orderBy === headCell.id ? order : false}>
+						<TableSortLabel active={orderBy === headCell.id} direction={orderBy === headCell.id ? order : 'asc'} onClick={createSortHandler(headCell.id)}>
 							{headCell.label}
 							{orderBy === headCell.id ? (
 								<Box component='span' sx={visuallyHidden}>

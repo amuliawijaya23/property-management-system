@@ -78,14 +78,13 @@ export default function PropertyFiles() {
 			</div>
 			<List sx={{ mt: 2 }}>
 				{property.files.map((file) => {
-					console.log('file is', file);
 					return (
 						<>
 							<ListItem button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => onDownload(file.id)}>
 								<ListItemAvatar>
 									<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
 								</ListItemAvatar>
-								<ListItemText primary={file.id} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
+								<ListItemText primary={file.id.split('__')[1]} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
 								{/* <Button variant='contained' sx={{ mr: 1 }}>
 									<DownloadIcon onClick={() => onDownload(file.id)} />
 								</Button> */}

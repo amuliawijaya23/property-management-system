@@ -28,10 +28,8 @@ export const propertySlice =  createSlice({
     setPropertyTasks: (state, action) => {
       state.value.tasks= action.payload;
     },
-    updateDetails: (state, action) => {
-      const newState = {...state.value};
-      newState.details = action.payload;
-      state.value = newState;
+    setPropertyDetails: (state, action) => {
+      state.value.details = action.payload;
     }
   },
 });
@@ -41,7 +39,7 @@ export const {
   setPropertyImages,
   updateMediaGallery, 
   updateMessages, 
-  updateDetails ,
+  setPropertyDetails ,
   setPropertyWatchers,
   setPropertyFiles,
   setPropertyTasks

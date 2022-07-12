@@ -4,7 +4,7 @@ import './styles/messages.scss';
 
 import { useState } from 'react';
 
-import { Card, CardActions, CardContent, CardHeader, Divider, IconButton, Button } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader, Divider, IconButton, Button, Grid } from '@mui/material';
 import styled from '@mui/material/styles/styled';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -37,19 +37,12 @@ const ExpandMore = styled((props) => {
 	})
 }));
 
-const cardContentSx = {
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	mt: 5
-};
-
 export default function Property() {
 	const { mode, transition } = useVisualMode(COMMENTS);
 	const property = useSelector((state) => state.property.value);
 	const [expanded, setExpanded] = useState(false);
 	const [open, setOpen] = useState(false);
-	const dateCreated = property?.details?.created_at ? new Date(property?.details?.created_at) : new Date();
+	const dateCreated = property?.details?.updated_at ? new Date(property?.details?.updated_at) : new Date();
 
 	const handleExpandClick = () => {
 		setExpanded(!expanded);
@@ -64,34 +57,49 @@ export default function Property() {
 	};
 
 	return (
-		<Card sx={{ width: '85%', mt: 2, mb: 2 }}>
-			<PropertyHeader handleClickOpen={handleClickOpen} />
-			<Divider />
-			<div className='property-item__header'>
-				<CardHeader
-					title={`LIST-${property?.details?.id} ${property.details?.title}`}
-					subheader={`Created ${formatDistanceToNowStrict(dateCreated, { addSuffix: true })}, ${format(dateCreated, 'PPpp')}`}
-				/>
-				<ExpandMore className='property-item__expandable' expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more' sx={{ mr: '0.5rem' }}>
-					<ExpandMoreIcon sx={{ fontSize: '2rem' }} />
-				</ExpandMore>
-			</div>
-			<Collapsable expanded={expanded} />
-			<PropertyStatus />
-			<CardActions sx={{ mt: 5 }}>
-				<Button onClick={() => transition(COMMENTS)}>Comments</Button>
-				<Button onClick={() => transition(TASKS)}>Tasks</Button>
-				<Button onClick={() => transition(FILES)}>Files</Button>
-				<Button onClick={() => transition(MEDIA)}>Media</Button>
-			</CardActions>
-			<Divider />
-			<CardContent sx={cardContentSx}>
-				{mode === COMMENTS && <PropertyMessages />}
-				{mode === FILES && <PropertyFiles />}
-				{mode === TASKS && <PropertyTasks />}
-				{mode === MEDIA && <PropertyImages />}
-			</CardContent>
+		<Grid xs={12} md={10} container sx={{ mt: 2, mb: 2 }}>
+			<Card sx={{ width: '100%' }}>
+				<Grid item xs={12}>
+					<PropertyHeader handleClickOpen={handleClickOpen} />
+					<Divider />
+				</Grid>
+				<Grid item xs={12} md={6}>
+					<CardHeader
+						title={`LIST-${property?.details?.id} ${property.details?.title}`}
+						subheader={`Last updated ${formatDistanceToNowStrict(dateCreated, { addSuffix: true })}`}
+						titleTypographyProps={{ variant: 'h7' }}
+					/>
+				</Grid>
+				<Grid item xs={12} md={6}>
+					<ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more' sx={{ ml: '0.5rem' }}>
+						<ExpandMoreIcon />
+					</ExpandMore>
+				</Grid>
+				<Grid item xs={12}>
+					<Collapsable expanded={expanded} />
+				</Grid>
+				<Grid item xs={12}>
+					<PropertyStatus />
+				</Grid>
+				<Grid item xs={12}>
+					<CardActions sx={{ mt: 5 }}>
+						<Button onClick={() => transition(COMMENTS)}>Comments</Button>
+						<Button onClick={() => transition(TASKS)}>Tasks</Button>
+						<Button onClick={() => transition(FILES)}>Files</Button>
+						<Button onClick={() => transition(MEDIA)}>Media</Button>
+					</CardActions>
+					<Divider />
+				</Grid>
+				<Grid item xs={12}>
+					<CardContent>
+						{mode === COMMENTS && <PropertyMessages />}
+						{mode === FILES && <PropertyFiles />}
+						{mode === TASKS && <PropertyTasks />}
+						{mode === MEDIA && <PropertyImages />}
+					</CardContent>
+				</Grid>
+			</Card>
 			<PropertyForm open={open} onClose={handleClose} property={property.details} />
-		</Card>
+		</Grid>
 	);
 }

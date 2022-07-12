@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, AvatarGroup, Button, Typography } from '@mui/material';
 import DateTimeSelector from './DateTimeSelector';
 import SelectAgent from '../SelectAgent';
@@ -21,9 +21,9 @@ const style = {
 
 export default function TaskForm(props) {
 	const app = useSelector((state) => state.app.value);
-	const { open, onClose, listingId } = props;
+	const { open, onClose, listingId, task } = props;
 
-	const { createTask } = useTaskForm();
+	const { createTask, updateTask } = useTaskForm();
 
 	const initialForm = {
 		summary: '',
@@ -36,6 +36,12 @@ export default function TaskForm(props) {
 	};
 
 	const [form, setForm] = useState(initialForm);
+
+	useEffect(() => {
+		if (task) {
+			setForm({ ...task });
+		}
+	}, [task]);
 
 	const setDueDate = (input) => {
 		let data = { ...form };
@@ -63,7 +69,10 @@ export default function TaskForm(props) {
 			}
 		});
 
-		if (valid) {
+		if (valid && task) {
+			updateTask({ ...form });
+			handleClose();
+		} else if (valid && !task) {
 			createTask({ ...form });
 			handleClose();
 		}
@@ -109,7 +118,7 @@ export default function TaskForm(props) {
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<TextField variant='standard' select label='Category' size='small' fullWidth margin='normal' value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}>
-							{['Open House', 'Call', 'Follo Up', 'Meeting', 'Adhoc'].map((type) => (
+							{['Open House', 'Call', 'Follow Up', 'Meeting', 'Adhoc'].map((type) => (
 								<MenuItem key={`task-form-type-${type}`} value={type}>
 									{type}
 								</MenuItem>
@@ -136,7 +145,7 @@ export default function TaskForm(props) {
 					</Grid>
 					<Grid item xs={12} sx={{ mt: 1 }}>
 						<Button variant='contained' sx={{ mr: 1 }} onClick={validate}>
-							Create
+							{task ? 'Update' : 'Create'}
 						</Button>
 						<Button variant='contained' onClick={handleClose}>
 							Cancel

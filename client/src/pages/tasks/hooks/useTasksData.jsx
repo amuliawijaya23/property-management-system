@@ -56,7 +56,6 @@ export default function usePropertiesData() {
 	const dispatch = useDispatch();
 
 	const rows = useMemo(() => {
-		console.log('TASKS', app.tasks);
 		return app.tasks?.map((task) => {
 			const agent = app.agents?.find((agent) => agent?.user_id === task?.agent_id);
 			return {
