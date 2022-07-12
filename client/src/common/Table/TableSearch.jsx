@@ -18,7 +18,7 @@ export default function TableSearch(props) {
 	return (
 		<div className='table-browser'>
 			<div className='table-browser__navigation'>
-				<Button onClick={() => navigate(`/${table.type}/new`)} variant='text'>
+				<Button onClick={props.handleOpen} variant='text'>
 					CREATE
 				</Button>
 			</div>

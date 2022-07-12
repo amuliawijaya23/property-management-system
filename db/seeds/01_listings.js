@@ -5,7 +5,6 @@ exports.seed = async function(knex) {
 
       return knex('listings').insert([
         {
-          cover_image_url: 'https://i.imgur.com/fk1t6MA.jpg',
           title: 'Pakuan Indah Apartment',
           description: 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.',
           address: 'Jln. Pakuan B/239, Bogor, Jawa Barat, Indonesia',
@@ -21,7 +20,6 @@ exports.seed = async function(knex) {
           seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
-          cover_image_url: 'https://i.imgur.com/NIbBhpf.jpg',
           title: 'Moderate Size Home in Bandung',
           description: 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla.',
           address: 'Jln. Pasir Putih D/210, Bandung, Jawa Barat, Indonesia',
@@ -37,7 +35,6 @@ exports.seed = async function(knex) {
           seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
-          cover_image_url: 'https://i.imgur.com/TY0iLXj.jpg',
           title: 'Modern Townhouse in Jakarta',
           description: 'Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.',
           address: 'Jln. Gajah Mada C/102, Jakarta, DKI Jakarta, Indonesia',
@@ -53,7 +50,6 @@ exports.seed = async function(knex) {
           seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
-          cover_image_url: 'https://i.imgur.com/bZkFQbP.jpg',
           title: 'Beautiful Townhose Located in the Heart Of The City',
           description: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.',
           address: 'Jln. Surya Kencana no. 242, Bogor, Jawa Barat, Indonesia',
@@ -69,7 +65,6 @@ exports.seed = async function(knex) {
           seller_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
-          cover_image_url: 'https://i.imgur.com/GwbjRxT.jpg',
           title: 'Luxurious House in Bogor',
           description: 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.',
           address: 'Jln. Pajajaran Indah C/21, Bogor, Jawa Barat, Indonesia',

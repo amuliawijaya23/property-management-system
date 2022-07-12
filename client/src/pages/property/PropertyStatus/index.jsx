@@ -6,11 +6,11 @@ import StepLabel from '@mui/material/StepLabel';
 
 import { useSelector } from 'react-redux';
 
-const steps = ['Open', 'Accepting Offers', 'Offer Accepted', 'Completion'];
+const steps = ['Open', 'Offer Accepted', 'Deposit Received', 'Completion', 'Closed'];
 
 export default function PropertyStatus() {
 	const property = useSelector((state) => state.property.value);
-	const status = steps.indexOf(property?.details?.status);
+	const status = (() => (property?.details?.status === 'Closed' ? steps.indexOf(property?.details?.status) + 1 : steps.indexOf(property?.details?.status)))();
 
 	const [activeStep, setActiveStep] = useState(status);
 

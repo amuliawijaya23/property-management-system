@@ -46,9 +46,6 @@ export default function EditTableSelect(props) {
 				<FormControl key={`${key}-update`} variant='outlined' size='small' sx={{ m: 1, minWidth: 100 }}>
 					<InputLabel id={`${key}-select-label`}>{label(key)}</InputLabel>
 					<Select labelId={`${key}-select-label`} onChange={updateRowsData(key, table.selected)} label={key === 'seller_id' ? 'Agent' : key[0] + key.substring(1)}>
-						<MenuItem value=''>
-							<em>None</em>
-						</MenuItem>
 						{table.edit[key]?.map((values) => {
 							return (
 								<MenuItem key={`selection-${values}`} value={values}>

@@ -65,7 +65,7 @@ export default function usePropertiesData() {
 
 	const edit = useMemo(
 		() => ({
-			status: ['Active', 'Offer Accepted', 'Deposit Received', 'Closing'],
+			status: ['Open', 'Offer Accepted', 'Deposit Received', 'Completion', 'Closed'],
 			seller_id: app.agents.map((agent) => agent?.name)
 		}),
 		[app.agents]

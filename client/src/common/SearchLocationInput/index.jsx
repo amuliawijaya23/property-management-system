@@ -84,8 +84,6 @@ export default function SearchLocationInput(props) {
 		};
 	}, [value, inputValue, fetch]);
 
-	console.log('form address', props.form.address);
-
 	return (
 		<Autocomplete
 			fullWidth
@@ -116,6 +114,7 @@ export default function SearchLocationInput(props) {
 					value={props.form.address}
 					size='small'
 					margin='normal'
+					variant='standard'
 				/>
 			)}
 			renderOption={(props, option) => {

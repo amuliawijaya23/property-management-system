@@ -17,7 +17,10 @@ export default function Collapsable(props) {
 				<Typography variant='h6' color='text.secondary' component='div'>
 					<b>Type:</b> {property?.details?.property_type}
 				</Typography>
-				<Typography variant='body2' color='text.secondary'>
+				<Typography variant='body2' color='text.secondary' component='div'>
+					{property?.details?.address}
+				</Typography>
+				<Typography variant='body2' color='text.secondary' component='div'>
 					{property?.details?.description}
 				</Typography>
 				<div className='property-item__details'>

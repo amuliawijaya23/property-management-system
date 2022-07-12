@@ -1,37 +1,19 @@
 import './styles.scss';
-import { useState } from 'react';
 import CardActions from '@mui/material/CardActions';
 import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Avatar from '@mui/material/Avatar';
-import AddIcon from '@mui/icons-material/Add';
-
-import PropertyUpdate from '../Form';
 
 import { useSelector } from 'react-redux';
 
-import { useNavigate } from 'react-router-dom';
-
-export default function PropertyHeader() {
-	const navigate = useNavigate();
+export default function PropertyHeader(props) {
 	const app = useSelector((state) => state.app.value);
 	const property = useSelector((state) => state.property.value);
 	const seller = app.agents?.find((agent) => agent.user_id === property.details?.seller_id);
 
 	const watchers = property.watchers.map((watcher) => watcher.user_id);
 	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.seller_id);
-
-	const [open, setOpen] = useState(false);
-	const [selectedValue, setSelectedValue] = useState(options[0]);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
 
 	return (
 		<CardActions className='property-header'>
@@ -51,11 +33,10 @@ export default function PropertyHeader() {
 				</AvatarGroup>
 			</div>
 			<div className='property-item__actions-section'>
-				<Button variant='text' size='large' onClick={handleClickOpen}>
+				<Button variant='text' size='large' onClick={props.handleClickOpen}>
 					Update
 				</Button>
 			</div>
-			<PropertyUpdate open={open} onClose={handleClose} property={property} />
 		</CardActions>
 	);
 }

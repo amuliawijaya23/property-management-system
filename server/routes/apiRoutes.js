@@ -27,16 +27,9 @@ router.get('/watchers/:id', async(req, res) => {
   }
 });
 
-router.post('/listings', upload.single('thumbnailImage'), async(req, res) => {
-  const file = req.file;
-  const result = await uploadFile(file);
-  const listing = {...req.body, cover_image_url: `/images/${result.key}`};
-  
-  await addListing(listing);
-
-  const allListings = await getListings(listing.organization_id);
-
-  res.send(allListings);
+router.post('/listings', async(req, res) => {
+  const result = await addListing({...req.body});
+  res.send(result);
 });
 
 router.put('/listing', async(req, res) => {

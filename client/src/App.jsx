@@ -33,8 +33,8 @@ export default function App() {
 					<section className='main'>
 						<Routes>
 							<Route path='/' element={<Dashboard />} />
-							<Route path='/properties/*' element={<Properties />} />
-							<Route path='/tasks/*' element={<Tasks />} />
+							<Route path='/properties' element={<Properties />} />
+							<Route path='/tasks' element={<Tasks />} />
 							<Route path='/contacts/*' element={<Contacts />} />
 							<Route path='/property/:id' element={<Property />} />
 							<Route path='/outreach' element={<Outreach />} />

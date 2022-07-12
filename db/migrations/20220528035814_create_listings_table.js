@@ -2,7 +2,6 @@ exports.up = async function(knex) {
   await knex.schema
     .createTable('listings', (table) => {
       table.increments('id').primary().notNullable();
-      table.string('cover_image_url', 500).notNullable();
       table.string('title', 255).notNullable();
       table.string('description', 1000).notNullable();
       table.string('address', 255);

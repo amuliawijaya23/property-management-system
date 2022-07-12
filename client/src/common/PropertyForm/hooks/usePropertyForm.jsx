@@ -3,8 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updatePropertiesData } from '../../../state/reducers/app';
 import { useNavigate } from 'react-router-dom';
 
-export default function useListingForm() {
+export default function usePropertyForm() {
 	const user = useSelector((state) => state.user.value);
+	const app = useSelector((state) => state.app.value);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -21,18 +22,18 @@ export default function useListingForm() {
 	};
 
 	const addProperty = async (form) => {
-		const formData = new FormData();
-		formData.append('seller_id', user.sub);
-		formData.append('organization_id', user.org_id);
-
-		Object.keys(form).forEach((key) => {
-			formData.append(key, form[key]);
-		});
+		const listing = {
+			...form,
+			organization_id: user.org_id
+		};
 
 		try {
-			const response = await axios.post('/api/listings', formData);
-			await dispatch(updatePropertiesData(response.data));
-			navigate(`/property/${response.data.length}`);
+			const response = await axios.post('/api/listings', listing);
+			const properties = [...app.properties];
+			properties.push(response.data[0]);
+			await dispatch(updatePropertiesData(properties));
+
+			navigate(`/property/${response.data[0].id}`);
 		} catch (error) {
 			console.error(error);
 		}

@@ -48,9 +48,6 @@ export default function PropertyImages(props) {
 				{isDragActive ? <FileUploadIcon fontSize='large' /> : <CloudUploadIcon fontSize='large' />}
 			</div>
 			<ImageList cols={3}>
-				<ImageListItem>
-					<img src={property?.details?.cover_image_url} alt='cover' />
-				</ImageListItem>
 				{property.images.map((image, i) => (
 					<ImageListItem key={`image-item-${i}`}>
 						<img src={image.link} alt='property' loading='lazy' />
