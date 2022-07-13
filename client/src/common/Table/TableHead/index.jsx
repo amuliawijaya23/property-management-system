@@ -1,4 +1,3 @@
-import './styles.scss';
 import PropTypes from 'prop-types';
 
 import { Box, TableCell, TableHead, TableRow, TableSortLabel, Checkbox } from '@mui/material';

@@ -1,17 +1,13 @@
-import { useEffect } from 'react';
 import axios from 'axios';
+import { useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { setPropertyData, setPropertyImages } from '../../../state/reducers/propertyReducer';
+import { setPropertyData } from '../../../state/reducers/propertyReducer';
 
-import { setTableData } from '../../../state/reducers/tableReducer';
-
-import { Routes, Route, useNavigate, Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function usePropertyData() {
-	const user = useSelector((state) => state.user.value);
-	const property = useSelector((state) => state.property.value);
 	const dispatch = useDispatch();
 
 	const { id } = useParams();
@@ -47,17 +43,4 @@ export default function usePropertyData() {
 			getPropertyData(parseInt(id));
 		}
 	}, [id, dispatch]);
-
-	const sendMessage = async (message) => {
-		try {
-			const response = await axios.post('/message', { ...message });
-			dispatch(setPropertyData({ ...property, messages: response.data }));
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	return {
-		sendMessage
-	};
 }

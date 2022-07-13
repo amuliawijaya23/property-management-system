@@ -5,7 +5,7 @@ const router = express.Router();
 
 const { uploadFile } = require('../s3');
 const { upload } = require('../multer');
-const { getListings, addListing, getListing, getListingWatchers, updateListing } = require('../../db/db');
+const { getListings, addListing, getListing, getListingWatchers, updateListing, addListingWatchers } = require('../../db/db');
 
 router.get('/listings/:id', async(req, res) => {
   const listings = await getListings(req.params.id);
@@ -22,6 +22,15 @@ router.get('/watchers/:id', async(req, res) => {
     const watchers = await getListingWatchers(req.params.id);
     res.send(watchers);
 
+  } catch (error) {
+    error.response ? console.error(error.response.body) : console.error(error);
+  }
+});
+
+router.post('/watchers', async(req, res) => {
+  try {
+    const watcher = await addListingWatchers({ ...req.body });
+    res.send(watcher);
   } catch (error) {
     error.response ? console.error(error.response.body) : console.error(error);
   }

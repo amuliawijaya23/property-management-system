@@ -1,23 +1,16 @@
 import './styles.scss';
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 
-import EnhancedTableHead from './EnchancedTableHead';
-import EnhancedTableToolbar from './EnchancedTableToolbar';
+import { Box, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Paper } from '@mui/material';
+
+import EnhancedTableHead from './TableHead';
+import EnhancedTableToolbar from './TableToolbar';
 import TableSearch from './TableSearch';
 import TableRows from './TableRows';
 
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSelected } from '../../state/reducers/tableReducer';
-import { height } from '@mui/system';
 
 export default function EnhancedTable(props) {
 	const [order, setOrder] = useState('desc');
@@ -60,8 +53,7 @@ export default function EnhancedTable(props) {
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<TableSearch handleOpen={props.handleOpen} />
-				<EnhancedTableToolbar numSelected={table.selected.length} updateTableData={props.updateTableData} />
+				<EnhancedTableToolbar numSelected={table.selected.length} updateTableData={props.updateTableData} handleOpen={props.handleOpen} />
 				<TableContainer sx={{ minHeight: 500 }}>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead

@@ -5,10 +5,10 @@ import Checkbox from '@mui/material/Checkbox';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 
-import { getComparator, stableSort } from '../../helpers/sortTable';
+import { getComparator, stableSort } from '../../../helpers/sortTable';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setSelected } from '../../state/reducers/tableReducer';
+import { setSelected } from '../../../state/reducers/tableReducer';
 
 import format from 'date-fns/format';
 

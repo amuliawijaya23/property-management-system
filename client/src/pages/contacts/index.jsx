@@ -1,5 +1,3 @@
-import './styles.scss';
-
 import Box from '@mui/material/Box';
 import EnhancedTable from '../../common/Table';
 import ContactsForm from './Form';

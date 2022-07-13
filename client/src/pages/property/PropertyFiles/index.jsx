@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
+
+import { Grid, Paper, Box, Button, Divider, List, ListItem, ListItemText, Typography, ListItemAvatar } from '@mui/material';
+
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -17,14 +13,22 @@ import Confirm from '../Confirm';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setPropertyFiles } from '../../../state/reducers/propertyReducer';
-import { ListItemAvatar } from '@mui/material';
 
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
+
+const style = {
+	display: 'flex',
+	width: '100%',
+	justifyContent: 'center',
+	alignItems: 'center',
+	height: '5.5rem',
+	border: 'dotted 1px',
+	cursor: 'pointer'
+};
 
 export default function PropertyFiles() {
 	const property = useSelector((state) => state.property.value);
 	const [download, setDownload] = useState('');
-	const [files, setFiles] = useState([]);
 	const [open, setOpen] = useState(false);
 
 	const dispatch = useDispatch();
@@ -61,42 +65,41 @@ export default function PropertyFiles() {
 		});
 	};
 
-	const removeFile = (selected) => {
-		const currentFiles = [...files];
-		const newFiles = currentFiles.filter((file) => file.name !== selected.name);
-		setFiles(newFiles);
-	};
-
 	return (
 		<Box sx={{ width: '100%' }}>
-			<Typography variant='body2' component='span'>
-				You can upload files up to 5mb each.
-			</Typography>
-			<div {...getRootProps()} className='property-item__dropzone'>
-				<input {...getInputProps()} />
-				{isDragActive ? <FileUploadIcon fontSize='large' /> : <CloudUploadIcon fontSize='large' />}
-			</div>
-			<List sx={{ mt: 2 }}>
-				{property.files.map((file) => {
-					return (
-						<>
-							<ListItem button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => onDownload(file.id)}>
-								<ListItemAvatar>
-									<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
-								</ListItemAvatar>
-								<ListItemText primary={file.id.split('__')[1]} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
-								{/* <Button variant='contained' sx={{ mr: 1 }}>
-									<DownloadIcon onClick={() => onDownload(file.id)} />
-								</Button> */}
-								{/* <Button variant='contained'>
-									<DeleteIcon />
-								</Button> */}
-							</ListItem>
-							<Divider />
-						</>
-					);
-				})}
-			</List>
+			<Grid container spacing={1}>
+				<Grid item xs={12}>
+					<Typography variant='body2' component='span'>
+						You can upload files up to 5mb each.
+					</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<Paper sx={style} {...getRootProps()}>
+						<input {...getInputProps()} />
+						{isDragActive ? <FileUploadIcon fontSize='large' /> : <CloudUploadIcon fontSize='large' />}
+					</Paper>
+				</Grid>
+				<Grid item xs={12}>
+					<List sx={{ mt: 2 }}>
+						{property.files.map((file) => {
+							return (
+								<>
+									<ListItem button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => onDownload(file.id)}>
+										<ListItemAvatar>
+											<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
+										</ListItemAvatar>
+										<ListItemText primary={file.id.split('__')[1]} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
+										<Button variant='contained'>
+											<DeleteIcon />
+										</Button>
+									</ListItem>
+									<Divider />
+								</>
+							);
+						})}
+					</List>
+				</Grid>
+			</Grid>
 			<Confirm open={open} onClose={handleClose} download={download} />
 		</Box>
 	);

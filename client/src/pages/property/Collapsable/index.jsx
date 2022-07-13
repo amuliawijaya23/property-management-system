@@ -1,6 +1,4 @@
-import Typography from '@mui/material/Typography';
-import Collapse from '@mui/material/Collapse';
-import CardContent from '@mui/material/CardContent';
+import { Grid, Typography, Collapse, CardContent } from '@mui/material';
 
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import ShowerRoundedIcon from '@mui/icons-material/ShowerRounded';
@@ -14,29 +12,35 @@ export default function Collapsable(props) {
 	return (
 		<Collapse in={props.expanded} timeout='auto' unmountOnExit>
 			<CardContent sx={{ mb: '1rem' }}>
-				<Typography variant='h6' color='text.secondary' component='div'>
-					<b>Type:</b> {property?.details?.property_type}
-				</Typography>
-				<Typography variant='body2' color='text.secondary' component='div'>
-					{property?.details?.address}
-				</Typography>
-				<Typography variant='body2' color='text.secondary' component='div'>
-					{property?.details?.description}
-				</Typography>
-				<div className='property-item__details'>
-					<div className='property-item__details-section'>
-						<HotelRoundedIcon sx={{ fontSize: '2.5rem', mr: '1rem' }} />
+				<Grid container spacing={1}>
+					<Grid item xs={12}>
+						<Typography variant='h7' color='text.secondary' component='div'>
+							<b>Address:</b> {property?.details?.address}, {property?.details?.zip_code}
+						</Typography>
+					</Grid>
+					<Grid item xs={12}>
+						<Typography variant='h7' color='text.secondary' component='div'>
+							<b>Type:</b> {property?.details?.property_type}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sx={{ mb: 2 }}>
+						<Typography variant='body2' color='text.secondary' component='div'>
+							{property?.details?.description}
+						</Typography>
+					</Grid>
+					<Grid item xs={4} container alignItems='center' fontSize='2rem'>
+						<HotelRoundedIcon sx={{ mr: 2 }} />
 						{property?.details?.number_of_bedrooms}
-					</div>
-					<div className='property-item__details-section'>
-						<ShowerRoundedIcon sx={{ fontSize: '2.5rem', mr: '1rem' }} />
+					</Grid>
+					<Grid item xs={4} container alignItems='center' fontSize='2rem'>
+						<ShowerRoundedIcon sx={{ mr: 2 }} />
 						{property?.details?.number_of_bathrooms}
-					</div>
-					<div className='property-item__details-section'>
-						<DirectionsCarFilledIcon sx={{ fontSize: '2.5rem', mr: '1rem' }} />
+					</Grid>
+					<Grid item xs={4} container alignItems='center' fontSize='2rem'>
+						<DirectionsCarFilledIcon sx={{ mr: 2 }} />
 						{property?.details?.parking_space}
-					</div>
-				</div>
+					</Grid>
+				</Grid>
 			</CardContent>
 		</Collapse>
 	);

@@ -1,9 +1,11 @@
-import CircularProgress from '@mui/material/CircularProgress';
+import { Grid, CircularProgress } from '@mui/material';
 
 export default function Loading() {
 	return (
-		<div className='App__loading'>
-			<CircularProgress size={'4.5rem'} />
-		</div>
+		<Grid container>
+			<Grid item container justifyContent='center' alignItems='center' height='100vh'>
+				<CircularProgress size={'4.5rem'} />
+			</Grid>
+		</Grid>
 	);
 }

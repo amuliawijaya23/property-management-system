@@ -118,6 +118,13 @@ const getListingWatchers = (id) => {
     .catch((error) => error);
 };
 
+const addListingWatchers = (watcher) => {
+  return knex('listing_watchers')
+    .insert({ ...watcher })
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
 const updateListing = (data) => {
   return knex('listings')
     .where({ id: data.id})
@@ -160,5 +167,6 @@ module.exports = {
   uploadFileData,
   getListingFiles,
   getListingTasks,
-  addTask
+  addTask,
+  addListingWatchers
 };

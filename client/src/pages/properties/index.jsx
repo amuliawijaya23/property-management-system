@@ -1,5 +1,3 @@
-import './styles.scss';
-
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';

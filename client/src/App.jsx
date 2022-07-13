@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 // import components
 import Navigation from './common/Navigation';
 import Loading from './common/Loading';
-import BasicSpeedDial from './common/SpeedDial';
 
 // import pages
 import Dashboard from './pages/dashboard';
@@ -39,7 +38,6 @@ export default function App() {
 							<Route path='/property/:id' element={<Property />} />
 							<Route path='/outreach' element={<Outreach />} />
 						</Routes>
-						<BasicSpeedDial />
 					</section>
 				)}
 			</div>

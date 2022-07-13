@@ -1,10 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import Typography from '@mui/material/Typography';
+import { Grid, Paper, Box, ImageList, ImageListItem, Typography } from '@mui/material';
+
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 
@@ -14,15 +12,20 @@ import { useSelector } from 'react-redux';
 
 import { useParams } from 'react-router-dom';
 
+const style = {
+	display: 'flex',
+	width: '100%',
+	justifyContent: 'center',
+	alignItems: 'center',
+	height: '5.5rem',
+	border: 'dotted 1px',
+	cursor: 'pointer'
+};
+
 export default function PropertyImages(props) {
-	const app = useSelector((state) => state.app.value);
-	const id = parseInt(useParams().id);
 	const property = useSelector((state) => state.property.value);
-
 	const { uploadImages } = useImageForm();
-
 	const [value, setValue] = useState(0);
-
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
@@ -40,20 +43,28 @@ export default function PropertyImages(props) {
 
 	return (
 		<Box width={'100%'}>
-			<Typography variant='body2' component='span'>
-				You can upload images up to 5mb each.
-			</Typography>
-			<div {...getRootProps()} className='property-item__dropzone'>
-				<input {...getInputProps()} />
-				{isDragActive ? <FileUploadIcon fontSize='large' /> : <CloudUploadIcon fontSize='large' />}
-			</div>
-			<ImageList cols={3}>
-				{property.images.map((image, i) => (
-					<ImageListItem key={`image-item-${i}`}>
-						<img src={image.link} alt='property' loading='lazy' />
-					</ImageListItem>
-				))}
-			</ImageList>
+			<Grid container spacing={1}>
+				<Grid item xs={12}>
+					<Typography variant='body2' component='span'>
+						You can upload images up to 5mb each.
+					</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<Paper {...getRootProps()} sx={style}>
+						<input {...getInputProps()} />
+						{isDragActive ? <FileUploadIcon fontSize='large' /> : <CloudUploadIcon fontSize='large' />}
+					</Paper>
+				</Grid>
+				<Grid item xs={12}>
+					<ImageList cols={3}>
+						{property.images.map((image, i) => (
+							<ImageListItem key={`image-item-${i}`}>
+								<img src={image.link} alt='property' loading='lazy' />
+							</ImageListItem>
+						))}
+					</ImageList>
+				</Grid>
+			</Grid>
 		</Box>
 	);
 }
