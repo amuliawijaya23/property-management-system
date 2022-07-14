@@ -5,6 +5,8 @@ const COMMENTS = 'COMMENTS';
 const FILES = 'FILES';
 const TASKS = 'TASKS';
 const MEDIA = 'MEDIA';
+const FORM = 'FORM';
+const SHOW = 'SHOW';
 
 
 export {
@@ -14,5 +16,7 @@ export {
   COMMENTS,
   FILES,
   TASKS,
-  MEDIA
+  MEDIA,
+  FORM,
+  SHOW
 };
