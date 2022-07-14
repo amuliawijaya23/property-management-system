@@ -3,6 +3,7 @@ exports.up = async function(knex) {
     .createTable('listing_watchers', (table) => {
       table.string('user_id').notNullable();
       table.integer('listing_id').unsigned().references('id').inTable('listings').onDelete('cascade').notNullable();
+      table.boolean('isWatcher').notNullable().default(true);
       table.timestamps(false, true);
     });
 

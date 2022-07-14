@@ -9,12 +9,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TableSelect from '../TableSelect';
 import TableSearch from '../TableSearch';
 
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import useUpdateTable from '../hooks/useUpdateTable';
 
 export default function EnhancedTableToolbar(props) {
-	const { numSelected, handleOpen } = props;
+	const { handleOpen } = props;
+	const { updateTableData } = useUpdateTable();
 
-	const navigate = useNavigate();
+	const table = useSelector((state) => state.table.value);
+
+	const numSelected = table.selected.length;
 
 	return (
 		<Toolbar
@@ -26,15 +31,11 @@ export default function EnhancedTableToolbar(props) {
 				})
 			}}>
 			<Grid container alignItems='center'>
-				<Grid item xs={12} md={6}>
-					{numSelected > 0 && <TableSelect />}
-					{numSelected < 1 && <TableSearch />}
-				</Grid>
-				<Grid item xs={12} md={6} justifyContent='flex-end'>
-					<Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+				<Grid item xs={12} md={3}>
+					<Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
 						{numSelected < 1 && (
 							<Tooltip title='Create'>
-								<Button variant='contained' onClick={handleOpen} sx={{ m: 1 }}>
+								<Button variant='text' onClick={() => handleOpen(null)} sx={{ m: 1 }}>
 									Create
 								</Button>
 							</Tooltip>
@@ -42,7 +43,7 @@ export default function EnhancedTableToolbar(props) {
 						{numSelected > 0 && (
 							<>
 								<Tooltip title='Update'>
-									<Button onClick={props.updateTableData} variant='contained'>
+									<Button onClick={updateTableData} variant='contained'>
 										Update
 									</Button>
 								</Tooltip>
@@ -55,7 +56,10 @@ export default function EnhancedTableToolbar(props) {
 						)}
 					</Box>
 				</Grid>
-				<Grid item xs={12}></Grid>
+				<Grid item xs={12} md={9}>
+					{numSelected > 0 && <TableSelect />}
+					{numSelected < 1 && <TableSearch />}
+				</Grid>
 			</Grid>
 		</Toolbar>
 	);

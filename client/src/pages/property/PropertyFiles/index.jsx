@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import { Grid, Paper, Box, Button, Divider, List, ListItem, ListItemText, Typography, ListItemAvatar } from '@mui/material';
+import { Grid, Paper, Box, Button, Divider, List, ListItem, ListItemText, Typography, ListItemAvatar, Alert } from '@mui/material';
 
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -81,6 +81,7 @@ export default function PropertyFiles() {
 				</Grid>
 				<Grid item xs={12}>
 					<List sx={{ mt: 2 }}>
+						{property.files.length < 1 && <Alert severity={'info'}>No files found, browse or drop a file above. </Alert>}
 						{property.files.map((file) => {
 							return (
 								<>

@@ -1,21 +1,23 @@
-import { useSelector } from 'react-redux';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import Checkbox from '@mui/material/Checkbox';
-import Avatar from '@mui/material/Avatar';
-import Chip from '@mui/material/Chip';
+import { TableRow, TableCell, Checkbox, Avatar, Chip, LinearProgress, Typography } from '@mui/material';
 
 import { getComparator, stableSort } from '../../../helpers/sortTable';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelected } from '../../../state/reducers/tableReducer';
+
+import useUpdateTable from '../hooks/useUpdateTable';
 
 import format from 'date-fns/format';
 
+const steps = ['Open', 'Offer Accepted', 'Deposit Received', 'Completion', 'Closed'];
+
 export default function TableRows(props) {
+	const { resetRows } = useUpdateTable();
 	const dispatch = useDispatch();
 
 	const table = useSelector((state) => state.table.value);
+	const app = useSelector((state) => state.app.value);
+	const user = useSelector((state) => state.user.value);
 
 	const handleClick = (event, id) => {
 		const selectedIndex = table.selected.indexOf(id);
@@ -25,13 +27,13 @@ export default function TableRows(props) {
 			newSelected = newSelected.concat(table.selected, id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(table.selected?.slice(1));
-			props.resetRow(selectedIndex);
+			resetRows(selectedIndex);
 		} else if (selectedIndex === table.selected.length - 1) {
 			newSelected = newSelected.concat(table.selected?.slice(0, -1));
-			props.resetRow(selectedIndex);
+			resetRows(selectedIndex);
 		} else if (selectedIndex > 0) {
 			newSelected = newSelected.concat(table.selected?.slice(0, selectedIndex), table.selected?.slice(selectedIndex + 1));
-			props.resetRow(selectedIndex);
+			resetRows(selectedIndex);
 		}
 		dispatch(setSelected(newSelected));
 	};
@@ -43,10 +45,12 @@ export default function TableRows(props) {
 		?.map((row, index) => {
 			const isItemSelected = isSelected(row.id);
 			const labelId = `enhanced-table-checkbox-${index}`;
+			const stepIndex = steps.indexOf(row.status);
+			const progress = (() => (stepIndex === 0 ? 0 : (stepIndex + 1) * 20))();
 			const color = (() => {
-				switch (row.status) {
+				switch (row?.status) {
 					case 'Open':
-						return 'primary';
+						return 'inherit';
 
 					case 'Active':
 						return 'primary';
@@ -54,8 +58,14 @@ export default function TableRows(props) {
 					case 'Blocked':
 						return 'error';
 
-					case 'Overdue':
+					case 'Offer Accepted':
 						return 'warning';
+
+					case 'Deposit Received':
+						return 'secondary';
+
+					case 'Completion':
+						return 'primary';
 
 					case 'Closed':
 						return 'success';
@@ -64,7 +74,7 @@ export default function TableRows(props) {
 						return 'default';
 
 					default:
-						return;
+						return 'default';
 				}
 			})();
 
@@ -74,23 +84,28 @@ export default function TableRows(props) {
 						<TableRow
 							key={`property-row-${index}`}
 							id={`property-row-${index}`}
-							hover
-							onClick={(event) => handleClick(event, row.id)}
+							hover={user.role === 'Master'}
+							onClick={(event) => {
+								if (user.role === 'Master') handleClick(event, row.id);
+							}}
 							role='checkbox'
 							aria-checked={isItemSelected}
 							tabIndex={-1}
 							selected={isItemSelected}>
-							<TableCell padding='checkbox'>
-								<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-							</TableCell>
-							<TableCell component='th' id={labelId} scope='row' padding='none'>
+							{user.role === 'Master' && (
+								<TableCell padding='checkbox'>
+									<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+								</TableCell>
+							)}
+							<TableCell component='th' id={labelId} scope='row' padding='checkbox'>
 								<Link to={`/property/${row.id}`}>LIST-{row.id}</Link>
 							</TableCell>
 							<TableCell align='left'>{row.title}</TableCell>
 							<TableCell align='left'>{row.address.length < 40 ? row.address : `${row.address?.substring(0, 45)}...`}</TableCell>
 							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
-							<TableCell align='left'>
-								<Chip label={row.status} color={color} />
+							<TableCell align='left' width={175}>
+								{row?.status}
+								<LinearProgress variant='determinate' value={progress} color={color} />
 							</TableCell>
 						</TableRow>
 					);
@@ -99,17 +114,21 @@ export default function TableRows(props) {
 					return (
 						<TableRow
 							id={`contact-row-${index}`}
-							hover
-							onClick={(event) => handleClick(event, row.id)}
+							hover={user.role === 'Master'}
+							onClick={(event) => {
+								if (user.role === 'Master') handleClick(event, row.id);
+							}}
 							role='checkbox'
 							aria-checked={isItemSelected}
 							tabIndex={-1}
 							key={row.id}
 							selected={isItemSelected}>
-							<TableCell padding='checkbox'>
-								<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-							</TableCell>
-							<TableCell component='th' id={labelId} scope='row' padding='none'>
+							{user.role === 'Master' && (
+								<TableCell padding='checkbox'>
+									<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+								</TableCell>
+							)}
+							<TableCell component='th' id={labelId} scope='row'>
 								{row.id}
 							</TableCell>
 							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
@@ -121,12 +140,26 @@ export default function TableRows(props) {
 
 				case 'tasks':
 					return (
-						<TableRow id={`task-row-${index}`} hover onClick={(event) => handleClick(event, row.id)} role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-							<TableCell padding='checkbox'>
-								<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-							</TableCell>
-							<TableCell component='th' id={labelId} scope='row' padding='none'>
-								TASK-{row.id}
+						<TableRow
+							id={`task-row-${index}`}
+							hover={user.role === 'Master'}
+							onClick={(event) => {
+								if (user.role === 'Master') handleClick(event, row.id);
+							}}
+							role='checkbox'
+							aria-checked={isItemSelected}
+							tabIndex={-1}
+							key={row.id}
+							selected={isItemSelected}>
+							{user.role === 'Master' && (
+								<TableCell padding='checkbox'>
+									<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+								</TableCell>
+							)}
+							<TableCell component='th' id={labelId} scope='row'>
+								<Typography variant='button' sx={{ cursor: 'pointer' }} onClick={() => props.handleOpen(app?.tasks.find((task) => task.id === row.id))}>
+									TASK-{row.id}
+								</Typography>
 							</TableCell>
 							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
 							<TableCell align='left'>{row.summary.length < 40 ? row.summary : `${row.summary?.substring(0, 40)}...`}</TableCell>

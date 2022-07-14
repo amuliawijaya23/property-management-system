@@ -1,7 +1,5 @@
-import './styles.scss';
-
 import { useState } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+import { Box, CssBaseline } from '@mui/material';
 
 // import components
 import Navigation from './common/Navigation';
@@ -24,12 +22,12 @@ export default function App() {
 
 	return (
 		<Router>
-			<div className='App'>
+			<Box>
 				<CssBaseline />
 				<Navigation loginWithRedirect={loginWithRedirect} logout={logout} />
 				{isLoading && <Loading />}
 				{!isLoading && (
-					<section className='main'>
+					<Box sx={{ display: 'flex', mt: 8, mb: 2, alignItems: 'center', justifyContent: 'center' }}>
 						<Routes>
 							<Route path='/' element={<Dashboard />} />
 							<Route path='/properties' element={<Properties />} />
@@ -38,9 +36,9 @@ export default function App() {
 							<Route path='/property/:id' element={<Property />} />
 							<Route path='/outreach' element={<Outreach />} />
 						</Routes>
-					</section>
+					</Box>
 				)}
-			</div>
+			</Box>
 		</Router>
 	);
 }

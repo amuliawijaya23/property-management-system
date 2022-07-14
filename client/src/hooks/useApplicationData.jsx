@@ -18,17 +18,6 @@ export default function useApplicationData() {
 
 	useEffect(() => {
 		const startUp = async () => {
-			dispatch(
-				login({
-					name: user.name,
-					picture: user.picture,
-					email: user.email,
-					email_verified: user.email_verified,
-					sub: user.sub,
-					org_id: user.org_id,
-					isAuthenticated: isAuthenticated
-				})
-			);
 			try {
 				const token = await getAccessTokenSilently();
 
@@ -38,9 +27,26 @@ export default function useApplicationData() {
 					axios.get(`/api/tasks/${user?.org_id}`),
 					axios.get(`/user/organization/${user?.org_id}`, {
 						headers: { Authorization: `Bearer ${token}` }
+					}),
+					axios.get(`/user/role/${user?.sub}`, {
+						headers: { Authorization: `Bearer ${token}` }
 					})
 				]);
-				const [listings, contacts, tasks, agents] = appData;
+				const [listings, contacts, tasks, agents, role] = appData;
+
+				dispatch(
+					login({
+						name: user.name,
+						picture: user.picture,
+						email: user.email,
+						email_verified: user.email_verified,
+						sub: user.sub,
+						org_id: user.org_id,
+						isAuthenticated: isAuthenticated,
+						role: role.data[0]?.name || 'user',
+						role_id: role.data[0]?.id || 'user'
+					})
+				);
 
 				dispatch(
 					initialize({

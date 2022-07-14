@@ -8,6 +8,7 @@ export default function EnhancedTableHead(props) {
 	const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
 
 	const table = useSelector((state) => state.table.value);
+	const user = useSelector((state) => state.user.value);
 
 	const createSortHandler = (property) => (event) => {
 		onRequestSort(event, property);
@@ -16,19 +17,21 @@ export default function EnhancedTableHead(props) {
 	return (
 		<TableHead>
 			<TableRow>
-				<TableCell padding='checkbox'>
-					<Checkbox
-						color='primary'
-						indeterminate={numSelected > 0 && numSelected < rowCount}
-						checked={rowCount > 0 && numSelected === rowCount}
-						onChange={onSelectAllClick}
-						inputProps={{
-							'aria-label': 'select all listings'
-						}}
-					/>
-				</TableCell>
-				{table.columns.map((headCell) => (
-					<TableCell key={headCell.id} align={'left'} padding={headCell.disablePadding ? 'none' : 'normal'} sortDirection={orderBy === headCell.id ? order : false}>
+				{user?.role === 'Master' && (
+					<TableCell padding='checkbox'>
+						<Checkbox
+							color='primary'
+							indeterminate={numSelected > 0 && numSelected < rowCount}
+							checked={rowCount > 0 && numSelected === rowCount}
+							onChange={onSelectAllClick}
+							inputProps={{
+								'aria-label': 'select all listings'
+							}}
+						/>
+					</TableCell>
+				)}
+				{table.columns.map((headCell, i) => (
+					<TableCell key={`${headCell.id}-${i}`} align={'left'} padding={headCell.disablePadding ? 'none' : 'normal'} sortDirection={orderBy === headCell.id ? order : false}>
 						<TableSortLabel active={orderBy === headCell.id} direction={orderBy === headCell.id ? order : 'asc'} onClick={createSortHandler(headCell.id)}>
 							{headCell.label}
 							{orderBy === headCell.id ? (

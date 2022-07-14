@@ -36,4 +36,17 @@ router.get('/organization/:id', jwtCheck,  async(req, res) => {
   }
 });
 
+router.get('/role/:id', jwtCheck, async(req, res) => {
+  const token = await getManagementApiJwt();
+  const url = `${process.env.MANAGEMENT_API}/users/${req.params.id}/roles`;
+  const headers = { Authorization: `Bearer ${token.access_token}`};
+
+  try {
+    const response = await axios.get(url, { headers: headers });
+    res.send(response.data);
+  } catch (error) {
+    error.response ? console.error(error.response.body) : console.error(error);
+  }
+});
+
 module.exports = router;

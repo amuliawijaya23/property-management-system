@@ -1,13 +1,11 @@
-import { AvatarGroup, Avatar, Tooltip, Typography } from '@mui/material';
-
-import { useSelector } from 'react-redux';
+import { Avatar, Tooltip } from '@mui/material';
 
 export default function SelectAgent(props) {
 	const { selected, agent, assignAgent } = props;
 
 	const selectedStyle = (() => {
 		if (selected) {
-			return { border: 'solid 2px' };
+			return { transform: 'scale(1.2)', border: 'solid 1px lightGrey' };
 		} else {
 			return {};
 		}

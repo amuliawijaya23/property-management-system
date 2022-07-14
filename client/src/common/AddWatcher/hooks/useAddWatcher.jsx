@@ -12,10 +12,8 @@ export default function useAddWatcher() {
 			user_id: user,
 			listing_id: property?.details?.id
 		};
-		const response = await axios.post('/api/watchers', watcher);
-		const watchers = [...property.watchers];
-		watchers.push(response.data[0]);
-		await dispatch(setPropertyWatchers(watchers));
+		const watchers = await axios.post(`/api/watchers`, watcher);
+		await dispatch(setPropertyWatchers(watchers.data));
 	};
 
 	return {

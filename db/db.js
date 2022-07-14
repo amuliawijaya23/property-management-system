@@ -113,7 +113,7 @@ const uploadFileData = (file) => {
 
 const getListingWatchers = (id) => {
   return knex('listing_watchers')
-    .where({listing_id: id})
+    .where({listing_id: id, isWatcher: true})
     .then((res) => res)
     .catch((error) => error);
 };
@@ -149,6 +149,28 @@ const updateTasks = (data) => {
     .catch((e) => console.log(e.message));
 };
 
+const removeWatcher = (watcher) => {
+  return knex('listing_watchers')
+    .where({user_id: watcher.user_id, listing_id: watcher.listing_id })
+    .update({...watcher})
+    .catch((e) => console.log(e.message));
+};
+
+const getWatcherById = (watcher) => {
+  return knex('listing_watchers')
+    .where({user_id: watcher.user_id, listing_id: watcher.listing_id})
+    .then((res => res))
+    .catch((e) => console.log(e.message));
+};
+
+const updateWatcher = (watcher) => {
+  return knex('listing_watchers')
+    .where({user_id: watcher.user_id, listing_id: watcher.listing_id})
+    .update({...watcher})
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
 module.exports = {
   getListings,
   getListing,
@@ -168,5 +190,8 @@ module.exports = {
   getListingFiles,
   getListingTasks,
   addTask,
-  addListingWatchers
+  addListingWatchers,
+  removeWatcher,
+  getWatcherById,
+  updateWatcher
 };

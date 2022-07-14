@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert } from '@mui/material';
 import TaskForm from '../../../common/TaskForm';
 
 import { useSelector } from 'react-redux';
@@ -65,9 +65,6 @@ export default function PropertyTasks() {
 								case 'Blocked':
 									return 'error';
 
-								case 'Overdue':
-									return 'warning';
-
 								case 'Closed':
 									return 'success';
 
@@ -98,6 +95,11 @@ export default function PropertyTasks() {
 					})}
 				</TableBody>
 			</Table>
+			{rows.length < 1 && (
+				<Alert severity='info' sx={{ mt: 2 }}>
+					No task found for this listing, click add task to create one.
+				</Alert>
+			)}
 			<TaskForm open={open} onClose={handleClose} listingId={property?.details?.id} task={selected} />
 		</Box>
 	);

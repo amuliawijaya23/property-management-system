@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState } from 'react';
 import { Box, Modal, TextField, Chip, Button, Autocomplete } from '@mui/material';
 import { useSelector } from 'react-redux';
-
-import useAddWatcher from './hooks/useAddWatcher';
+import usePropertyForm from '../PropertyForm/hooks/usePropertyForm';
 
 const style = {
 	position: 'absolute',
@@ -16,26 +15,26 @@ const style = {
 	p: 4
 };
 
-export default function AddWatcher(props) {
-	const { addWatcher } = useAddWatcher();
+export default function AssignAgent(props) {
 	const app = useSelector((state) => state.app.value);
 	const property = useSelector((state) => state.property.value);
-	const watchers = property.watchers.map((watcher) => watcher.user_id);
-	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.seller_id);
+	const { updateProperty } = usePropertyForm();
 
 	const { open, onClose } = props;
-	const [value, setValue] = useState([]);
+	const [value, setValue] = useState('');
 
 	const handleClose = () => {
-		setValue([]);
+		setValue('');
 		onClose();
 	};
 
 	const validate = () => {
-		value.forEach((agent) => {
-			const selectedAgent = app.agents.find((user) => user.name === agent);
-			addWatcher(selectedAgent.user_id);
-		});
+		console.log('value', value);
+		if (value) {
+			const selectedAgent = app.agents.find((user) => user.name === value);
+			const newData = { ...property?.details, seller_id: selectedAgent.user_id };
+			updateProperty(newData);
+		}
 		handleClose();
 	};
 
@@ -46,14 +45,11 @@ export default function AddWatcher(props) {
 					sx={{ mb: 2, mt: 2 }}
 					value={value}
 					onChange={(event, newValue) => setValue(newValue)}
-					multiple
-					id='tags-filled'
-					options={options.map((option) => option.name)}
+					options={app?.agents?.filter((agent) => agent?.user_id !== property?.details?.seller_id).map((option) => option?.name)}
 					freeSolo
-					renderTags={(value, getTagProps) => value.map((option, index) => <Chip variant='outlined' label={option} {...getTagProps({ index })} />)}
 					renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
 				/>
-				<Button variant='contained' sx={{ mr: 1 }} onClick={validate} disabled={value.length < 1}>
+				<Button variant='contained' sx={{ mr: 1 }} onClick={validate} disabled={value?.length < 1}>
 					Confirm
 				</Button>
 				<Button variant='contained' onClick={handleClose}>

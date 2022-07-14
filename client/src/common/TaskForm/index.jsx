@@ -127,7 +127,7 @@ export default function TaskForm(props) {
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
-							{['Active', 'Blocked', 'Overdue', 'Closed', 'Canceled'].map((type) => (
+							{['Active', 'Blocked', 'Closed', 'Canceled'].map((type) => (
 								<MenuItem key={`task-form-type-${type}`} value={type}>
 									{type}
 								</MenuItem>

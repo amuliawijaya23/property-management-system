@@ -14,7 +14,7 @@ const columns = [
 	{
 		id: 'id',
 		numeric: false,
-		disablePadding: true,
+		disablePadding: false,
 		label: 'ID'
 	},
 	{
@@ -91,50 +91,4 @@ export default function usePropertiesData() {
 	useEffect(() => {
 		initialize();
 	}, [initialize]);
-
-	const resetTasksData = () => {
-		dispatch(setTableRows(rows));
-	};
-
-	const resetTasksRow = (index) => {
-		const newRows = [...table.rows];
-		let selected = [...table.selected];
-		const id = selected[index];
-		const rowIndex = newRows.map((row) => row.id).indexOf(id);
-		const defaultData = app.tasks.find((task) => task.id === id);
-
-		const agent = app.agents.find((user) => user.user_id === defaultData.agent_id);
-
-		newRows[rowIndex] = {
-			...newRows[rowIndex],
-			agent: agent?.picture
-		};
-		dispatch(setTableRows(newRows));
-	};
-
-	const updateTasksTableData = () => {
-		const tableData = [...table.rows];
-		const selected = [...table.selected];
-		let appData = [...app.tasks];
-
-		selected.forEach(async (id) => {
-			const index = appData.map((task) => task.id).indexOf(id);
-			const rowData = { ...tableData.find((row) => row.id === id) };
-			const agent = app.agents.find((agent) => agent.picture === rowData.agent);
-			const newData = {
-				...appData[index],
-				// status: rowData.status,
-				agent_id: agent.user_id
-			};
-			appData[index] = newData;
-			await axios.put('/api/tasks', newData);
-		});
-		dispatch(updateTasksData(appData));
-	};
-
-	return {
-		resetTasksData,
-		resetTasksRow,
-		updateTasksTableData
-	};
 }

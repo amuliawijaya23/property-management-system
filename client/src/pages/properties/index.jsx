@@ -7,7 +7,7 @@ import PropertyForm from '../../common/PropertyForm';
 import usePropertiesData from './hooks/usePropertiesData';
 
 export default function Properties() {
-	const { resetPropertiesData, resetPropertiesRow, updatePropertiesTableData } = usePropertiesData();
+	usePropertiesData();
 
 	const [open, setOpen] = useState(false);
 
@@ -21,7 +21,7 @@ export default function Properties() {
 
 	return (
 		<Box width={'100%'} mt={2}>
-			<EnhancedTable resetData={resetPropertiesData} resetRow={resetPropertiesRow} updateTableData={updatePropertiesTableData} handleOpen={handleClickOpen} />
+			<EnhancedTable handleOpen={handleClickOpen} />
 			<PropertyForm open={open} onClose={handleClose} />
 		</Box>
 	);

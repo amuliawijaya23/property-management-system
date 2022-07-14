@@ -15,11 +15,11 @@ export default function Navigation(props) {
 	};
 
 	return (
-		<header>
+		<>
 			<NavBar openDrawer={toggleDrawer(true)} logout={props.logout} loginWithRedirect={props.loginWithRedirect} />
 			<SwipeableDrawer anchor='left' open={anchorEl} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
 				<DrawerList toggleDrawer={toggleDrawer} />
 			</SwipeableDrawer>
-		</header>
+		</>
 	);
 }

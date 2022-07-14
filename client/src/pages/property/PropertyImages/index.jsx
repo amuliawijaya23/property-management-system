@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import { Grid, Paper, Box, ImageList, ImageListItem, Typography } from '@mui/material';
+import { Grid, Paper, Box, ImageList, ImageListItem, Typography, Alert } from '@mui/material';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -9,8 +9,6 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import useImageForm from '../hooks/useImageForm';
 
 import { useSelector } from 'react-redux';
-
-import { useParams } from 'react-router-dom';
 
 const style = {
 	display: 'flex',
@@ -56,6 +54,7 @@ export default function PropertyImages(props) {
 					</Paper>
 				</Grid>
 				<Grid item xs={12}>
+					{property.images.length < 1 && <Alert severity={'info'}>No image found, browse or drop an image above. </Alert>}
 					<ImageList cols={3}>
 						{property.images.map((image, i) => (
 							<ImageListItem key={`image-item-${i}`}>

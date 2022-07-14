@@ -39,9 +39,9 @@ export default function TableSelect(props) {
 	};
 
 	return (
-		<Grid container spacing={1}>
+		<Grid container spacing={1} justifyContent='flex-end'>
 			{Object.keys(table.edit).map((key) => (
-				<Grid item xs={12} md={3}>
+				<Grid item xs={12} md={2}>
 					<FormControl key={`${key}-update`} variant='outlined' size='small' sx={{ m: 1, minWidth: 100 }} fullWidth>
 						<InputLabel id={`${key}-select-label`}>{label(key)}</InputLabel>
 						<Select labelId={`${key}-select-label`} onChange={updateRowsData(key, table.selected)} label={key === 'seller_id' ? 'Agent' : key[0] + key.substring(1)}>

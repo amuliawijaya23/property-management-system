@@ -1,18 +1,19 @@
-import './styles.scss';
 import { useState } from 'react';
 
 import { Box, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Paper } from '@mui/material';
 
 import EnhancedTableHead from './TableHead';
 import EnhancedTableToolbar from './TableToolbar';
-import TableSearch from './TableSearch';
 import TableRows from './TableRows';
 
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSelected } from '../../state/reducers/tableReducer';
 
+import useUpdateTable from './hooks/useUpdateTable';
+
 export default function EnhancedTable(props) {
+	const { resetTableData } = useUpdateTable();
 	const [order, setOrder] = useState('desc');
 	const [orderBy, setOrderBy] = useState('id');
 	const [page, setPage] = useState(0);
@@ -35,7 +36,7 @@ export default function EnhancedTable(props) {
 			return;
 		}
 		dispatch(setSelected([]));
-		props.resetData();
+		resetTableData();
 	};
 
 	const handleChangePage = (event, newPage) => {
@@ -51,10 +52,10 @@ export default function EnhancedTable(props) {
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - table.rows.length) : 0;
 
 	return (
-		<Box sx={{ width: '100%' }}>
-			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar numSelected={table.selected.length} updateTableData={props.updateTableData} handleOpen={props.handleOpen} />
-				<TableContainer sx={{ minHeight: 500 }}>
+		<Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+			<Paper sx={{ width: '98%' }}>
+				<EnhancedTableToolbar handleOpen={props.handleOpen} />
+				<TableContainer sx={{ height: '80vh', borderTop: 'solid 1px lightGrey', borderBottom: 'solid 1px lightGrey' }}>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead
 							numSelected={table.selected.length}
@@ -65,7 +66,7 @@ export default function EnhancedTable(props) {
 							rowCount={table.rows?.length}
 						/>
 						<TableBody>
-							<TableRows order={order} orderBy={orderBy} page={page} rowsPerPage={rowsPerPage} resetData={props.resetData} resetRow={props.resetRow} />
+							<TableRows order={order} orderBy={orderBy} page={page} rowsPerPage={rowsPerPage} handleOpen={props.handleOpen} />
 							{emptyRows > 0 && (
 								<TableRow style={{ height: 33 * emptyRows }}>
 									<TableCell colSpan={6} />

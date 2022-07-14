@@ -1,21 +1,13 @@
-import { Snackbar, IconButton } from '@mui/material';
-
-import CloseIcon from '@mui/icons-material/Close';
+import { Snackbar, Alert } from '@mui/material';
 
 export default function FormAlert(props) {
-	const { open, onClose, message } = props;
+	const { open, onClose, message, severity } = props;
 
 	return (
-		<Snackbar
-			open={open}
-			autoHideDuration={5000}
-			onClose={onClose}
-			message={message}
-			action={
-				<IconButton size='small' aria-label='close' color='inherit' onClick={onClose}>
-					<CloseIcon fontSize='small' />
-				</IconButton>
-			}
-		/>
+		<Snackbar open={open} autoHideDuration={3000} onClose={onClose}>
+			<Alert sx={{ width: '100%' }} onClose={onClose} severity={severity}>
+				{message}
+			</Alert>
+		</Snackbar>
 	);
 }
