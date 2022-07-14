@@ -15,7 +15,7 @@ exports.up = async function(knex) {
       table.integer('price').notNullable();
       table.string('status', 255).notNullable().defaultTo('Open');
       table.string('organization_id').notNullable();
-      table.string('seller_id').notNullable();
+      table.string('agent_id').notNullable();
       table.timestamps(false, true);
     });
 

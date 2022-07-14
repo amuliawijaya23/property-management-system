@@ -17,7 +17,7 @@ exports.seed = async function(knex) {
           parking_space: 1,
           price: 780000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          seller_id: 'auth0|62a915d40fb854efec56620b'
+          agent_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           title: 'Moderate Size Home in Bandung',
@@ -32,7 +32,7 @@ exports.seed = async function(knex) {
           parking_space: 2,
           price: 3211000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          seller_id: 'auth0|62a915d40fb854efec56620b'
+          agent_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           title: 'Modern Townhouse in Jakarta',
@@ -47,7 +47,7 @@ exports.seed = async function(knex) {
           parking_space: 1,
           price: 1375000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          seller_id: 'auth0|62a915d40fb854efec56620b'
+          agent_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           title: 'Beautiful Townhose Located in the Heart Of The City',
@@ -62,7 +62,7 @@ exports.seed = async function(knex) {
           parking_space: 2,
           price: 1583000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          seller_id: 'auth0|62a915d40fb854efec56620b'
+          agent_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
           title: 'Luxurious House in Bogor',
@@ -77,7 +77,7 @@ exports.seed = async function(knex) {
           parking_space: 4,
           price: 6200000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          seller_id: 'auth0|62a915d40fb854efec56620b'
+          agent_id: 'auth0|62a915d40fb854efec56620b'
         },
       ]);
     });

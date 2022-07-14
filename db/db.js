@@ -33,6 +33,23 @@ const getListing = (id) => {
     .catch(e => console.log(e.message));
 };
 
+// GET TRANSACTIONS DATA
+
+const getTransactions = (id) => {
+  return knex('transactions')
+    .where({organization_id: id})
+    .then((res) => res)
+    .catch(e => console.log(e.message));
+};
+
+const updateTransaction = (transaction) => {
+  return knex('transactions')
+    .where({id: transaction.id})
+    .update({...transaction})
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
 // POST NEW LISTING
 
 const addListing = (listing) => {
@@ -90,6 +107,13 @@ const getListingTasks = (id) => {
     .catch(e => console.log(e.message));
 };
 
+const getListingWatchers = (id) => {
+  return knex('listing_watchers')
+    .where({listing_id: id, isWatcher: true})
+    .then((res) => res)
+    .catch((error) => error);
+};
+
 // POST NEW ASSETS, FILES, MESSAGES
 
 const uploadImageData = (img) => {
@@ -111,12 +135,6 @@ const uploadFileData = (file) => {
     .then(() => file);
 };
 
-const getListingWatchers = (id) => {
-  return knex('listing_watchers')
-    .where({listing_id: id, isWatcher: true})
-    .then((res) => res)
-    .catch((error) => error);
-};
 
 const addListingWatchers = (watcher) => {
   return knex('listing_watchers')
@@ -178,6 +196,7 @@ const updateWatcher = (watcher) => {
     .catch((e) => console.log(e.message));
 };
 
+
 module.exports = {
   getListings,
   getListing,
@@ -201,5 +220,7 @@ module.exports = {
   removeWatcher,
   getWatcherById,
   updateWatcher,
-  createContact
+  createContact,
+  getTransactions,
+  updateTransaction
 };
