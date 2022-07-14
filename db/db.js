@@ -133,6 +133,13 @@ const updateListing = (data) => {
     .catch((e) => console.log(e.message));
 };
 
+const createContact = (contact) => {
+  return knex('contacts')
+    .insert({ ...contact })
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
 const updateContacts = (data) => {
   return knex('contacts')
     .where({ id: data.id })
@@ -193,5 +200,6 @@ module.exports = {
   addListingWatchers,
   removeWatcher,
   getWatcherById,
-  updateWatcher
+  updateWatcher,
+  createContact
 };

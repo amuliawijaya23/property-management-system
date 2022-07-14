@@ -55,6 +55,9 @@ export default function TableRows(props) {
 					case 'Active':
 						return 'primary';
 
+					case 'Completion':
+						return 'primary';
+
 					case 'Blocked':
 						return 'error';
 
@@ -63,9 +66,6 @@ export default function TableRows(props) {
 
 					case 'Deposit Received':
 						return 'secondary';
-
-					case 'Completion':
-						return 'primary';
 
 					case 'Closed':
 						return 'success';
@@ -129,7 +129,9 @@ export default function TableRows(props) {
 								</TableCell>
 							)}
 							<TableCell component='th' id={labelId} scope='row'>
-								{row.id}
+								<Typography variant='button' sx={{ cursor: 'pointer' }} onClick={() => props.handleOpen(app?.contacts.find((contact) => contact.id === row.id))}>
+									CON-{row.id}
+								</Typography>
 							</TableCell>
 							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
 							<TableCell align='left'>{row.name.length < 40 ? row.name : `${row.name.substring(0, 40)}...`}</TableCell>
