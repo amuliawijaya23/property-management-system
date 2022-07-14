@@ -12,13 +12,14 @@ import Outreach from './pages/outreach';
 import Tasks from './pages/tasks';
 import Contacts from './pages/contacts';
 import Property from './pages/property';
+import PageNotFound from './PageNotFound';
 
 import useApplicationData from './hooks/useApplicationData';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 export default function App() {
-	const { isLoading, error, loginWithRedirect, logout } = useApplicationData();
+	const { isLoading, error, loginWithRedirect, logout, isAuthenticated } = useApplicationData();
 
 	return (
 		<Router>
@@ -29,12 +30,22 @@ export default function App() {
 				{!isLoading && (
 					<Box sx={{ display: 'flex', mt: 8, mb: 2, alignItems: 'center', justifyContent: 'center' }}>
 						<Routes>
-							<Route path='/' element={<Dashboard />} />
-							<Route path='/properties' element={<Properties />} />
-							<Route path='/tasks' element={<Tasks />} />
-							<Route path='/contacts/*' element={<Contacts />} />
-							<Route path='/property/:id' element={<Property />} />
-							<Route path='/outreach' element={<Outreach />} />
+							{isAuthenticated && (
+								<>
+									<Route path='/' element={<Dashboard />} />
+									<Route path='/properties' element={<Properties />} />
+									<Route path='/tasks' element={<Tasks />} />
+									<Route path='/contacts' element={<Contacts />} />
+									<Route path='/property/:id' element={<Property />} />
+									<Route path='/outreach' element={<Outreach />} />
+								</>
+							)}
+							{!isAuthenticated && (
+								<>
+									<Route path='/' element={<></>} />
+								</>
+							)}
+							<Route path='*' element={<PageNotFound />} />
 						</Routes>
 					</Box>
 				)}

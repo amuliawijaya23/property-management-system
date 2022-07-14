@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { Card, Box, CardActions, CardContent, CardHeader, Divider, IconButton, Button, Grid } from '@mui/material';
 import styled from '@mui/material/styles/styled';
@@ -12,13 +12,14 @@ import PropertyMessages from './PropertyMessages';
 import PropertyFiles from './PropertyFiles';
 import PropertyTasks from './PropertyTasks';
 import PropertyForm from '../../common/PropertyForm';
+import PageNotFound from '../../PageNotFound';
 
 import usePropertyData from './hooks/usePropertyData';
 
 import { useSelector } from 'react-redux';
 
 import useVisualMode from '../../hooks/useVisualMode';
-import { COMMENTS, FILES, TASKS, MEDIA } from '../../helpers/modes';
+import { COMMENTS, FILES, TASKS, MEDIA, LOADING, ERROR } from '../../helpers/modes';
 
 import format from 'date-fns/format';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
@@ -57,59 +58,65 @@ export default function Property() {
 	};
 
 	return (
-		<Grid xs={12} md={10} container sx={{ mt: 2, mb: 2 }}>
-			<Card sx={{ width: '100%' }}>
-				<Grid container>
-					<Grid item xs={12}>
-						<PropertyHeader handleClickOpen={handleClickOpen} />
-						<Divider />
-					</Grid>
-					<Grid item xs={6}>
-						<CardHeader
-							title={`LIST-${property?.details?.id} ${property.details?.title}`}
-							subheader={
-								<>
-									{`Last updated ${formatDistanceToNowStrict(dateUpdated, { addSuffix: true })}`}
-									<br />
-									{`Created ${format(dateCreated, 'PPpp')}`}
-								</>
-							}
-							titleTypographyProps={{ variant: 'h7' }}
-						/>
-					</Grid>
-					<Grid item xs={6}>
-						<Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-							<ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more' sx={{ MediaRecorder: '0.5rem' }}>
-								<ExpandMoreIcon />
-							</ExpandMore>
-						</Box>
-					</Grid>
-					<Grid item xs={12}>
-						<Collapsable expanded={expanded} />
-					</Grid>
-					<Grid item xs={12}>
-						<PropertyStatus />
-					</Grid>
-					<Grid item xs={12}>
-						<CardActions sx={{ mt: 5 }}>
-							<Button onClick={() => transition(COMMENTS)}>Comments</Button>
-							<Button onClick={() => transition(TASKS)}>Tasks</Button>
-							<Button onClick={() => transition(FILES)}>Files</Button>
-							<Button onClick={() => transition(MEDIA)}>Media</Button>
-						</CardActions>
-						<Divider />
-					</Grid>
-					<Grid item xs={12}>
-						<CardContent>
-							{mode === COMMENTS && <PropertyMessages />}
-							{mode === FILES && <PropertyFiles />}
-							{mode === TASKS && <PropertyTasks />}
-							{mode === MEDIA && <PropertyImages />}
-						</CardContent>
-					</Grid>
+		<>
+			{!property.valid && <PageNotFound />}
+			{property?.details?.id && (
+				<Grid xs={12} md={10} container sx={{ mt: 2, mb: 2 }}>
+					<Card sx={{ width: '100%' }}>
+						<Grid container>
+							<Grid item xs={12}>
+								<PropertyHeader handleClickOpen={handleClickOpen} />
+								<Divider />
+							</Grid>
+							<Grid item xs={6}>
+								<CardHeader
+									title={`LIST-${property?.details?.id} ${property.details?.title}`}
+									subheader={
+										<>
+											{`Last updated ${formatDistanceToNowStrict(dateUpdated, { addSuffix: true })}`}
+											<br />
+											{`Created ${format(dateCreated, 'PPpp')}`}
+										</>
+									}
+									titleTypographyProps={{ variant: 'h7' }}
+								/>
+							</Grid>
+							<Grid item xs={6}>
+								<Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+									<ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more' sx={{ MediaRecorder: '0.5rem' }}>
+										<ExpandMoreIcon />
+									</ExpandMore>
+								</Box>
+							</Grid>
+							<Grid item xs={12}>
+								<Collapsable expanded={expanded} />
+							</Grid>
+							<Grid item xs={12}>
+								<PropertyStatus />
+							</Grid>
+							<Grid item xs={12}>
+								<CardActions sx={{ mt: 5 }}>
+									<Button onClick={() => transition(COMMENTS)}>Comments</Button>
+									<Button onClick={() => transition(TASKS)}>Tasks</Button>
+									<Button onClick={() => transition(FILES)}>Files</Button>
+									<Button onClick={() => transition(MEDIA)}>Media</Button>
+								</CardActions>
+								<Divider />
+							</Grid>
+							<Grid item xs={12}>
+								<CardContent>
+									{mode === COMMENTS && <PropertyMessages />}
+									{mode === FILES && <PropertyFiles />}
+									{mode === TASKS && <PropertyTasks />}
+									{mode === MEDIA && <PropertyImages />}
+								</CardContent>
+							</Grid>
+						</Grid>
+					</Card>
+					<PropertyForm open={open} onClose={handleClose} property={property.details} />
 				</Grid>
-			</Card>
-			<PropertyForm open={open} onClose={handleClose} property={property.details} />
-		</Grid>
+			)}
+			{/* {!isPropertyValid && <PageNotFound />} */}
+		</>
 	);
 }

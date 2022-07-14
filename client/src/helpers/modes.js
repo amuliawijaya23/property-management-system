@@ -7,6 +7,8 @@ const TASKS = 'TASKS';
 const MEDIA = 'MEDIA';
 const FORM = 'FORM';
 const SHOW = 'SHOW';
+const LOADING = 'LOADINH';
+const ERROR = 'ERROR';
 
 
 export {
@@ -18,5 +20,7 @@ export {
   TASKS,
   MEDIA,
   FORM,
-  SHOW
+  SHOW,
+  LOADING,
+  ERROR
 };

@@ -9,7 +9,8 @@ export const propertySlice =  createSlice({
       files: [],
       tasks: [],
       messages: [],
-      watchers: []
+      watchers: [],
+      valid: true
     },
   },
   reducers: {
@@ -30,6 +31,9 @@ export const propertySlice =  createSlice({
     },
     setPropertyDetails: (state, action) => {
       state.value.details = action.payload;
+    },
+    setValid: (state, action) => {
+      state.value.valid = action.payload;
     }
   },
 });
@@ -42,7 +46,8 @@ export const {
   setPropertyDetails ,
   setPropertyWatchers,
   setPropertyFiles,
-  setPropertyTasks
+  setPropertyTasks,
+  setValid
 } = propertySlice.actions
 
 export default propertySlice.reducer;
