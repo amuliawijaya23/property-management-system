@@ -13,6 +13,7 @@ export default function Tasks() {
 	const [task, setTask] = useState(null);
 
 	const handleClose = () => {
+		setTask(null);
 		setOpen(false);
 	};
 
