@@ -59,7 +59,7 @@ export default function PropertyForm(props) {
 
 	const selectAgent = (input) => {
 		let data = { ...form };
-		data.seller_id = input;
+		data.agent_id = input;
 		setForm({ ...data });
 	};
 
@@ -154,7 +154,7 @@ export default function PropertyForm(props) {
 							</Typography>
 							<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
 								{app.agents.map((agent) => (
-									<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.seller_id} />
+									<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
 								))}
 							</AvatarGroup>
 						</Grid>

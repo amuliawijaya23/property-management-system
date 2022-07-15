@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 // reducers
 import { login } from '../state/reducers/userReducer';
 import { initialize } from '../state/reducers/app';
+import { setDashboard } from '../state/reducers/dashboardReducer';
 // import { setTableData } from '../state/reducers/tableReducer';
 
 import axios from 'axios';
@@ -23,6 +24,7 @@ export default function useApplicationData() {
 
 				const appData = await Promise.all([
 					axios.get(`/api/listings/${user?.org_id}`),
+					axios.get(`/api/transactions/${user?.org_id}`),
 					axios.get(`/api/contacts/${user?.org_id}`),
 					axios.get(`/api/tasks/${user?.org_id}`),
 					axios.get(`/user/organization/${user?.org_id}`, {
@@ -32,7 +34,7 @@ export default function useApplicationData() {
 						headers: { Authorization: `Bearer ${token}` }
 					})
 				]);
-				const [listings, contacts, tasks, agents, role] = appData;
+				const [listings, transactions, contacts, tasks, agents, role] = appData;
 
 				dispatch(
 					login({
@@ -53,7 +55,17 @@ export default function useApplicationData() {
 						properties: listings.data,
 						agents: agents.data,
 						contacts: contacts.data,
-						tasks: tasks.data
+						tasks: tasks.data,
+						transactions: transactions.data
+					})
+				);
+
+				dispatch(
+					setDashboard({
+						properties: listings?.data?.filter((listing) => listing.agent_id === user?.sub),
+						tasks: tasks?.data?.filter((task) => task.agent_id === user.sub),
+						contacts: contacts?.data?.filter((contact) => contact.agent_id === user?.sub),
+						transactions: transactions?.data?.filter((transaction) => transaction.agent_id === user?.sub)
 					})
 				);
 			} catch (error) {

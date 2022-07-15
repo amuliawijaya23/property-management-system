@@ -12,22 +12,12 @@ export default function TableSelect(props) {
 
 	const dispatch = useDispatch();
 
-	const label = useCallback((key) => {
-		switch (key) {
-			case 'seller_id':
-				return 'Agent';
-
-			default:
-				return key[0].toUpperCase() + key.substring(1);
-		}
-	}, []);
-
 	const updateRowsData = (key, selected) => (event) => {
 		let newRows = [...table.rows];
 		selected.forEach((id) => {
 			const index = newRows.map((row) => row.id).indexOf(id);
 			let currentRow = { ...newRows[index] };
-			if (key === 'seller_id') {
+			if (key === 'agent') {
 				const agent = app.agents.find((user) => user?.name === event.target.value);
 				currentRow.agent = agent?.picture;
 			} else {
@@ -43,8 +33,8 @@ export default function TableSelect(props) {
 			{Object.keys(table.edit).map((key) => (
 				<Grid item xs={12} md={2}>
 					<FormControl key={`${key}-update`} variant='outlined' size='small' sx={{ m: 1, minWidth: 100 }} fullWidth>
-						<InputLabel id={`${key}-select-label`}>{label(key)}</InputLabel>
-						<Select labelId={`${key}-select-label`} onChange={updateRowsData(key, table.selected)} label={key === 'seller_id' ? 'Agent' : key[0] + key.substring(1)}>
+						<InputLabel id={`${key}-select-label`}>{key[0].toUpperCase() + key.substring(1)}</InputLabel>
+						<Select labelId={`${key}-select-label`} onChange={updateRowsData(key, table.selected)} label={key[0] + key.substring(1)}>
 							{table.edit[key]?.map((values) => {
 								return (
 									<MenuItem key={`selection-${values}`} value={values}>

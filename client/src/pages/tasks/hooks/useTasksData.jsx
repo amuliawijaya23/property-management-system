@@ -71,7 +71,7 @@ export default function usePropertiesData() {
 
 	const edit = useMemo(
 		() => ({
-			seller_id: app.agents.map((agent) => agent?.name)
+			agent: app.agents.map((agent) => agent?.name)
 		}),
 		[app.agents]
 	);

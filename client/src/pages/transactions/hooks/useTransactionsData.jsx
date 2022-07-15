@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setDefault, setTableRows } from '../../../state/reducers/tableReducer';
-
-import { updatePropertiesData } from '../../../state/reducers/app';
+import { setDefault } from '../../../state/reducers/tableReducer';
 
 const columns = [
 	{
@@ -13,52 +11,66 @@ const columns = [
 		label: 'ID'
 	},
 	{
-		id: 'title',
-		numeric: true,
-		disablePadding: false,
-		label: 'Title'
-	},
-	{
-		id: 'address',
-		numeric: true,
-		disablePadding: false,
-		label: 'Address'
-	},
-	{
 		id: 'agent',
 		numeric: true,
 		disablePadding: false,
 		label: 'Agent'
 	},
 	{
+		id: 'type',
+		numeric: true,
+		disablePadding: false,
+		label: 'Type'
+	},
+	{
+		id: 'start_date',
+		numeric: true,
+		disablePadding: false,
+		label: 'Start Date'
+	},
+	{
+		id: 'end_date',
+		numeric: true,
+		disablePadding: false,
+		label: 'End Date'
+	},
+	{
 		id: 'status',
 		numeric: true,
 		disablePadding: false,
 		label: 'Status'
+	},
+	{
+		id: 'amount',
+		disablePadding: false,
+		label: 'Amount'
 	}
 ];
 
-export default function usePropertiesData() {
+export default function useTransactionsData() {
 	const app = useSelector((state) => state.app.value);
+	const table = useSelector((state) => state.table.value);
 
 	const dispatch = useDispatch();
 
 	const rows = useMemo(() => {
-		return app.properties?.map((property) => {
-			const agent = app.agents?.find((agent) => agent?.user_id === property?.agent_id);
+		return app.transactions?.map((transaction) => {
+			const agent = app.agents?.find((agent) => agent?.user_id === transaction?.agent_id);
 			return {
-				id: property?.id,
-				title: property?.title,
-				address: property?.address,
+				id: transaction?.id,
 				agent: agent?.picture,
-				status: property?.status
+				type: transaction?.transaction_type,
+				start_date: transaction?.date_started,
+				end_date: transaction?.date_closed,
+				status: transaction?.status,
+				amount: transaction?.amount
 			};
 		});
-	}, [app.properties, app.agents]);
+	}, [app.transactions, app.agents]);
 
 	const edit = useMemo(
 		() => ({
-			status: ['Open', 'Offer Accepted', 'Deposit Received', 'Completion', 'Closed'],
+			status: ['Open', 'Pending', 'Active', 'Closed'],
 			agent: app.agents.map((agent) => agent?.name)
 		}),
 		[app.agents]
@@ -71,7 +83,7 @@ export default function usePropertiesData() {
 				rows: rows,
 				selected: [],
 				edit: edit,
-				type: 'properties'
+				type: 'transactions'
 			})
 		);
 	}, [edit, rows, dispatch]);

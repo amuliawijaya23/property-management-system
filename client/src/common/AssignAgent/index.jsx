@@ -32,7 +32,7 @@ export default function AssignAgent(props) {
 		console.log('value', value);
 		if (value) {
 			const selectedAgent = app.agents.find((user) => user.name === value);
-			const newData = { ...property?.details, seller_id: selectedAgent.user_id };
+			const newData = { ...property?.details, agent_id: selectedAgent.user_id };
 			updateProperty(newData);
 		}
 		handleClose();
@@ -45,7 +45,7 @@ export default function AssignAgent(props) {
 					sx={{ mb: 2, mt: 2 }}
 					value={value}
 					onChange={(event, newValue) => setValue(newValue)}
-					options={app?.agents?.filter((agent) => agent?.user_id !== property?.details?.seller_id).map((option) => option?.name)}
+					options={app?.agents?.filter((agent) => agent?.user_id !== property?.details?.agent_id).map((option) => option?.name)}
 					freeSolo
 					renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
 				/>

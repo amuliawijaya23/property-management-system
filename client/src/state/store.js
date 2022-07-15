@@ -5,6 +5,7 @@ import userReducer from './reducers/userReducer';
 import propertyReducer from './reducers/propertyReducer';
 import tableReducer from './reducers/tableReducer';
 import formReducer from './reducers/formReducer';
+import dashboardReducer from './reducers/dashboardReducer';
 import app from './reducers/app';
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     app: app,
     property: propertyReducer,
     table: tableReducer,
-    form: formReducer
+    form: formReducer,
+    dashboard: dashboardReducer
   },
 });

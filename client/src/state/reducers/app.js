@@ -7,7 +7,8 @@ export const appSlice =  createSlice({
       properties: [],
       agents: [],
       contacts: [],
-      tasks: []
+      tasks: [],
+      transactions: []
     },
   },
   reducers: {
@@ -22,10 +23,13 @@ export const appSlice =  createSlice({
     },
     updateTasksData: (state, action) => {
       state.value.tasks = action.payload;
+    },
+    updateTransactionsData: (state, action) => {
+      state.value.transactions = action.payload
     }
   },
 });
 
-export const { initialize, updatePropertiesData, updateContactsData, updateTasksData } = appSlice.actions
+export const { initialize, updatePropertiesData, updateContactsData, updateTasksData, updateTransactionsData } = appSlice.actions
 
 export default appSlice.reducer;

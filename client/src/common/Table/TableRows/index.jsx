@@ -50,13 +50,16 @@ export default function TableRows(props) {
 			const color = (() => {
 				switch (row?.status) {
 					case 'Open':
-						return 'inherit';
+						return 'primary';
 
 					case 'Active':
-						return 'primary';
+						return 'secondary';
 
 					case 'Completion':
-						return 'primary';
+						return 'info';
+
+					case 'Pending':
+						return 'warning';
 
 					case 'Blocked':
 						return 'error';
@@ -107,6 +110,40 @@ export default function TableRows(props) {
 								{row?.status}
 								<LinearProgress variant='determinate' value={progress} color={color} />
 							</TableCell>
+						</TableRow>
+					);
+
+				case 'transactions':
+					return (
+						<TableRow
+							id={`transaction-row-${index}`}
+							hover={user.role === 'Master'}
+							onClick={(event) => {
+								if (user.role === 'Master') handleClick(event, row.id);
+							}}
+							role='checkbox'
+							aria-checked={isItemSelected}
+							tabIndex={-1}
+							key={row.id}
+							selected={isItemSelected}>
+							{user.role === 'Master' && (
+								<TableCell padding='checkbox'>
+									<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+								</TableCell>
+							)}
+							<TableCell component='th' id={labelId} scope='row'>
+								<Typography variant='button' sx={{ cursor: 'pointer' }} onClick={() => props.handleOpen(app?.transactions.find((transaction) => transaction.id === row.id))}>
+									TRX-{row.id}
+								</Typography>
+							</TableCell>
+							<TableCell align='left'>{<Avatar src={row.agent} />}</TableCell>
+							<TableCell align='left'>{row.type}</TableCell>
+							<TableCell align='left'>{format(new Date(row.start_date), 'PPPPpp')}</TableCell>
+							<TableCell align='left'>{format(new Date(row.end_date), 'PPPPpp')}</TableCell>
+							<TableCell align='left'>
+								<Chip label={row.status} color={color} />
+							</TableCell>
+							<TableCell align='left'>{row.amount}</TableCell>
 						</TableRow>
 					);
 

@@ -21,7 +21,7 @@ export default function AddWatcher(props) {
 	const app = useSelector((state) => state.app.value);
 	const property = useSelector((state) => state.property.value);
 	const watchers = property.watchers.map((watcher) => watcher.user_id);
-	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.seller_id);
+	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property?.details?.agent_id);
 
 	const { open, onClose } = props;
 	const [value, setValue] = useState([]);

@@ -22,7 +22,7 @@ App.use(cors());
 
 
 // Routers
-const apiRoutes = require('./routes/apiRoutes');
+const listingRoutes = require('./routes/listingRoutes');
 const gpRoutes = require('./routes/gpRoutes');
 const imagesRoutes = require('./routes/imagesRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -31,10 +31,12 @@ const sgRoutes = require('./routes/sgRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const fileRoutes = require('./routes/fileRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
 
-App.use('/api', apiRoutes);
+App.use('/api', listingRoutes);
 App.use('/api', contactRoutes);
 App.use('/api', taskRoutes);
+App.use('/api', transactionRoutes);
 App.use('/gp', gpRoutes);
 App.use('/images', imagesRoutes);
 App.use('/user', userRoutes);

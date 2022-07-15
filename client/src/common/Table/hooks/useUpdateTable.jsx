@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { setTableRows } from '../../../state/reducers/tableReducer';
 
-import { updatePropertiesData, updateContactsData, updateTasksData } from '../../../state/reducers/app';
+import { updatePropertiesData, updateContactsData, updateTasksData, updateTransactionsData } from '../../../state/reducers/app';
 
 import axios from 'axios';
 
@@ -18,7 +18,7 @@ export default function useUpdateTable() {
 					id: property?.id,
 					title: property?.title,
 					address: property?.address,
-					agent: (app.agents?.find((agent) => agent?.user_id === property?.seller_id)).picture,
+					agent: (app.agents?.find((agent) => agent?.user_id === property?.agent_id)).picture,
 					status: property?.status
 				}));
 
@@ -39,6 +39,17 @@ export default function useUpdateTable() {
 					category: task?.category,
 					due_date: task?.due_date,
 					status: task?.status
+				}));
+
+			case 'transactions':
+				return app.transactions?.map((transaction) => ({
+					id: transaction?.id,
+					agent: (app.agents?.find((agent) => agent?.user_id === transaction.agent_id)).picture,
+					type: transaction?.transaction_type,
+					start_date: transaction?.date_started,
+					end_date: transaction?.date_closed,
+					status: transaction?.status,
+					amount: transaction?.amount
 				}));
 
 			default:
@@ -62,7 +73,7 @@ export default function useUpdateTable() {
 					const propertyData = app.properties.find((property) => property.id === id);
 					return {
 						data: propertyData,
-						agent: app.agents.find((user) => user.user_id === propertyData.seller_id)
+						agent: app.agents.find((user) => user.user_id === propertyData.agent_id)
 					};
 
 				case 'contacts':
@@ -77,6 +88,13 @@ export default function useUpdateTable() {
 					return {
 						data: taskData,
 						agent: app.agents.find((user) => user.user_id === taskData.agent_id)
+					};
+
+				case 'transactions':
+					const transactionData = app.transactions.find((transaction) => transaction.id === id);
+					return {
+						data: transactionData,
+						agent: app.agents.find((user) => user.user_id === transactionData.agent_id)
 					};
 
 				default:
@@ -114,6 +132,9 @@ export default function useUpdateTable() {
 				case 'tasks':
 					return [...app.tasks];
 
+				case 'transactions':
+					return [...app.transactions];
+
 				default:
 					break;
 			}
@@ -127,17 +148,22 @@ export default function useUpdateTable() {
 
 			if (table.type === 'properties') {
 				newData.status = rowData.status;
-				newData.seller_id = agent.user_id;
+				newData.agent_id = agent.user_id;
 				defaultData[index] = newData;
 				await axios.put('/api/listing', newData);
 			} else if (table.type === 'contacts') {
 				newData.agent_id = agent.user_id;
 				defaultData[index] = newData;
 				await axios.put('/api/contacts', newData);
-			} else {
+			} else if (table.type === 'tasks') {
 				newData.agent_id = agent.user_id;
 				defaultData[index] = newData;
 				await axios.put('/api/tasks', newData);
+			} else {
+				newData.status = rowData.status;
+				newData.agent_id = agent.user_id;
+				defaultData[index] = newData;
+				await axios.put('/api/transactions', newData);
 			}
 		});
 
@@ -145,8 +171,10 @@ export default function useUpdateTable() {
 			dispatch(updatePropertiesData(defaultData));
 		} else if (table.type === 'contacts') {
 			dispatch(updateContactsData(defaultData));
-		} else {
+		} else if (table.type === 'tasks') {
 			dispatch(updateTasksData(defaultData));
+		} else {
+			dispatch(updateTransactionsData(defaultData));
 		}
 	};
 

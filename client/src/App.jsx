@@ -10,6 +10,7 @@ import Dashboard from './pages/dashboard';
 import Properties from './pages/properties';
 import Outreach from './pages/outreach';
 import Tasks from './pages/tasks';
+import Transactions from './pages/transactions';
 import Contacts from './pages/contacts';
 import Property from './pages/property';
 import PageNotFound from './PageNotFound';
@@ -38,6 +39,7 @@ export default function App() {
 									<Route path='/contacts' element={<Contacts />} />
 									<Route path='/property/:id' element={<Property />} />
 									<Route path='/outreach' element={<Outreach />} />
+									<Route path='/transactions' element={<Transactions />} />
 								</>
 							)}
 							{!isAuthenticated && (

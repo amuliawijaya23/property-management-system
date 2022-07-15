@@ -12,17 +12,17 @@ import ContactsIcon from '@mui/icons-material/Contacts';
 import HelpIcon from '@mui/icons-material/Help';
 import PersonIcon from '@mui/icons-material/Person';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import PaidIcon from '@mui/icons-material/Paid';
 
 import { useNavigate } from 'react-router-dom';
 
-const drawerItems = ['Dashboard', 'Listings', 'Tasks', 'Contacts', 'Outreach'];
+const drawerItems = ['Dashboard', 'Listings', 'Transactions', 'Tasks', 'Contacts', 'Outreach'];
 
 export default function DrawerList(props) {
 	const navigate = useNavigate();
 
 	const clickHandlers = (i) => {
-		const path = ['/', '/properties', '/tasks', '/contacts', '/outreach'];
+		const path = ['/', '/properties', '/transactions', '/tasks', '/contacts', '/outreach'];
 		navigate(path[i]);
 	};
 
@@ -35,6 +35,7 @@ export default function DrawerList(props) {
 							<ListItemIcon>
 								{text === 'Dashboard' && <DashboardIcon />}
 								{text === 'Listings' && <HomeIcon />}
+								{text === 'Transactions' && <PaidIcon />}
 								{text === 'Tasks' && <AssignmentIcon />}
 								{text === 'Contacts' && <ContactsIcon />}
 								{text === 'Outreach' && <MailIcon />}
