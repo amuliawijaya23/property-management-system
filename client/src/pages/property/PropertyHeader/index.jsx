@@ -11,10 +11,10 @@ import { useSelector } from 'react-redux';
 export default function PropertyHeader(props) {
 	const app = useSelector((state) => state.app.value);
 	const property = useSelector((state) => state.property.value);
-	const seller = app.agents?.find((agent) => agent.user_id === property.details?.seller_id);
+	const agent = app.agents?.find((agent) => agent.user_id === property.details?.agent_id);
 	const watchers = property?.watchers?.map((watcher) => watcher.user_id);
 
-	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.seller_id);
+	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.agent_id);
 
 	const close = {
 		watcher: false,
@@ -38,12 +38,12 @@ export default function PropertyHeader(props) {
 		<CardActions>
 			<Grid container>
 				<Grid item xs={6} container justifyContent='flex-start'>
-					<Tooltip title={seller?.name}>
-						<Avatar src={seller?.picture} alt='seller' onClick={() => handleClickOpen('agent')} sx={{ cursor: 'pointer' }} />
+					<Tooltip title={agent?.name}>
+						<Avatar src={agent?.picture} alt='agent' onClick={() => handleClickOpen('agent')} sx={{ cursor: 'pointer' }} />
 					</Tooltip>
 					<AvatarGroup sx={{ ml: 1, cursor: 'pointer' }}>
 						{property.watchers
-							.filter((watcher) => watcher.user_id !== property?.details?.seller_id)
+							.filter((watcher) => watcher.user_id !== property?.details?.agent_id)
 							.map((user) => {
 								const watcher = app?.agents.find((agent) => agent?.user_id === user?.user_id);
 								return (

@@ -38,7 +38,7 @@ export default function PropertyFiles() {
 			const formData = await new FormData();
 			formData.append('file', file);
 			formData.append('organization_id', property.details?.organization_id);
-			formData.append('agent_id', property.details?.seller_id);
+			formData.append('agent_id', property.details?.agent_id);
 
 			try {
 				const response = await axios.post(`/files/listing/${property.details?.id}`, formData);
