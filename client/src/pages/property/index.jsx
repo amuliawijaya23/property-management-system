@@ -73,9 +73,9 @@ export default function Property() {
 									title={`LIST-${property?.details?.id} ${property.details?.title}`}
 									subheader={
 										<>
-											{`Last updated ${formatDistanceToNowStrict(dateUpdated, { addSuffix: true })}`}
+											{`Updated ${formatDistanceToNowStrict(dateUpdated, { addSuffix: true })}`}
 											<br />
-											{`Created ${format(dateCreated, 'PPpp')}`}
+											{`Created ${format(dateCreated, 'PPp')}`}
 										</>
 									}
 									titleTypographyProps={{ variant: 'h7' }}

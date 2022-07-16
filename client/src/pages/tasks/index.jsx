@@ -24,7 +24,7 @@ export default function Tasks() {
 
 	return (
 		<Box width={'100%'} mt={2}>
-			<EnhancedTable handleOpen={handleOpen} />
+			<EnhancedTable handleOpen={handleOpen} defaultOrder='desc' defaultOrderBy='due_date' />
 			<TaskForm open={open} onClose={handleClose} task={task} />
 		</Box>
 	);

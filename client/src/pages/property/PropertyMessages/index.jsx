@@ -13,8 +13,8 @@ import useSendMessage from '../hooks/useSendMessage';
 export default function PropertyMessages() {
 	const { sendMessage } = useSendMessage();
 
-	const user = useSelector((state) => state.user.value);
-	const property = useSelector((state) => state.property.value);
+	const user = useSelector((state) => state?.user?.value);
+	const property = useSelector((state) => state?.property?.value);
 
 	const editorRef = useRef(null);
 
@@ -23,15 +23,15 @@ export default function PropertyMessages() {
 			const message = {
 				message: editorRef.current.getContent(),
 				listing_id: property?.details?.id,
-				organization_id: user.org_id,
-				sender_id: user.sub
+				organization_id: user?.org_id,
+				sender_id: user?.sub
 			};
 			sendMessage(message);
 			editorRef.current.setContent('');
 		}
 	};
 
-	const messages = property?.messages?.map((message, i) => <Messages key={`message-${i}`} message={message} />);
+	const messages = property?.messages ? property?.messages?.map((message, i) => <Messages key={`message-${i}`} message={message} />) : <></>;
 
 	return (
 		<Grid container spacing={1}>

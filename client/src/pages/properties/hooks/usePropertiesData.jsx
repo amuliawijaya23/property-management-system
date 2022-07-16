@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setDefault, setTableRows } from '../../../state/reducers/tableReducer';
-
-import { updatePropertiesData } from '../../../state/reducers/app';
+import { setDefault } from '../../../state/reducers/tableReducer';
 
 const columns = [
 	{
@@ -11,18 +9,6 @@ const columns = [
 		numeric: false,
 		disablePadding: false,
 		label: 'ID'
-	},
-	{
-		id: 'title',
-		numeric: true,
-		disablePadding: false,
-		label: 'Title'
-	},
-	{
-		id: 'address',
-		numeric: true,
-		disablePadding: false,
-		label: 'Address'
 	},
 	{
 		id: 'agent',
@@ -35,6 +21,54 @@ const columns = [
 		numeric: true,
 		disablePadding: false,
 		label: 'Status'
+	},
+	{
+		id: 'updated_at',
+		numeric: true,
+		disablePadding: false,
+		label: 'Updated'
+	},
+	{
+		id: 'created_at',
+		numeric: true,
+		disablePadding: false,
+		label: 'Created'
+	},
+	{
+		id: 'valuation',
+		numeric: true,
+		disablePadding: false,
+		label: 'Valuation'
+	},
+	{
+		id: 'address',
+		numeric: true,
+		disablePadding: false,
+		label: 'Address'
+	},
+	{
+		id: 'title',
+		numeric: true,
+		disablePadding: false,
+		label: 'Title'
+	},
+	{
+		id: 'number_of_bedrooms',
+		numeric: true,
+		disablePadding: false,
+		label: 'Bedrooms'
+	},
+	{
+		id: 'number_of_bathrooms',
+		numeric: true,
+		disablePadding: false,
+		label: 'Bathrooms'
+	},
+	{
+		id: 'parking_space',
+		numeric: true,
+		disablePadding: false,
+		label: 'Parking'
 	}
 ];
 
@@ -48,21 +82,19 @@ export default function usePropertiesData() {
 			const agent = app.agents?.find((agent) => agent?.user_id === property?.agent_id);
 			return {
 				id: property?.id,
-				title: property?.title,
+				agent: agent,
+				status: property?.status,
+				updated_at: property?.updated_at,
+				created_at: property?.created_at,
+				valuation: property?.valuation,
 				address: property?.address,
-				agent: agent?.picture,
-				status: property?.status
+				title: property?.title,
+				number_of_bedrooms: property?.number_of_bedrooms,
+				number_of_bathrooms: property?.number_of_bathrooms,
+				parking_space: property?.parking_space
 			};
 		});
 	}, [app.properties, app.agents]);
-
-	const edit = useMemo(
-		() => ({
-			status: ['Open', 'Offer Accepted', 'Deposit Received', 'Completion', 'Closed'],
-			agent: app.agents.map((agent) => agent?.name)
-		}),
-		[app.agents]
-	);
 
 	const initialize = useCallback(async () => {
 		await dispatch(
@@ -70,11 +102,11 @@ export default function usePropertiesData() {
 				columns: columns,
 				rows: rows,
 				selected: [],
-				edit: edit,
 				type: 'properties'
 			})
 		);
-	}, [edit, rows, dispatch]);
+		window.localStorage.setItem('rows', JSON.stringify({ data: [...rows] }));
+	}, [rows, dispatch]);
 
 	useEffect(() => {
 		initialize();

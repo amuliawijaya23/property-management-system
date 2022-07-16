@@ -5,7 +5,6 @@ const initialState = {
     columns: [],
     rows: [],
     selected: [],
-    edit: {},
     type: ''
   }
 };
@@ -25,9 +24,6 @@ export const tableSlice =  createSlice({
     },
     setSelected: (state, action) => {
       state.value.selected = action.payload;
-    },
-    setEdit: (state, action) => {
-      state.value.edit = action.payload;
     }
   },
 });
@@ -37,7 +33,6 @@ export const {
   setTableColumns, 
   setTableRows,
   setSelected,
-  setEdit
 } = tableSlice.actions;
 
 export default tableSlice.reducer;

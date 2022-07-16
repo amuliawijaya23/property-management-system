@@ -18,12 +18,12 @@ export default function NavBar(props) {
 					<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
 						ProperTee
 					</Typography>
-					{user.isAuthenticated && (
+					{user?.isAuthenticated && (
 						<Button onClick={() => props.logout({ returnTo: window.location.origin })} color='inherit'>
 							Logout
 						</Button>
 					)}
-					{!user.isAuthenticated && (
+					{!user?.isAuthenticated && (
 						<Button onClick={() => props.loginWithRedirect()} color='inherit'>
 							Login
 						</Button>

@@ -1,15 +1,7 @@
 import { useEffect, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { useNavigate } from 'react-router-dom';
-
-import { setDefault, setTableRows } from '../../../state/reducers/tableReducer';
-
-// import { updateTasksData } from 'state/reducers/app';
-import { updateTasksData } from '../../../state/reducers/app';
-
-import axios from 'axios';
-
+import { setDefault } from '../../../state/reducers/tableReducer';
 const columns = [
 	{
 		id: 'id',
@@ -51,7 +43,6 @@ const columns = [
 
 export default function usePropertiesData() {
 	const app = useSelector((state) => state.app.value);
-	const table = useSelector((state) => state.table.value);
 
 	const dispatch = useDispatch();
 
@@ -60,7 +51,7 @@ export default function usePropertiesData() {
 			const agent = app.agents?.find((agent) => agent?.user_id === task?.agent_id);
 			return {
 				id: task?.id,
-				agent: agent?.picture,
+				agent: agent,
 				summary: task?.summary,
 				category: task?.category,
 				due_date: task?.due_date,
@@ -69,24 +60,17 @@ export default function usePropertiesData() {
 		});
 	}, [app.tasks, app.agents]);
 
-	const edit = useMemo(
-		() => ({
-			agent: app.agents.map((agent) => agent?.name)
-		}),
-		[app.agents]
-	);
-
 	const initialize = useCallback(async () => {
 		await dispatch(
 			setDefault({
 				columns: columns,
 				rows: rows,
 				selected: [],
-				edit: edit,
 				type: 'tasks'
 			})
 		);
-	}, [edit, rows, dispatch]);
+		window.localStorage.setItem('rows', JSON.stringify({ data: [...rows] }));
+	}, [rows, dispatch]);
 
 	useEffect(() => {
 		initialize();

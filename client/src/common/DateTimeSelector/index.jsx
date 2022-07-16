@@ -6,29 +6,24 @@ import TextField from '@mui/material/TextField';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 
 export default function DateTimeSelector(props) {
-	const [value, setValue] = useState(props.form.due_date);
+	const { form, setDate, type } = props;
 
 	const handleChange = (newValue) => {
-		props.setDate(newValue);
+		setDate(newValue);
 	};
 
 	return (
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
 			<DateTimePicker
-				label='Due Date'
-				value={props.form.due_date}
+				label={type
+					.split('_')
+					.map((word) => word[0].toUpperCase() + word.substring(1))
+					.join(' ')}
+				value={form[type]}
 				onChange={handleChange}
 				disablePast={true}
 				renderInput={(params) => (
-					<TextField
-						{...params}
-						sx={{ mt: 2 }}
-						fullWidth
-						margin='dense'
-						size='small'
-						variant='standard'
-						helperText={`Due ${formatDistanceToNowStrict(new Date(props.form.due_date), { addSuffix: true })}`}
-					/>
+					<TextField {...params} sx={{ mt: 2 }} fullWidth margin='dense' size='small' variant='standard' helperText={`${formatDistanceToNowStrict(new Date(form[type]), { addSuffix: true })}`} />
 				)}
 			/>
 		</LocalizationProvider>

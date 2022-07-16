@@ -49,7 +49,6 @@ const columns = [
 
 export default function useTransactionsData() {
 	const app = useSelector((state) => state.app.value);
-	const table = useSelector((state) => state.table.value);
 
 	const dispatch = useDispatch();
 
@@ -58,23 +57,15 @@ export default function useTransactionsData() {
 			const agent = app.agents?.find((agent) => agent?.user_id === transaction?.agent_id);
 			return {
 				id: transaction?.id,
-				agent: agent?.picture,
+				agent: agent,
 				type: transaction?.transaction_type,
-				start_date: transaction?.date_started,
-				end_date: transaction?.date_closed,
+				start_date: transaction?.start_date,
+				end_date: transaction?.end_date,
 				status: transaction?.status,
-				amount: transaction?.amount
+				amount: transaction?.transaction_value
 			};
 		});
 	}, [app.transactions, app.agents]);
-
-	const edit = useMemo(
-		() => ({
-			status: ['Open', 'Pending', 'Active', 'Closed'],
-			agent: app.agents.map((agent) => agent?.name)
-		}),
-		[app.agents]
-	);
 
 	const initialize = useCallback(async () => {
 		await dispatch(
@@ -82,11 +73,11 @@ export default function useTransactionsData() {
 				columns: columns,
 				rows: rows,
 				selected: [],
-				edit: edit,
 				type: 'transactions'
 			})
 		);
-	}, [edit, rows, dispatch]);
+		window.localStorage.setItem('rows', JSON.stringify({ data: [...rows] }));
+	}, [rows, dispatch]);
 
 	useEffect(() => {
 		initialize();

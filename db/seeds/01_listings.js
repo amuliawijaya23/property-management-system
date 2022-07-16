@@ -15,7 +15,7 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 2,
           number_of_bathrooms: 2,
           parking_space: 1,
-          price: 780000,
+          valuation: 780000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
@@ -30,7 +30,7 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 4,
           number_of_bathrooms: 3,
           parking_space: 2,
-          price: 3211000,
+          valuation: 3211000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
@@ -45,7 +45,7 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 2,
           number_of_bathrooms: 2,
           parking_space: 1,
-          price: 1375000,
+          valuation: 1375000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
@@ -60,7 +60,7 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 3,
           number_of_bathrooms: 2,
           parking_space: 2,
-          price: 1583000,
+          valuation: 1583000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
@@ -75,7 +75,7 @@ exports.seed = async function(knex) {
           number_of_bedrooms: 5,
           number_of_bathrooms: 3,
           parking_space: 4,
-          price: 6200000,
+          valuation: 6200000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },

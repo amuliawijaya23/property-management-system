@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
 
 export default function Messages(props) {
-	const app = useSelector((state) => state.app.value);
-	const sender = app.agents?.find((agent) => agent.user_id === props.message.sender_id);
+	const app = useSelector((state) => state?.app?.value);
+	const sender = app.agents?.find((agent) => agent?.user_id === props?.message?.sender_id);
 
 	return (
 		<ListItem>

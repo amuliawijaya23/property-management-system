@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, AvatarGroup, Button, Typography } from '@mui/material';
-import DateTimeSelector from './DateTimeSelector';
+import DateTimeSelector from '../DateTimeSelector';
 import SelectAgent from '../SelectAgent';
 
 import useTaskForm from './hooks/useTaskForm';
@@ -109,7 +109,7 @@ export default function TaskForm(props) {
 							margin='normal'
 							value={form.listing_id}
 							onChange={(event) => setForm({ ...form, listing_id: event.target.value })}>
-							{app.properties.map((property) => (
+							{app?.properties?.map((property) => (
 								<MenuItem key={`task-form-property-${property.id}`} value={property.id}>
 									LIST-{property.id}
 								</MenuItem>
@@ -135,7 +135,7 @@ export default function TaskForm(props) {
 						</TextField>
 					</Grid>
 					<Grid item xs={12} md={6}>
-						<DateTimeSelector form={form} setDate={setDueDate} />
+						<DateTimeSelector form={form} setDate={setDueDate} type={'due_date'} />
 					</Grid>
 					<Grid item xs={12}>
 						<FormControl variant='standard' fullWidth>

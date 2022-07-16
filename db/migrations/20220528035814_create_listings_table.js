@@ -12,8 +12,9 @@ exports.up = async function(knex) {
       table.smallint('number_of_bedrooms').notNullable();
       table.smallint('number_of_bathrooms').notNullable();
       table.smallint('parking_space').notNullable();
-      table.integer('price').notNullable();
+      table.decimal('valuation', 17, 0).notNullable();
       table.string('status', 255).notNullable().defaultTo('Open');
+      table.timestamp('date_closed');
       table.string('organization_id').notNullable();
       table.string('agent_id').notNullable();
       table.timestamps(false, true);

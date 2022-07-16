@@ -42,6 +42,20 @@ const getTransactions = (id) => {
     .catch(e => console.log(e.message));
 };
 
+const createTransactions = (transaction) => {
+  return knex('transactions')
+    .insert({ ...transaction })
+    .returning('*')
+    .catch((e) => console.log(e.message));
+};
+
+const getListingTransactions = (id) => {
+  return knex('transactions')
+    .where({listing_id: id})
+    .then((res) => res)
+    .catch((e) => console.log(e.message));
+};
+
 const updateTransaction = (transaction) => {
   return knex('transactions')
     .where({id: transaction.id})
@@ -222,5 +236,7 @@ module.exports = {
   updateWatcher,
   createContact,
   getTransactions,
-  updateTransaction
+  updateTransaction,
+  createTransactions,
+  getListingTransactions
 };

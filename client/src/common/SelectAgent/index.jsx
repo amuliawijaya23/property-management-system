@@ -1,7 +1,7 @@
 import { Avatar, Tooltip } from '@mui/material';
 
 export default function SelectAgent(props) {
-	const { selected, agent, assignAgent } = props;
+	const { selected, agent, assignAgent, table } = props;
 
 	const selectedStyle = (() => {
 		if (selected) {
@@ -11,9 +11,13 @@ export default function SelectAgent(props) {
 		}
 	})();
 
+	const clickHandler = () => {
+		assignAgent(table ? agent : agent?.user_id);
+	};
+
 	return (
-		<Tooltip title={agent.name}>
-			<Avatar alt='agent' src={agent.picture} onClick={() => assignAgent(agent.user_id)} sx={{ cursor: 'pointer' }} style={selectedStyle} />
+		<Tooltip title={agent?.name}>
+			<Avatar alt='agent' src={agent?.picture} onClick={clickHandler} sx={{ cursor: 'pointer' }} style={selectedStyle} />
 		</Tooltip>
 	);
 }

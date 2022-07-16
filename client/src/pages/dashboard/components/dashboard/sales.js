@@ -1,9 +1,14 @@
-// import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useSelector } from 'react-redux';
+import { Bar } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+
 
 export const Sales = (props) => {
+  const dashboard = useSelector((state) => state.dashboard.value);
   const theme = useTheme();
 
   const data = {
@@ -102,10 +107,10 @@ export const Sales = (props) => {
             position: 'relative'
           }}
         >
-          {/* <Bar
+          <Bar
             data={data}
             options={options}
-          /> */}
+          />
         </Box>
       </CardContent>
       <Divider />

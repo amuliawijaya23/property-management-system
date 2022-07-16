@@ -10,6 +10,7 @@ export const propertySlice =  createSlice({
       tasks: [],
       messages: [],
       watchers: [],
+      transactions: [],
       valid: true
     },
   },
@@ -32,6 +33,9 @@ export const propertySlice =  createSlice({
     setPropertyDetails: (state, action) => {
       state.value.details = action.payload;
     },
+    setPropertyTransactions: (state, action) => {
+      state.value.transactions = action.payload;
+    },
     setValid: (state, action) => {
       state.value.valid = action.payload;
     }
@@ -47,6 +51,7 @@ export const {
   setPropertyWatchers,
   setPropertyFiles,
   setPropertyTasks,
+  setPropertyTransactions,
   setValid
 } = propertySlice.actions
 
