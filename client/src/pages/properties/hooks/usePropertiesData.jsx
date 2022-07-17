@@ -17,6 +17,12 @@ const columns = [
 		label: 'Agent'
 	},
 	{
+		id: 'service_type',
+		numeric: true,
+		disablePadding: false,
+		label: 'Service'
+	},
+	{
 		id: 'status',
 		numeric: true,
 		disablePadding: false,
@@ -53,6 +59,12 @@ const columns = [
 		label: 'Title'
 	},
 	{
+		id: 'property_type',
+		numeric: true,
+		disablePadding: false,
+		label: 'Type'
+	},
+	{
 		id: 'number_of_bedrooms',
 		numeric: true,
 		disablePadding: false,
@@ -84,11 +96,13 @@ export default function usePropertiesData() {
 				id: property?.id,
 				agent: agent,
 				status: property?.status,
+				service_type: property?.service_type,
 				updated_at: property?.updated_at,
 				created_at: property?.created_at,
 				valuation: property?.valuation,
 				address: property?.address,
 				title: property?.title,
+				property_type: property?.property_type,
 				number_of_bedrooms: property?.number_of_bedrooms,
 				number_of_bathrooms: property?.number_of_bathrooms,
 				parking_space: property?.parking_space

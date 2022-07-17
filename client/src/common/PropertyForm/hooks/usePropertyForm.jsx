@@ -42,12 +42,9 @@ export default function usePropertyForm() {
 
 	const updateProperty = async (form) => {
 		try {
-			const response = await axios.put(`/api/listing`, form);
-			let properties = [...app.properties];
-			const index = properties.map((property) => property.id).indexOf(response.data[0].id);
-			properties[index] = response.data[0];
-			await dispatch(updatePropertiesData(properties));
-			await dispatch(setPropertyDetails(response.data[0]));
+			const response = await axios.put(`/api/properties`, form);
+			await dispatch(updatePropertiesData(response.data));
+			await dispatch(setPropertyDetails({ ...form }));
 		} catch (error) {
 			console.error(error);
 		}

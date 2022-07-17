@@ -26,7 +26,8 @@ router.get('/transactions/:id', async(req, res) => {
 
 router.put('/transactions', async(req, res) => {
   const transaction = {...req.body};
-  const result = await updateTransaction(transaction);
+  await updateTransaction(transaction);
+  const result = await getTransactions(transaction.organization_id);
   res.send(result);
 });
 

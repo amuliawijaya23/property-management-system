@@ -51,9 +51,10 @@ router.post('/listings', async(req, res) => {
   res.send(result);
 });
 
-router.put('/listing', async(req, res) => {
+router.put('/properties', async(req, res) => {
   const update = {...req.body};
-  const result = await updateListing(update);
+  await updateListing(update);
+  const result = await getListings(req.body.organization_id);
   res.send(result);
 });
 

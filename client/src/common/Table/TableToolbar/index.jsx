@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 
@@ -27,6 +27,12 @@ export default function EnhancedTableToolbar(props) {
 		updateRowsAgent(input);
 	};
 
+	useEffect(() => {
+		if (table?.selected?.length < 1 && selected) {
+			setSelected(null);
+		}
+	}, [table.selected, setSelected, selected]);
+
 	return (
 		<Toolbar
 			sx={{
@@ -37,19 +43,51 @@ export default function EnhancedTableToolbar(props) {
 				})
 			}}>
 			<Grid container alignItems='center'>
-				<Grid item xs={12} md={3}>
-					<Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+				<Grid item xs={12} md={10}>
+					{numSelected > 0 && (
+						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
+							{app.agents.map((agent) => (
+								<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent?.user_id === selected?.user_id} table={true} />
+							))}
+						</AvatarGroup>
+					)}
+					{numSelected < 1 && <TableSearch />}
+				</Grid>
+
+				<Grid item xs={12} md={2} sx={{ mt: 1 }}>
+					<Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end', alignItems: 'center' }}>
 						{numSelected < 1 && (
-							<Tooltip title='Create'>
-								<Button variant='text' onClick={() => handleOpen(null)} sx={{ m: 1 }}>
-									Create
-								</Button>
-							</Tooltip>
+							<>
+								<Tooltip title={`Create ${table?.type[0]?.toUpperCase()}${table?.type?.substring(1, table?.type.length - 1)}`}>
+									<Button variant='text' onClick={() => handleOpen(null)}>
+										Create
+									</Button>
+								</Tooltip>
+								{table?.type === 'properties' && (
+									<>
+										<Tooltip title='View All Properties'>
+											<Button variant='text' fullWidth>
+												All
+											</Button>
+										</Tooltip>
+										<Tooltip title='View All Properties for Sale'>
+											<Button variant='text' fullWidth>
+												Sales
+											</Button>
+										</Tooltip>
+										<Tooltip title='View All Properties for Lease'>
+											<Button variant='text' fullWidth>
+												Leasing
+											</Button>
+										</Tooltip>
+									</>
+								)}
+							</>
 						)}
 						{numSelected > 0 && (
 							<>
 								<Tooltip title='Update'>
-									<Button onClick={updateTableData} variant='contained'>
+									<Button onClick={updateTableData} variant='contained' fullWidth>
 										Update
 									</Button>
 								</Tooltip>
@@ -61,16 +99,6 @@ export default function EnhancedTableToolbar(props) {
 							</>
 						)}
 					</Box>
-				</Grid>
-				<Grid item xs={12} md={9}>
-					{numSelected > 0 && (
-						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-							{app.agents.map((agent) => (
-								<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent?.user_id === selected?.user_id} table={true} />
-							))}
-						</AvatarGroup>
-					)}
-					{numSelected < 1 && <TableSearch />}
 				</Grid>
 			</Grid>
 		</Toolbar>

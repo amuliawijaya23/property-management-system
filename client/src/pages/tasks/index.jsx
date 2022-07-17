@@ -23,7 +23,7 @@ export default function Tasks() {
 	};
 
 	return (
-		<Box width={'100%'} mt={2}>
+		<Box width={'100%'} mt={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleOpen} defaultOrder='desc' defaultOrderBy='due_date' />
 			<TaskForm open={open} onClose={handleClose} task={task} />
 		</Box>

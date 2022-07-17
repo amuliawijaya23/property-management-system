@@ -51,11 +51,10 @@ export default function EnhancedTable({ handleOpen, defaultOrder, defaultOrderBy
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - table.rows.length) : 0;
 
 	return (
-		// <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
 		<Paper sx={{ width: '98%' }}>
 			<EnhancedTableToolbar handleOpen={handleOpen} />
-			<TableContainer sx={{ height: '80vh', borderTop: 'solid 1px lightGrey', borderBottom: 'solid 1px lightGrey' }}>
-				<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'small'}>
+			<TableContainer sx={{ height: '80vh', borderTop: 'solid 1px lightGrey', borderBottom: 'solid 1px lightGrey', mt: 1 }}>
+				<Table sx={{ minWidth: 750, overflow: 'auto' }} aria-labelledby='tableTitle' size={'medium'}>
 					<EnhancedTableHead
 						numSelected={table.selected.length}
 						order={order}
@@ -86,6 +85,5 @@ export default function EnhancedTable({ handleOpen, defaultOrder, defaultOrderBy
 				onRowsPerPageChange={handleChangeRowsPerPage}
 			/>
 		</Paper>
-		// </Box>
 	);
 }

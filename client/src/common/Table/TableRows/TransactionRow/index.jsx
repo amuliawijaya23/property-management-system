@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import NumberFormat from 'react-number-format';
 
-export default function TransactionRow({ row, index, isItemSelected, labelId, handleClick, handleOpen }) {
-	const user = useSelector((state) => state.user.value);
+export default function TransactionRow({ row, labelId, handleOpen }) {
 	const app = useSelector((state) => state.app.value);
 	const color = (() => {
 		switch (row?.status) {
@@ -26,12 +25,7 @@ export default function TransactionRow({ row, index, isItemSelected, labelId, ha
 	})();
 
 	return (
-		<TableRow id={`transaction-row-${index}`} aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-			{user.role === 'Master' && (
-				<TableCell padding='checkbox'>
-					<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} onClick={(event) => handleClick(event, row.id)} />
-				</TableCell>
-			)}
+		<>
 			<TableCell component='th' id={labelId} scope='row'>
 				<Typography variant='button' sx={{ cursor: 'pointer' }} onClick={() => handleOpen(app?.transactions.find((transaction) => transaction.id === row.id))}>
 					TRX-{row.id}
@@ -64,6 +58,6 @@ export default function TransactionRow({ row, index, isItemSelected, labelId, ha
 					/>
 				}
 			</TableCell>
-		</TableRow>
+		</>
 	);
 }

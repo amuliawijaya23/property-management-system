@@ -9,6 +9,7 @@ const FORM = 'FORM';
 const SHOW = 'SHOW';
 const LOADING = 'LOADINH';
 const ERROR = 'ERROR';
+const TRANSACTIONS = 'TRANSACTIONS';
 
 
 export {
@@ -16,6 +17,7 @@ export {
   CONTACT,
   TASK,
   COMMENTS,
+  TRANSACTIONS,
   FILES,
   TASKS,
   MEDIA,

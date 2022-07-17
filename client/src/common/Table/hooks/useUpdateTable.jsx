@@ -10,7 +10,6 @@ export default function useUpdateTable() {
 	const app = useSelector((state) => state.app.value);
 	const table = useSelector((state) => state.table.value);
 	const dispatch = useDispatch();
-
 	const defaultRows = JSON.parse(window.localStorage.getItem('rows'))?.data;
 
 	const resetTableData = () => {
@@ -35,62 +34,41 @@ export default function useUpdateTable() {
 	const updateTableData = () => {
 		const tableData = [...table.rows];
 		const selected = [...table.selected];
-		const defaultData = [...app[table?.type]];
-
-		selected.forEach(async (id) => {
-			const index = defaultData.map((data) => data.id).indexOf(id);
-			const rowData = { ...tableData.find((row) => row.id === id) };
-			const agent = app.agents.find((agent) => agent.picture === rowData.agent);
-			let newData = { ...defaultData[index] };
-			newData.agent_id = agent.user_id;
-
+		const defaultTable = [...app[table?.type]];
+		const setDispatch = (res) => {
 			switch (table?.type) {
 				case 'properties':
-					await axios.put('/api/listing', newData);
+					dispatch(updatePropertiesData(res));
 					break;
 
 				case 'contacts':
-					await axios.put('/api/contacts', newData);
+					dispatch(updateContactsData(res));
 					break;
 
 				case 'tasks':
-					await axios.put('/api/tasks', newData);
+					dispatch(updateTasksData(res));
 					break;
 
 				case 'transactions':
-					await axios.put('/api/transactions', newData);
+					dispatch(updateTransactionsData(res));
 					break;
 
 				default:
 					break;
 			}
-			defaultData[index] = newData;
+		};
+
+		selected.forEach(async (id) => {
+			const index = defaultTable.map((data) => data.id).indexOf(id);
+			const rowData = { ...tableData.find((row) => row.id === id) };
+			let newData = { ...defaultTable[index], agent_id: rowData?.agent?.user_id };
+			const response = await axios.put(`/api/${table?.type}`, newData);
+			setDispatch(response.data);
 		});
-
-		switch (table?.type) {
-			case 'properties':
-				dispatch(updatePropertiesData(defaultData));
-				break;
-
-			case 'contacts':
-				dispatch(updateContactsData(defaultData));
-				break;
-
-			case 'tasks':
-				dispatch(updateTasksData(defaultData));
-				break;
-
-			case 'transactions':
-				dispatch(updateTransactionsData(defaultData));
-				break;
-
-			default:
-				break;
-		}
+		window.localStorage.setItem('rows', JSON.stringify({ data: [...table.rows] }));
 	};
 
 	const updateRowsAgent = (agent) => {
-		console.log('agent', agent);
 		let newRows = [...table.rows];
 		table?.selected?.forEach((id) => {
 			const index = newRows.map((row) => row?.id).indexOf(id);
@@ -98,7 +76,6 @@ export default function useUpdateTable() {
 			currentRow.agent = agent;
 			newRows[index] = currentRow;
 		});
-		console.log('new rows', newRows);
 		dispatch(setTableRows(newRows));
 	};
 

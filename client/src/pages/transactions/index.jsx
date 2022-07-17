@@ -21,7 +21,7 @@ export default function Transactions() {
 	};
 
 	return (
-		<Box width={'100%'} mt={2}>
+		<Box width={'100%'} mt={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleOpen} defaultOrder='asc' defaultOrderBy='end_date' />
 			<TransactionForm open={open} onClose={handleClose} transaction={transaction} />
 		</Box>

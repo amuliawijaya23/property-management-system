@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateContactsData } from '../../../state/reducers/app';
 
 export default function useContactForm() {
-	const app = useSelector((state) => state.app.value);
 	const user = useSelector((state) => state.user.value);
-	const property = useSelector((state) => state.property.value);
 	const dispatch = useDispatch();
 
 	const createContact = async (contact) => {

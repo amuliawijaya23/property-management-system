@@ -6,9 +6,7 @@ import NumberFormat from 'react-number-format';
 
 const steps = ['Open', 'Offer Accepted', 'Deposit Received', 'Closing', 'Closed'];
 
-export default function PropertyRow({ row, index, isItemSelected, labelId, handleClick }) {
-	const user = useSelector((state) => state.user.value);
-
+export default function PropertyRow({ row, labelId }) {
 	const stepIndex = steps.indexOf(row.status);
 	const progress = (() => (stepIndex === 0 ? 0 : (stepIndex + 1) * 20))();
 
@@ -41,12 +39,7 @@ export default function PropertyRow({ row, index, isItemSelected, labelId, handl
 	})();
 
 	return (
-		<TableRow key={`property-row-${index}`} id={`property-row-${index}`} aria-checked={isItemSelected} tabIndex={-1} selected={isItemSelected}>
-			{user.role === 'Master' && (
-				<TableCell padding='checkbox'>
-					<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} onClick={handleClick} />
-				</TableCell>
-			)}
+		<>
 			<TableCell component='th' id={labelId} scope='row' padding='checkbox'>
 				<Link to={`/property/${row.id}`}>LIST-{row.id}</Link>
 			</TableCell>
@@ -55,20 +48,26 @@ export default function PropertyRow({ row, index, isItemSelected, labelId, handl
 					<Avatar src={row?.agent?.picture} />
 				</Tooltip>
 			</TableCell>
-			<TableCell align='left' width={175}>
+			<TableCell align='left'>{row?.service_type}</TableCell>
+			<TableCell align='left' sx={{ minWidth: 175 }}>
 				{row?.status}
 				<LinearProgress variant='determinate' value={progress} color={color} />
 			</TableCell>
 			<TableCell align='left'>{formatDistanceToNowStrict(new Date(row?.updated_at), { addSuffix: true })}</TableCell>
 			<TableCell align='left'>{formatDistanceToNowStrict(new Date(row?.created_at), { addSuffix: true })}</TableCell>
-			<TableCell align='left' width={150}>
+			<TableCell align='left' sx={{ minWidth: 175 }}>
 				<NumberFormat isNumericString displayType='text' value={row?.valuation} thousandSeparator='.' decimalSeparator=',' decimalScale={2} fixedDecimalScale={true} prefix='Rp ' />
 			</TableCell>
-			<TableCell align='left'>{row?.address}</TableCell>
-			<TableCell align='left'>{row?.title}</TableCell>
+			<TableCell align='left' sx={{ minWidth: 300 }}>
+				{row?.address}
+			</TableCell>
+			<TableCell align='left' sx={{ minWidth: 300 }}>
+				{row?.title}
+			</TableCell>
+			<TableCell align='left'>{row?.property_type}</TableCell>
 			<TableCell align='left'>{row?.number_of_bedrooms}</TableCell>
 			<TableCell align='left'>{row?.number_of_bathrooms}</TableCell>
 			<TableCell align='left'>{row?.parking_space}</TableCell>
-		</TableRow>
+		</>
 	);
 }

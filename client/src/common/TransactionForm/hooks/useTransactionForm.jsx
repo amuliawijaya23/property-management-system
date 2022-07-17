@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTransactionsData } from '../../../state/reducers/app';
 import { setPropertyTransactions } from '../../../state/reducers/propertyReducer';
-import { useNavigate } from 'react-router-dom';
 
 export default function useTransactionsForm() {
 	const app = useSelector((state) => state.app.value);
@@ -30,15 +29,12 @@ export default function useTransactionsForm() {
 		const transactionData = { ...transaction, organization_id: user.org_id };
 		try {
 			const response = await axios.put('/api/transactions', transactionData);
-			let transactions = [...app.transactions];
-			const transactionIndex = transactions.map((transaction) => transaction.id).indexOf(response.data[0].id);
-			let propTrans = [...property.transactions];
-			const propTransIndex = propTrans.map((transaction) => transaction.id).indexOf(response.data[0].id);
+			dispatch(updateTransactionsData(response.data));
 
-			transactions[transactionIndex] = response.data[0];
-			propTrans[propTransIndex] = response.data[0];
-			dispatch(updateTransactionsData(transactions));
-			dispatch(setPropertyTransactions(propTrans));
+			if (property?.details?.id) {
+				const response = await axios.get(`/api/transactions/listing/${property.details.id}`);
+				dispatch(setPropertyTransactions(response.data));
+			}
 		} catch (error) {
 			console.error(error);
 		}

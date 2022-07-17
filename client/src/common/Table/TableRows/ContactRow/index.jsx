@@ -1,17 +1,11 @@
-import { TableRow, TableCell, Checkbox, Typography, Avatar, Tooltip } from '@mui/material';
+import { TableCell, Typography, Avatar, Tooltip } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-export default function ContactRow({ row, index, isItemSelected, labelId, handleClick, handleOpen }) {
-	const user = useSelector((state) => state.user.value);
+export default function ContactRow({ row, labelId, handleOpen }) {
 	const app = useSelector((state) => state.app.value);
 
 	return (
-		<TableRow id={`contact-row-${index}`} aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-			{user.role === 'Master' && (
-				<TableCell padding='checkbox'>
-					<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} onClick={handleClick} />
-				</TableCell>
-			)}
+		<>
 			<TableCell component='th' id={labelId} scope='row'>
 				<Typography variant='button' sx={{ cursor: 'pointer' }} onClick={() => handleOpen(app?.contacts.find((contact) => contact.id === row.id))}>
 					CON-{row.id}
@@ -27,6 +21,6 @@ export default function ContactRow({ row, index, isItemSelected, labelId, handle
 			<TableCell align='left'>{row?.name?.length < 40 ? row.name : `${row.name.substring(0, 40)}...`}</TableCell>
 			<TableCell align='left'>{row?.email}</TableCell>
 			<TableCell align='left'>{row?.mobile}</TableCell>
-		</TableRow>
+		</>
 	);
 }

@@ -19,7 +19,8 @@ router.get('/tasks/listing/:id', async(req, res) => {
 
 router.put('/tasks', async(req, res) => {
   const update = {...req.body};
-  const result = await updateTasks(update);
+  await updateTasks(update);
+  const result = await getTasks(update.organization_id);
   res.send(result);
 });
 

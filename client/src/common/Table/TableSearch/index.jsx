@@ -8,7 +8,7 @@ export default function TableSearch(props) {
 	const [search, setSearch] = useState('');
 
 	return (
-		<Grid container spacing={1} justifyContent='flex-end'>
+		<Grid container spacing={1} justifyContent='flex-start'>
 			<Grid item xs={12} md={6}>
 				<Box width='100%' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
 					<TextField

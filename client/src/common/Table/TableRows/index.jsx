@@ -1,3 +1,5 @@
+import { TableRow, TableCell, Checkbox } from '@mui/material';
+
 import PropertyRow from './PropertyRow';
 import TransactionRow from './TransactionRow';
 import ContactRow from './ContactRow';
@@ -13,6 +15,7 @@ export default function EnhancedTableRows({ order, orderBy, page, rowsPerPage, h
 	const { resetRows } = useUpdateTable();
 	const dispatch = useDispatch();
 
+	const user = useSelector((state) => state.user.value);
 	const table = useSelector((state) => state.table.value);
 	const app = useSelector((state) => state.app.value);
 
@@ -45,22 +48,19 @@ export default function EnhancedTableRows({ order, orderBy, page, rowsPerPage, h
 			const onSelect = (event) => handleClick(event, row?.id);
 			const openForm = () => handleOpen(app[table.type].find((n) => n.id === row?.id));
 
-			switch (table.type) {
-				case 'properties':
-					return <PropertyRow row={row} labelId={labelId} isItemSelected={isItemSelected} index={index} handleClick={onSelect} />;
-
-				case 'transactions':
-					return <TransactionRow row={row} labelId={labelId} isItemSelected={isItemSelected} index={index} handleClick={onSelect} handleOpen={openForm} />;
-
-				case 'contacts':
-					return <ContactRow row={row} labelId={labelId} isItemSelected={isItemSelected} index={index} handleClick={onSelect} handleOpen={openForm} />;
-
-				case 'tasks':
-					return <TaskRow row={row} labelId={labelId} isItemSelected={isItemSelected} index={index} handleClick={onSelect} handleOpen={openForm} />;
-
-				default:
-					return <></>;
-			}
+			return (
+				<TableRow key={`table-row-${index}`} id={`table-row-${index}`} aria-checked={isItemSelected} tabIndex={-1} selected={isItemSelected}>
+					{user.role === 'Master' && (
+						<TableCell padding='checkbox'>
+							<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} onClick={onSelect} />
+						</TableCell>
+					)}
+					{table?.type === 'properties' && <PropertyRow row={row} labelId={labelId} />}
+					{table?.type === 'transactions' && <TransactionRow row={row} labelId={labelId} handleOpen={openForm} />}
+					{table?.type === 'contacts' && <ContactRow row={row} labelId={labelId} handleOpen={openForm} />}
+					{table?.type === 'tasks' && <TaskRow row={row} labelId={labelId} handleOpen={openForm} />}
+				</TableRow>
+			);
 		});
 
 	return <>{tableRows}</>;

@@ -2,7 +2,7 @@ import { TableRow, TableCell, Checkbox, Typography, Avatar, Tooltip, Chip } from
 import { useSelector } from 'react-redux';
 import format from 'date-fns/format';
 
-export default function TaskRow({ row, index, isItemSelected, labelId, handleClick, handleOpen }) {
+export default function TaskRow({ row, labelId, handleOpen }) {
 	const user = useSelector((state) => state.user.value);
 	const app = useSelector((state) => state.app.value);
 	const color = (() => {
@@ -25,12 +25,7 @@ export default function TaskRow({ row, index, isItemSelected, labelId, handleCli
 	})();
 
 	return (
-		<TableRow id={`task-row-${index}`} aria-checked={isItemSelected} tabIndex={-1} key={row?.id} selected={isItemSelected}>
-			{user.role === 'Master' && (
-				<TableCell padding='checkbox'>
-					<Checkbox color='primary' checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} onClick={handleClick} />
-				</TableCell>
-			)}
+		<>
 			<TableCell component='th' id={labelId} scope='row'>
 				<Typography variant='button' sx={{ cursor: 'pointer' }} onClick={() => handleOpen(app?.tasks.find((task) => task?.id === row?.id))}>
 					TASK-{row?.id}
@@ -49,6 +44,6 @@ export default function TaskRow({ row, index, isItemSelected, labelId, handleCli
 			<TableCell align='left'>
 				<Chip label={row?.status} color={color} />
 			</TableCell>
-		</TableRow>
+		</>
 	);
 }
