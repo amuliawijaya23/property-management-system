@@ -28,7 +28,6 @@ export default function TransactionForm(props) {
 	const initialForm = {
 		agent_id: '',
 		transaction_type: '',
-		service_type: '',
 		start_date: new Date(),
 		end_date: new Date(),
 		notes: '',
@@ -122,14 +121,14 @@ export default function TransactionForm(props) {
 					</Grid>
 					<Grid item xs={6}>
 						<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
-							{['Open', 'Pending', 'Active', 'Closed'].map((status) => (
+							{['Open', 'Pending Confirmation', 'Completed', 'Canceled'].map((status) => (
 								<MenuItem key={`transaction-form-status-${status}`} value={status}>
 									{status}
 								</MenuItem>
 							))}
 						</TextField>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12}>
 						<TextField
 							variant='standard'
 							select
@@ -139,26 +138,9 @@ export default function TransactionForm(props) {
 							margin='normal'
 							value={form.transaction_type}
 							onChange={(event) => setForm({ ...form, transaction_type: event.target.value })}>
-							{['Deposit', 'Income', 'Expense'].map((transaction) => (
+							{['Deposit', 'Sale', 'Lease'].map((transaction) => (
 								<MenuItem key={`transaction-form-transaction-${transaction}`} value={transaction}>
 									{transaction}
-								</MenuItem>
-							))}
-						</TextField>
-					</Grid>
-					<Grid item xs={6}>
-						<TextField
-							variant='standard'
-							select
-							label='Service'
-							size='small'
-							fullWidth
-							margin='normal'
-							value={form.service_type}
-							onChange={(event) => setForm({ ...form, service_type: event.target.value })}>
-							{['Renting', 'Selling'].map((service) => (
-								<MenuItem key={`transaction-form-service-${service}`} value={service}>
-									{service}
 								</MenuItem>
 							))}
 						</TextField>

@@ -118,12 +118,8 @@ export default function Outreach(props) {
 				</Grid>
 				<Grid item xs={12} sx={{ mt: 1 }}>
 					<FormControl variant='standard' fullWidth>
-						<Input
-							value={state.subject}
-							id='email-recepienct'
-							onChange={(event) => setState({ ...state, subject: event.target.value })}
-							startAdornment={<InputAdornment position='start'>Subject:</InputAdornment>}
-						/>
+						<InputLabel>Subject</InputLabel>
+						<Input value={state.subject} id='email-recepienct' onChange={(event) => setState({ ...state, subject: event.target.value })} />
 					</FormControl>
 				</Grid>
 				<Grid item xs={12} sx={{ mt: 2 }}>

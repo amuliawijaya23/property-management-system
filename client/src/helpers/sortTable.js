@@ -1,9 +1,18 @@
 export const descendingComparator = (a, b, orderBy) => {
-  if (b[orderBy] < a[orderBy]) {
-		return -1;
-	}
-	if (b[orderBy] > a[orderBy]) {
-		return 1;
+	if (orderBy === 'amount' || orderBy === 'valuation') {
+		if (parseInt(b[orderBy]) < parseInt(a[orderBy])) {
+			return -1;
+		};
+		if (parseInt(b[orderBy]) > parseInt(a[orderBy])) {
+			return 1;
+		};
+	} else {
+		if (b[orderBy] < a[orderBy]) {
+			return -1;
+		};
+		if (b[orderBy] > a[orderBy]) {
+			return 1;
+		};
 	}
 	return 0;
 };

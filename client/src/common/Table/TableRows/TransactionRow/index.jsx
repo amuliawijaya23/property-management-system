@@ -42,7 +42,7 @@ export default function TransactionRow({ row, labelId, handleOpen }) {
 			<TableCell align='left'>{format(new Date(row.start_date), 'PPp')}</TableCell>
 			<TableCell align='left'>{format(new Date(row.end_date), 'PPp')}</TableCell>
 			<TableCell align='left'>
-				<Chip label={row.status} color={color} />
+				<Chip label={row.status} color={color} sx={{ minWidth: 155 }} />
 			</TableCell>
 			<TableCell align='left'>
 				{

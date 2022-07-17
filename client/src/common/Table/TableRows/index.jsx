@@ -6,6 +6,7 @@ import ContactRow from './ContactRow';
 import TaskRow from './TaskRow';
 
 import { getComparator, stableSort } from '../../../helpers/sortTable';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelected } from '../../../state/reducers/tableReducer';
 

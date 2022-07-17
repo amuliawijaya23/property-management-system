@@ -15,14 +15,14 @@ export default function PropertyRow({ row, labelId }) {
 			case 'Open':
 				return 'primary';
 
-			case 'Closing':
-				return 'info';
-
 			case 'Offer Accepted':
 				return 'warning';
 
 			case 'Deposit Received':
 				return 'secondary';
+
+			case 'Closing':
+				return 'info';
 
 			case 'Closed':
 				return 'success';

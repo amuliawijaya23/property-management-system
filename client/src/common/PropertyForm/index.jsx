@@ -11,6 +11,8 @@ import SearchLocationInput from '../SearchLocationInput';
 import usePropertyForm from './hooks/usePropertyForm';
 import FormAlert from '../FormAlert';
 
+import NumberFormat from 'react-number-format';
+
 import { useSelector } from 'react-redux';
 
 const initialForm = {
@@ -18,14 +20,14 @@ const initialForm = {
 	status: '',
 	address: '',
 	zip_code: false,
-	service_type: '',
+	service_type: 'Sale',
 	property_type: '',
 	description: '',
 	size: false,
 	number_of_bedrooms: false,
 	number_of_bathrooms: false,
 	parking_space: false,
-	price: false
+	valuation: false
 };
 
 export default function PropertyForm(props) {
@@ -128,6 +130,19 @@ export default function PropertyForm(props) {
 		}
 	};
 
+	const stepOptions = (() => {
+		switch (form.service_type) {
+			case 'Sale':
+				return ['Open', 'Offer Accepted', 'Deposit Received', 'Closing', 'Closed', 'Contract Canceled'];
+
+			case 'Lease':
+				return ['Open', 'Offer Accepted', 'Deposit Received', 'Closing', 'Contract Active', 'Contract Canceled'];
+
+			default:
+				return [];
+		}
+	})();
+
 	return (
 		<>
 			<Drawer anchor='right' open={open} onClose={onClose} PaperProps={{ sx: { width: '65%' } }}>
@@ -141,7 +156,7 @@ export default function PropertyForm(props) {
 						</Grid>
 						<Grid item md={12} xs={12}>
 							<TextField variant='standard' select label='Status' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })} size='small' fullWidth margin='normal'>
-								{['Open', 'Offer Accepted', 'Deposit Received', 'Completion', 'Closed'].map((type) => (
+								{stepOptions?.map((type) => (
 									<MenuItem key={`property-form-status-menu-${type}`} value={type}>
 										{type}
 									</MenuItem>
@@ -168,7 +183,7 @@ export default function PropertyForm(props) {
 								size='small'
 								fullWidth
 								margin='normal'>
-								{['Selling', 'Renting'].map((type) => (
+								{['Sale', 'Lease'].map((type) => (
 									<MenuItem key={`property-form-service-menu-${type}`} value={type}>
 										{type}
 									</MenuItem>
@@ -257,13 +272,22 @@ export default function PropertyForm(props) {
 						</Grid>
 						<Grid item md={6} xs={12} sx={{ mt: 2 }}>
 							<FormControl variant='standard' fullWidth>
-								<InputLabel>Price</InputLabel>
-								<Input
-									type='number'
-									value={form.price}
-									onChange={(event) => setForm({ ...form, price: event.target.value })}
-									margin='normal'
-									startAdornment={<InputAdornment position='start'>Rp</InputAdornment>}
+								<InputLabel>Valuation</InputLabel>
+								<NumberFormat
+									type='text'
+									value={form.valuation}
+									customInput={Input}
+									variant='standard'
+									thousandSeparator='.'
+									decimalSeparator=','
+									decimalScale={2}
+									fixedDecimalScale={true}
+									prefix='Rp '
+									autoComplete='off'
+									onValueChange={(values) => {
+										const { floatValue } = values;
+										setForm({ ...form, valuation: floatValue });
+									}}
 								/>
 							</FormControl>
 						</Grid>

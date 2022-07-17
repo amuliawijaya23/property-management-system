@@ -118,7 +118,7 @@ export default function TaskForm(props) {
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<TextField variant='standard' select label='Category' size='small' fullWidth margin='normal' value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}>
-							{['Open House', 'Call', 'Follow Up', 'Meeting', 'Adhoc'].map((type) => (
+							{['Open House', 'Inspection', 'Call', 'Follow Up', 'Meeting', 'Adhoc'].map((type) => (
 								<MenuItem key={`task-form-type-${type}`} value={type}>
 									{type}
 								</MenuItem>
@@ -127,7 +127,7 @@ export default function TaskForm(props) {
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
-							{['Active', 'Blocked', 'Closed', 'Canceled'].map((type) => (
+							{['Blocked', 'Open', 'Completed', 'Closed', 'Canceled'].map((type) => (
 								<MenuItem key={`task-form-type-${type}`} value={type}>
 									{type}
 								</MenuItem>
