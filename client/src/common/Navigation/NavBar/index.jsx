@@ -12,7 +12,7 @@ export default function NavBar(props) {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position='fixed'>
 				<Toolbar>
-					<IconButton size='large' edge='start' color='inherit' aria-label='menu' sx={{ mr: 2 }} onClick={user.isAuthenticated ? props.openDrawer : () => console.log('NOT AUTHORIZED')}>
+					<IconButton size='large' edge='start' color='inherit' aria-label='menu' sx={{ mr: 2 }} onClick={props.openDrawer} disabled={!user.isAuthenticated}>
 						<MenuIcon />
 					</IconButton>
 					<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
