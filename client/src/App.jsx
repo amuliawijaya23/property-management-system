@@ -13,6 +13,7 @@ import Tasks from './pages/tasks';
 import Transactions from './pages/transactions';
 import Contacts from './pages/contacts';
 import Property from './pages/property';
+import Home from './pages/home';
 import PageNotFound from './PageNotFound';
 
 import useApplicationData from './hooks/useApplicationData';
@@ -29,7 +30,7 @@ export default function App() {
 				<Navigation loginWithRedirect={loginWithRedirect} logout={logout} />
 				{isLoading && <Loading />}
 				{!isLoading && (
-					<Box sx={{ display: 'flex', mt: 8, mb: 2, alignItems: 'center', justifyContent: 'center' }}>
+					<Box sx={{ display: 'flex', mt: 8, alignItems: 'center', justifyContent: 'center' }}>
 						<Routes>
 							{isAuthenticated && (
 								<>
@@ -44,7 +45,7 @@ export default function App() {
 							)}
 							{!isAuthenticated && (
 								<>
-									<Route path='/' element={<></>} />
+									<Route path='/' element={<Home />} />
 								</>
 							)}
 							<Route path='*' element={<PageNotFound />} />
