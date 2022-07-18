@@ -2,10 +2,37 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   value: {
-    properties: [],
-    tasks: [],
-    contacts: [],
-    transactions: [],
+    user: '',
+    stream: {
+      current: false,
+      past: false,
+      count: false,
+      pastCount: false,
+      currentTransactions: [],
+      pastTransactions: []
+    },
+    sale: {
+      current: false,
+      past: false,
+      count: false,
+      pastCount: false,
+      currentTransactions: [],
+      pastTransactions: []
+    },
+    lease: {
+      current: false,
+      past: false,
+      count: false,
+      pastCount: false,
+      currentTransactions: [],
+      pastTransactions: []
+    },
+    graph: {
+      current: [],
+      past: [],
+      label: [],
+      data: []
+    }
   }
 };
 
@@ -16,27 +43,31 @@ export const dashboardSlice =  createSlice({
     setDashboard: (state, action) => {
       state.value = action.payload;
     },
-    setDashProperties: (state, action) => {
-      state.value.properties = action.payload;
+    setUser: (state, action) => {
+      state.value.user = action.payload;
     },
-    setDashTasks: (state, action) => {
-      state.value.tasks = action.payload;
+    setStream: (state, action) => {
+      state.value.stream = action.payload;
     },
-    setDashContacts: (state, action) => {
-      state.value.contacts = action.payload;
+    setSale: (state, action) => {
+      state.value.sale = action.payload;
     },
-    setDashTransactions: (state, action) => {
-      state.value.transactions = action.payload;
+    setLease: (state, action) => {
+      state.value.lease = action.payload;
+    },
+    setGraph: (state, action) => {
+      state.value.graph = action.payload;
     }
   },
 });
 
 export const { 
   setDashboard,
-  setDashProperties, 
-  setDashTasks,
-  setDashContacts,
-  setDashTransactions
+  setUser,
+  setStream,
+  setSale,
+  setLease,
+  setGraph
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

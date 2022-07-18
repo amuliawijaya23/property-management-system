@@ -5,7 +5,7 @@ exports.seed = async function(knex) {
 
       return knex('transactions').insert([
         {
-          status: 'Open',
+          status: 'Completed',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2022-02-18T08:15:00',
@@ -16,7 +16,7 @@ exports.seed = async function(knex) {
           transaction_value: 55000000
         },
         {
-          status: 'Open',
+          status: 'Completed',
           transaction_type: 'Deposit',
           notes: '24 months rent deposit',
           start_date: '2022-02-18T08:15:00',
@@ -27,7 +27,7 @@ exports.seed = async function(knex) {
           transaction_value: 2500000
         },
         {
-          status: 'Pending Confirmation',
+          status: 'Completed',
           transaction_type: 'Deposit',
           notes: 'Agreement deposit',
           start_date: '2022-01-18T08:20:00',
@@ -38,7 +38,7 @@ exports.seed = async function(knex) {
           transaction_value: 10000000
         },
         {
-          status: 'Open',
+          status: 'Completed',
           transaction_type: 'Sale',
           notes: 'transaction started',
           start_date: '2022-02-12T08:20:00',
@@ -50,7 +50,7 @@ exports.seed = async function(knex) {
         },
 
         {
-          status: 'Pending Confirmation',
+          status: 'Completed',
           transaction_type: 'Sale',
           notes: 'waiting confirmation',
           start_date: '2022-02-15T08:20:00',
@@ -72,7 +72,7 @@ exports.seed = async function(knex) {
           transaction_value: 28750000
         },
         {
-          status: 'Open',
+          status: 'Completed',
           transaction_type: 'Sale',
           notes: 'transaction started',
           start_date: '2022-03-24T08:20:00',
@@ -81,6 +81,28 @@ exports.seed = async function(knex) {
           agent_id: 'auth0|62a915d40fb854efec56620b',
           organization_id: 'org_SdeKNTPqOTyZc27v',
           transaction_value: 380000000
+        },
+        {
+          status: 'Completed',
+          transaction_type: 'Lease',
+          notes: 'transaction started',
+          start_date: '2021-03-24T08:20:00',
+          end_date: '2021-04-20T08:20:00',
+          listing_id: 4,
+          agent_id: 'auth0|62a915d40fb854efec56620b',
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          transaction_value: 23000000
+        },
+        {
+          status: 'Completed',
+          transaction_type: 'Sale',
+          notes: 'transaction started',
+          start_date: '2021-01-24T08:20:00',
+          end_date: '2021-03-10T08:20:00',
+          listing_id: 6,
+          agent_id: 'auth0|62a915d40fb854efec56620b',
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          transaction_value: 390000000
         }
       ]);
     });

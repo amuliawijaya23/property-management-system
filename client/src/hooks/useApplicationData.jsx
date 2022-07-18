@@ -59,15 +59,6 @@ export default function useApplicationData() {
 						transactions: transactions.data
 					})
 				);
-
-				dispatch(
-					setDashboard({
-						properties: listings?.data?.filter((listing) => listing.agent_id === user?.sub),
-						tasks: tasks?.data?.filter((task) => task.agent_id === user.sub),
-						contacts: contacts?.data?.filter((contact) => contact.agent_id === user?.sub),
-						transactions: transactions?.data?.filter((transaction) => transaction.agent_id === user?.sub)
-					})
-				);
 			} catch (error) {
 				console.error(error);
 			}
