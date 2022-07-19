@@ -5,8 +5,6 @@ const { expressjwt: jwt } = require('express-jwt');
 const jwks = require('jwks-rsa');
 const axios = require('axios');
 
-const { getListingWatchers } = require('../../db/db');
-
 const { getManagementApiJwt } = require('../helper');
 
 const jwtCheck = jwt({
@@ -54,7 +52,7 @@ router.get('/login', jwtCheck, async(req, res) => {
   const url = `${process.env.MANAGEMENT_API}/clients/Y8UigYR4SGqNwr50G1tvWm66b1sb5Yya`;
   const headers = {
     'content-type': 'application/json',
-    Authorization: `Bearer ${token.access_token}`,
+    uthorization: `Bearer ${token.access_token}`,
     'cache-control': 'no-cache'
   };
   const data = {
