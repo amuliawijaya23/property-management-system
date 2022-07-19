@@ -4,9 +4,9 @@ import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
 
-export default function Messages(props) {
+export default function Messages({ message }) {
 	const app = useSelector((state) => state?.app?.value);
-	const sender = app.agents?.find((agent) => agent?.user_id === props?.message?.sender_id);
+	const sender = app.agents?.find((agent) => agent?.user_id === message?.sender_id);
 
 	return (
 		<ListItem>
@@ -15,10 +15,10 @@ export default function Messages(props) {
 					<ListItemAvatar>
 						<Avatar alt='agent' src={sender?.picture} />
 					</ListItemAvatar>
-					<ListItemText sx={{ mr: 2 }} primary={sender?.name} secondary={formatDistanceToNowStrict(new Date(props?.message?.created_at), { addSuffix: true })} />
+					<ListItemText sx={{ mr: 2 }} primary={sender?.name} secondary={formatDistanceToNowStrict(new Date(message?.created_at), { addSuffix: true })} />
 				</Grid>
 				<Grid item xs={12}>
-					{ReactHtmlParser(props.message?.message)}
+					{ReactHtmlParser(message?.message)}
 				</Grid>
 			</Grid>
 		</ListItem>

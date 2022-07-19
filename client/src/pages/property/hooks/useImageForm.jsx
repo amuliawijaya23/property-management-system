@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPropertyData, setPropertyImages } from '../../../state/reducers/propertyReducer';
+import { setPropertyData } from '../../../state/reducers/propertyReducer';
 
-export default function useImageForm(props) {
+export default function useImageForm() {
 	const property = useSelector((state) => state.property.value);
 
 	const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import { TotalStream } from './TotalStream';
 import { TotalSale } from './TotalSale';
@@ -20,7 +20,8 @@ export default function Dashboard() {
 				sx={{
 					width: '100vw',
 					px: 2,
-					py: 6
+					py: 6,
+					mt: 5
 				}}>
 				<Grid container spacing={3}>
 					<Grid item xs={12}>

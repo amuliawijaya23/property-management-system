@@ -16,6 +16,7 @@ import NumberFormat from 'react-number-format';
 import { useSelector } from 'react-redux';
 
 const initialForm = {
+	agent_id: '',
 	title: '',
 	status: '',
 	address: '',
@@ -39,12 +40,19 @@ export default function PropertyForm(props) {
 	const [form, setForm] = useState(initialForm);
 	const [alert, setAlert] = useState('');
 	const [openAlert, setOpenAlert] = useState(false);
-	const [severity, setSeverity] = useState('');
+	const [severity, setSeverity] = useState('info');
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (property) {
-			setForm({ ...property });
+			let propertyForm = { ...initialForm };
+			Object.keys(propertyForm).forEach((key) => {
+				if (property[key]) {
+					propertyForm[key] = property[key];
+				}
+			});
+
+			setForm({ ...propertyForm, id: property?.id, organization_id: property?.organization_id });
 		}
 	}, [property]);
 
@@ -56,7 +64,7 @@ export default function PropertyForm(props) {
 	const closeAlert = () => {
 		setAlert('');
 		setOpenAlert(false);
-		setSeverity('');
+		setSeverity('info');
 	};
 
 	const selectAgent = (input) => {
@@ -155,7 +163,7 @@ export default function PropertyForm(props) {
 							</FormControl>
 						</Grid>
 						<Grid item md={12} xs={12}>
-							<TextField variant='standard' select label='Status' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })} size='small' fullWidth margin='normal'>
+							<TextField variant='standard' select label='Status' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })} size='small' fullWidth>
 								{stepOptions?.map((type) => (
 									<MenuItem key={`property-form-status-menu-${type}`} value={type}>
 										{type}
@@ -168,21 +176,13 @@ export default function PropertyForm(props) {
 								Assignee:
 							</Typography>
 							<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-								{app.agents.map((agent) => (
-									<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
+								{app.agents.map((agent, i) => (
+									<SelectAgent key={`select-agent-property-${i}`} agent={agent} assignAgent={selectAgent} selected={agent?.user_id === form?.agent_id} />
 								))}
 							</AvatarGroup>
 						</Grid>
 						<Grid item md={6} xs={12}>
-							<TextField
-								variant='standard'
-								select
-								label='Service'
-								value={form.service_type}
-								onChange={(event) => setForm({ ...form, service_type: event.target.value })}
-								size='small'
-								fullWidth
-								margin='normal'>
+							<TextField variant='standard' select label='Service' value={form.service_type} onChange={(event) => setForm({ ...form, service_type: event.target.value })} size='small' fullWidth>
 								{['Sale', 'Lease'].map((type) => (
 									<MenuItem key={`property-form-service-menu-${type}`} value={type}>
 										{type}
@@ -191,15 +191,7 @@ export default function PropertyForm(props) {
 							</TextField>
 						</Grid>
 						<Grid item md={6} xs={12}>
-							<TextField
-								variant='standard'
-								select
-								label='Type'
-								value={form.property_type}
-								onChange={(event) => setForm({ ...form, property_type: event.target.value })}
-								size='small'
-								fullWidth
-								margin='normal'>
+							<TextField variant='standard' select label='Type' value={form.property_type} onChange={(event) => setForm({ ...form, property_type: event.target.value })} size='small' fullWidth>
 								{['House', 'Apartment', 'Townhouse', 'Penthouse', 'Ruko'].map((type) => (
 									<MenuItem key={`property-form-type-menu-${type}`} value={type}>
 										{type}
@@ -213,20 +205,19 @@ export default function PropertyForm(props) {
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Zip Code</InputLabel>
-								<Input type='number' value={form.zip_code} onChange={(event) => setForm({ ...form, zip_code: event.target.value })} margin='normal' />
+								<Input type='number' value={form.zip_code} onChange={(event) => setForm({ ...form, zip_code: event.target.value })} />
 							</FormControl>
 						</Grid>
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Size</InputLabel>
-								<Input type='number' value={form.size} onChange={(event) => setForm({ ...form, size: event.target.value })} margin='normal' />
+								<Input type='number' value={form.size} onChange={(event) => setForm({ ...form, size: event.target.value })} />
 							</FormControl>
 						</Grid>
 						<Grid item md={4} xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Bedrooms</InputLabel>
 								<Input
-									margin='normal'
 									type='number'
 									value={form.number_of_bedrooms}
 									onChange={(event) => setForm({ ...form, number_of_bedrooms: event.target.value })}
@@ -242,7 +233,6 @@ export default function PropertyForm(props) {
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Bathrooms</InputLabel>
 								<Input
-									margin='normal'
 									type='number'
 									value={form.number_of_bathrooms}
 									onChange={(event) => setForm({ ...form, number_of_bathrooms: event.target.value })}
@@ -258,7 +248,6 @@ export default function PropertyForm(props) {
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Parking</InputLabel>
 								<Input
-									margin='normal'
 									type='number'
 									value={form.parking_space}
 									onChange={(event) => setForm({ ...form, parking_space: event.target.value })}
@@ -297,7 +286,6 @@ export default function PropertyForm(props) {
 								value={form.description}
 								onChange={(event) => setForm({ ...form, description: event.target.value })}
 								size='small'
-								margin='dense'
 								multiline={true}
 								rows={5}
 								fullWidth

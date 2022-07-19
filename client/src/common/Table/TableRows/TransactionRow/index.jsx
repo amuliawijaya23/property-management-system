@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Checkbox, Typography, Avatar, Tooltip, Chip } from '@mui/material';
+import { TableCell, Typography, Avatar, Tooltip, Chip } from '@mui/material';
 import { useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import NumberFormat from 'react-number-format';
@@ -42,7 +42,7 @@ export default function TransactionRow({ row, labelId, handleOpen }) {
 			<TableCell align='left'>{format(new Date(row.start_date), 'PPp')}</TableCell>
 			<TableCell align='left'>{format(new Date(row.end_date), 'PPp')}</TableCell>
 			<TableCell align='left'>
-				<Chip label={row.status} color={color} sx={{ minWidth: 155 }} />
+				<Chip label={row.status} color={color} />
 			</TableCell>
 			<TableCell align='left'>
 				{

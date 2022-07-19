@@ -3,7 +3,6 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import MoneyIcon from '@mui/icons-material/Money';
 import NumberFormat from 'react-number-format';
-import startOfMonth from 'date-fns/startOfMonth';
 
 import { useSelector } from 'react-redux';
 

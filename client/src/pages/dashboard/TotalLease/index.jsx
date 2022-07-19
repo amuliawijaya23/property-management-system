@@ -1,10 +1,8 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import MoneyIcon from '@mui/icons-material/Money';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import NumberFormat from 'react-number-format';
-import startOfMonth from 'date-fns/startOfMonth';
 
 import { useSelector } from 'react-redux';
 

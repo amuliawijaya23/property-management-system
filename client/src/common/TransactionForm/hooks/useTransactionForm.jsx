@@ -5,7 +5,6 @@ import { updateTransactionsData } from '../../../state/reducers/app';
 import { setPropertyTransactions } from '../../../state/reducers/propertyReducer';
 
 export default function useTransactionsForm() {
-	const app = useSelector((state) => state.app.value);
 	const user = useSelector((state) => state.user.value);
 	const property = useSelector((state) => state.property.value);
 	const dispatch = useDispatch();

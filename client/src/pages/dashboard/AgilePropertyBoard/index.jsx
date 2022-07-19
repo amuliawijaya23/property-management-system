@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Container, Grid, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider, Chip, Paper, Button, ListItemIcon, Card, CardHeader, CardContent } from '@mui/material';
+import { Box, Grid, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider, Chip, Button, Card, CardHeader, CardContent } from '@mui/material';
 
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
@@ -11,7 +11,6 @@ import { format } from 'date-fns';
 export default function AgilePropertyBoard() {
 	const app = useSelector((state) => state.app.value);
 	const dashboard = useSelector((state) => state.dashboard.value);
-	const dispatch = useDispatch();
 
 	const [open, setOpen] = useState([]);
 	const [accepted, setAccepted] = useState([]);

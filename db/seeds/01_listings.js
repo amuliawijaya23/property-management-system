@@ -327,11 +327,11 @@ exports.seed = async function(knex) {
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
-          title: 'Agricultural Land in Sumatra',
+          title: 'Agricultural House in Sumatra',
           description: 'Duis consequat dui nec nisi volutpat eleifend.',
           address: 'Jln. Padang, Sumatra, Sumatra, Indonesia',
           service_type: 'Sale',
-          property_type: 'Land',
+          property_type: 'House',
           zip_code: 23474,
           size: 150959,
           number_of_bedrooms: 2,

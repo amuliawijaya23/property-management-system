@@ -3,10 +3,7 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
 
-const { uploadFile } = require('../s3');
-const { upload } = require('../multer');
 const { getListings, addListing, getListing, getListingWatchers, updateListing, addListingWatchers, getWatcherById, updateWatcher } = require('../../db/db');
-const { watch } = require('fs');
 
 router.get('/listings/:id', async(req, res) => {
   const listings = await getListings(req.params.id);
@@ -38,7 +35,6 @@ router.post('/watchers', async(req, res) => {
     } else {
       await addListingWatchers({ ...req.body });
       const watchers = await getListingWatchers(req.body.listing_id);
-      console.log(watchers);
       res.send(watchers);
     }
   } catch (error) {

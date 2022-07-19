@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 
 import { Grid, Box, Toolbar, Tooltip, Button, AvatarGroup } from '@mui/material';
@@ -104,7 +103,3 @@ export default function EnhancedTableToolbar(props) {
 		</Toolbar>
 	);
 }
-
-EnhancedTableToolbar.propTypes = {
-	numSelected: PropTypes.number.isRequired
-};

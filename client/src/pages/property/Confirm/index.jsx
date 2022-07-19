@@ -3,10 +3,7 @@ import { DialogContent } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 
-export default function Confirm(props) {
-	const { onClose, open, download } = props;
-	console.log(download);
-
+export default function Confirm({ onClose, open, download }) {
 	return (
 		<Dialog onClose={onClose} open={open}>
 			<DialogTitle>Download File?</DialogTitle>

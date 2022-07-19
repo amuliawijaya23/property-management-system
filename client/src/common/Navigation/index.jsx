@@ -4,7 +4,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import DrawerList from './DrawerList';
 import NavBar from './NavBar';
 
-export default function Navigation(props) {
+export default function Navigation({ logout }) {
 	const [anchorEl, setAnchorEl] = useState(false);
 
 	const toggleDrawer = (anchor) => (event) => {
@@ -16,7 +16,7 @@ export default function Navigation(props) {
 
 	return (
 		<>
-			<NavBar openDrawer={toggleDrawer(true)} logout={props.logout} loginWithRedirect={props.loginWithRedirect} />
+			<NavBar openDrawer={toggleDrawer(true)} logout={logout} />
 			<SwipeableDrawer anchor='left' open={anchorEl} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
 				<DrawerList toggleDrawer={toggleDrawer} />
 			</SwipeableDrawer>

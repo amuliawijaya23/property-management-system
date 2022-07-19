@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setPropertyWatchers } from '../../../state/reducers/propertyReducer';
 
 export default function useRemoveWatcher() {

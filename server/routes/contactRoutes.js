@@ -28,7 +28,6 @@ router.put('/contacts', async(req, res) => {
 
 router.post('/contacts', async(req, res) => {
   try {
-    console.log({...req.body});
     await createContact({ ...req.body });
     const contacts = await getContacts(req.body.organization_id);
     res.send(contacts);

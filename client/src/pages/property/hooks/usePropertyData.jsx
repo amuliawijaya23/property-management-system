@@ -1,16 +1,14 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { setPropertyData, setValid } from '../../../state/reducers/propertyReducer';
 
 import { useParams } from 'react-router-dom';
 
 export default function usePropertyData() {
-	const app = useSelector((state) => state.app.value);
 	const dispatch = useDispatch();
-
 	const { id } = useParams();
 
 	useEffect(() => {

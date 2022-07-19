@@ -1,9 +1,8 @@
-import { TableRow, TableCell, Checkbox, Typography, Avatar, Tooltip, Chip } from '@mui/material';
+import { TableCell, Typography, Avatar, Tooltip, Chip } from '@mui/material';
 import { useSelector } from 'react-redux';
 import format from 'date-fns/format';
 
 export default function TaskRow({ row, labelId, handleOpen }) {
-	const user = useSelector((state) => state.user.value);
 	const app = useSelector((state) => state.app.value);
 	const color = (() => {
 		switch (row?.status) {

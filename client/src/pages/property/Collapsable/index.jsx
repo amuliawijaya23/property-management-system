@@ -6,11 +6,11 @@ import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
 
 import { useSelector } from 'react-redux';
 
-export default function Collapsable(props) {
+export default function Collapsable({ expanded }) {
 	const property = useSelector((state) => state.property.value);
 
 	return (
-		<Collapse in={props.expanded} timeout='auto' unmountOnExit>
+		<Collapse in={expanded} timeout='auto' unmountOnExit>
 			<CardContent sx={{ mb: '1rem' }}>
 				<Grid container spacing={1}>
 					<Grid item xs={12}>

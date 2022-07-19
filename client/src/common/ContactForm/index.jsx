@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, AvatarGroup, Button, Typography, FormHelperText, Divider } from '@mui/material';
 import SelectAgent from '../SelectAgent';
 import SearchLocationInput from '../SearchLocationInput';
@@ -25,24 +25,34 @@ export default function ContactForm(props) {
 
 	const { createContact, updateContact } = useContactForm();
 
-	const initialForm = {
-		agent_id: '',
-		first_name: '',
-		last_name: '',
-		email: '',
-		address: '',
-		mobile: false,
-		home: false,
-		office: false
-	};
+	const initialForm = useMemo(
+		() => ({
+			agent_id: '',
+			first_name: '',
+			last_name: '',
+			email: '',
+			address: '',
+			mobile: false,
+			home: false,
+			office: false
+		}),
+		[]
+	);
 
 	const [form, setForm] = useState(initialForm);
 
 	useEffect(() => {
 		if (contact) {
-			setForm({ ...contact });
+			let contactForm = { ...initialForm };
+			Object.keys(contactForm).forEach((key) => {
+				if (contact[key]) {
+					contactForm[key] = contact[key];
+				}
+			});
+
+			setForm({ ...contactForm, id: contact?.id, organization_id: contact?.organization_id });
 		}
-	}, [contact]);
+	}, [contact, initialForm]);
 
 	const selectAgent = (input) => {
 		let data = { ...form };
@@ -90,8 +100,8 @@ export default function ContactForm(props) {
 							Agent:
 						</Typography>
 						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-							{app.agents.map((agent) => (
-								<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
+							{app.agents.map((agent, i) => (
+								<SelectAgent key={`select-agent-contact-${i}`} agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
 							))}
 						</AvatarGroup>
 					</Grid>

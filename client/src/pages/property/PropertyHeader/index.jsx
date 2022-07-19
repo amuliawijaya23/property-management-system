@@ -8,7 +8,7 @@ import PropertyWatchers from '../PropertyWatchers';
 
 import { useSelector } from 'react-redux';
 
-export default function PropertyHeader(props) {
+export default function PropertyHeader({ onOpen }) {
 	const app = useSelector((state) => state.app.value);
 	const property = useSelector((state) => state.property.value);
 	const agent = app.agents?.find((agent) => agent.user_id === property.details?.agent_id);
@@ -38,7 +38,7 @@ export default function PropertyHeader(props) {
 		<CardActions>
 			<Grid container>
 				<Grid item xs={6} container justifyContent='flex-start'>
-					<Tooltip title={agent?.name}>
+					<Tooltip title={agent?.name || ''}>
 						<Avatar src={agent?.picture} alt='agent' onClick={() => handleClickOpen('agent')} sx={{ cursor: 'pointer' }} />
 					</Tooltip>
 					<AvatarGroup sx={{ ml: 1, cursor: 'pointer' }}>
@@ -47,7 +47,7 @@ export default function PropertyHeader(props) {
 							.map((user) => {
 								const watcher = app?.agents.find((agent) => agent?.user_id === user?.user_id);
 								return (
-									<Tooltip title={watcher?.name}>
+									<Tooltip title={watcher?.name || ''}>
 										<Avatar src={watcher?.picture} alt='watcher' onClick={() => handleClickOpen('watchers')} />
 									</Tooltip>
 								);
@@ -65,7 +65,7 @@ export default function PropertyHeader(props) {
 					<PropertyWatchers open={open.watchers} onClose={handleClose} />
 				</Grid>
 				<Grid item xs={6} container justifyContent='flex-end'>
-					<Button variant='text' size='large' onClick={props.handleClickOpen}>
+					<Button variant='text' size='large' onClick={onOpen}>
 						Update
 					</Button>
 				</Grid>

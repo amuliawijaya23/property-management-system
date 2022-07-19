@@ -5,7 +5,6 @@ import EnhancedTable from '../../common/Table';
 import TaskForm from '../../common/TaskForm';
 
 import useTasksData from './hooks/useTasksData';
-import { setSelected } from '../../state/reducers/tableReducer';
 
 export default function Tasks() {
 	useTasksData();
@@ -23,7 +22,7 @@ export default function Tasks() {
 	};
 
 	return (
-		<Box width={'100%'} mt={2} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+		<Box width={'100%'} mt={10} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleOpen} defaultOrder='desc' defaultOrderBy='due_date' />
 			<TaskForm open={open} onClose={handleClose} task={task} />
 		</Box>

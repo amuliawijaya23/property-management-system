@@ -1,7 +1,7 @@
-import { Card, Button, Grid, Paper, AvatarGroup, Avatar, CardActions, CardHeader } from '@mui/material/';
+import { Card, Button, AvatarGroup, CardActions, CardHeader } from '@mui/material/';
 import SelectAgent from '../../../common/SelectAgent';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { useDashboardData } from '../hooks/useDashboardData';
 
@@ -16,8 +16,8 @@ export const DashboardToolbar = () => {
 			<CardHeader title={`${dashboard?.user ? agent?.name.split(' - ')[0] : 'Team'}'s Dashboard`} titleTypographyProps={{ component: 'div', variant: 'captions' }} />
 			<CardActions>
 				<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
-					{app?.agents?.map((agent) => (
-						<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent?.user_id === dashboard?.user} />
+					{app?.agents?.map((agent, i) => (
+						<SelectAgent key={`select-agent-dashboard-${i}`} agent={agent} assignAgent={selectAgent} selected={agent?.user_id === dashboard?.user} />
 					))}
 				</AvatarGroup>
 			</CardActions>

@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setUser, setStream, setSale, setLease, setGraph } from '../../../state/reducers/dashboardReducer';
 
 import startOfYear from 'date-fns/esm/fp/startOfYear';
-import endOfYear from 'date-fns/endOfYear';
 import subYears from 'date-fns/subYears';
 import startOfMonth from 'date-fns/startOfMonth';
 import endOfMonth from 'date-fns/endOfMonth';

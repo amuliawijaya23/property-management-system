@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Modal, TextField, Chip, Button, Autocomplete } from '@mui/material';
+import { Box, Modal, TextField, Button, Autocomplete } from '@mui/material';
 import { useSelector } from 'react-redux';
 import usePropertyForm from '../PropertyForm/hooks/usePropertyForm';
 

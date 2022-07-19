@@ -1,6 +1,5 @@
-import { TableRow, TableCell, Checkbox, LinearProgress, Avatar, Tooltip } from '@mui/material';
+import { TableCell, LinearProgress, Avatar, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import NumberFormat from 'react-number-format';
 

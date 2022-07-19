@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { Grid, Paper, Box, ImageList, ImageListItem, Typography, Alert } from '@mui/material';
@@ -20,22 +20,21 @@ const style = {
 	cursor: 'pointer'
 };
 
-export default function PropertyImages(props) {
+export default function PropertyImages() {
 	const property = useSelector((state) => state.property.value);
 	const { uploadImages } = useImageForm();
-	const [value, setValue] = useState(0);
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
 
-	const onDrop = useCallback((acceptedFiles) => {
-		const images = {
-			images: acceptedFiles,
-			organization_id: property.details?.organization_id,
-			agent_id: property.details?.agent_id
-		};
-		uploadImages(images, property.details?.id);
-	}, []);
+	const onDrop = useCallback(
+		(acceptedFiles) => {
+			const images = {
+				images: acceptedFiles,
+				organization_id: property.details?.organization_id,
+				agent_id: property.details?.agent_id
+			};
+			uploadImages(images, property.details?.id);
+		},
+		[property?.details?.id, property?.details?.agent_id, property?.details?.organization_id, uploadImages]
+	);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 

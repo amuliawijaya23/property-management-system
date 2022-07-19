@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, AvatarGroup, Button, Typography } from '@mui/material';
 import DateTimeSelector from '../DateTimeSelector';
 import SelectAgent from '../SelectAgent';
@@ -25,24 +25,34 @@ export default function TransactionForm(props) {
 
 	const { updateTransaction, createTransaction } = useTransactionsForm();
 
-	const initialForm = {
-		agent_id: '',
-		transaction_type: '',
-		start_date: new Date(),
-		end_date: new Date(),
-		notes: '',
-		status: 'Open',
-		transaction_value: false,
-		listing_id: listingId ? listingId : false
-	};
+	const initialForm = useMemo(
+		() => ({
+			agent_id: '',
+			transaction_type: '',
+			start_date: new Date(),
+			end_date: new Date(),
+			notes: '',
+			status: 'Open',
+			transaction_value: false,
+			listing_id: listingId ? listingId : ''
+		}),
+		[listingId]
+	);
 
 	const [form, setForm] = useState(initialForm);
 
 	useEffect(() => {
 		if (transaction) {
-			setForm({ ...transaction });
+			let transactionForm = { ...initialForm };
+			Object.keys(transactionForm).forEach((key) => {
+				if (transaction[key]) {
+					transactionForm[key] = transaction[key];
+				}
+			});
+
+			setForm({ ...transactionForm, id: transaction?.id, organization_id: transaction?.organization_id });
 		}
-	}, [transaction]);
+	}, [transaction, initialForm]);
 
 	const setStartDate = (input) => {
 		let data = { ...form };
@@ -96,14 +106,14 @@ export default function TransactionForm(props) {
 							Assignee:
 						</Typography>
 						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-							{app.agents.map((agent) => (
-								<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
+							{app.agents.map((agent, i) => (
+								<SelectAgent key={`trx-form-agent-${i}`} agent={agent} assignAgent={selectAgent} selected={agent?.user_id === form?.agent_id} />
 							))}
 						</AvatarGroup>
 					</Grid>
 					<Grid item xs={6}>
 						<TextField
-							disabled={listingId}
+							disabled={listingId ? true : false}
 							variant='standard'
 							select
 							label='Listing'

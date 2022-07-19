@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, AvatarGroup, Button, Typography } from '@mui/material';
 import DateTimeSelector from '../DateTimeSelector';
 import SelectAgent from '../SelectAgent';
@@ -25,23 +25,32 @@ export default function TaskForm(props) {
 
 	const { createTask, updateTask } = useTaskForm();
 
-	const initialForm = {
-		summary: '',
-		notes: '',
-		category: '',
-		due_date: new Date(),
-		agent_id: '',
-		listing_id: listingId ? listingId : false,
-		status: 'Active'
-	};
+	const initialForm = useMemo(
+		() => ({
+			summary: '',
+			notes: '',
+			category: '',
+			due_date: new Date(),
+			agent_id: '',
+			listing_id: listingId ? listingId : '',
+			status: 'Open'
+		}),
+		[listingId]
+	);
 
 	const [form, setForm] = useState(initialForm);
 
 	useEffect(() => {
 		if (task) {
-			setForm({ ...task });
+			let taskForm = { ...initialForm };
+			Object.keys(taskForm).forEach((key) => {
+				if (task[key]) {
+					taskForm[key] = task[key];
+				}
+			});
+			setForm({ ...taskForm, id: task?.id, organization_id: task?.organization_id });
 		}
-	}, [task]);
+	}, [task, initialForm]);
 
 	const setDueDate = (input) => {
 		let data = { ...form };
@@ -93,14 +102,14 @@ export default function TaskForm(props) {
 							Assignee:
 						</Typography>
 						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-							{app.agents.map((agent) => (
-								<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
+							{app.agents.map((agent, i) => (
+								<SelectAgent key={`select-agent-task-${i}`} agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
 							))}
 						</AvatarGroup>
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<TextField
-							disabled={listingId}
+							disabled={listingId ? true : false}
 							variant='standard'
 							select
 							label='Listing'

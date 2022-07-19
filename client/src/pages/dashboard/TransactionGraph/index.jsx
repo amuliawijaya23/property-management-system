@@ -1,12 +1,12 @@
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useSelector } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
-export const TransactionGraph = (props) => {
+export const TransactionGraph = () => {
 	const dashboard = useSelector((state) => state.dashboard.value);
 	const currentData = dashboard?.graph?.current?.map((d) => parseInt(d.sum));
 	const pastData = dashboard?.graph?.past?.map((d) => parseInt(d.sum));
@@ -89,7 +89,7 @@ export const TransactionGraph = (props) => {
 	};
 
 	return (
-		<Card {...props}>
+		<Card>
 			<CardHeader title='Transactions By Date' titleTypographyProps={{ variant: 'captions' }} />
 			<Divider />
 			<CardContent>

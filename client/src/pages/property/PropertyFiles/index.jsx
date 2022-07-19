@@ -6,7 +6,6 @@ import { Grid, Paper, Box, Button, Divider, List, ListItem, ListItemText, Typogr
 
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DownloadIcon from '@mui/icons-material/Download';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Confirm from '../Confirm';
@@ -33,21 +32,24 @@ export default function PropertyFiles() {
 
 	const dispatch = useDispatch();
 
-	const onDrop = useCallback((acceptedFiles) => {
-		acceptedFiles.map(async (file) => {
-			const formData = await new FormData();
-			formData.append('file', file);
-			formData.append('organization_id', property.details?.organization_id);
-			formData.append('agent_id', property.details?.agent_id);
+	const onDrop = useCallback(
+		(acceptedFiles) => {
+			acceptedFiles.map(async (file) => {
+				const formData = await new FormData();
+				formData.append('file', file);
+				formData.append('organization_id', property.details?.organization_id);
+				formData.append('agent_id', property.details?.agent_id);
 
-			try {
-				const response = await axios.post(`/files/listing/${property.details?.id}`, formData);
-				dispatch(setPropertyFiles(response.data));
-			} catch (error) {
-				console.error(error);
-			}
-		});
-	}, []);
+				try {
+					const response = await axios.post(`/files/listing/${property.details?.id}`, formData);
+					dispatch(setPropertyFiles(response.data));
+				} catch (error) {
+					console.error(error);
+				}
+			});
+		},
+		[dispatch, property?.details?.id, property?.details?.agent_id, property?.details?.organization_id]
+	);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -82,20 +84,14 @@ export default function PropertyFiles() {
 				<Grid item xs={12}>
 					<List sx={{ mt: 2 }}>
 						{property.files.length < 1 && <Alert severity={'info'}>No files found, browse or drop a file above. </Alert>}
-						{property.files.map((file) => {
+						{property.files.map((file, i) => {
 							return (
-								<>
-									<ListItem button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => onDownload(file.id)}>
-										<ListItemAvatar>
-											<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
-										</ListItemAvatar>
-										<ListItemText primary={file.id.split('__')[1]} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
-										<Button variant='contained'>
-											<DeleteIcon />
-										</Button>
-									</ListItem>
-									<Divider />
-								</>
+								<ListItem key={`property-task-${i}`} divider={i < property?.files?.length - 1} button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => onDownload(file.id)}>
+									<ListItemAvatar>
+										<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
+									</ListItemAvatar>
+									<ListItemText primary={file.id.split('__')[1]} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
+								</ListItem>
 							);
 						})}
 					</List>

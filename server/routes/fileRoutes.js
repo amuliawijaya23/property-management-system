@@ -15,7 +15,6 @@ router.get('/listing/:id', async(req, res) => {
 
 router.post('/listing/:id', upload.single('file'), async(req, res) => {
   const file = req.file;
-  console.log('FILE UPLOAD', file);
   const result = await uploadDoc(file);
   const fileData = {
     id: result.key,

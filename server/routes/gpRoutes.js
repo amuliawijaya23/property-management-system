@@ -33,8 +33,6 @@ router.post('/description', async(req, res) => {
     top_p: 1,
   });
 
-  console.log((response.data.choices[0].text).trim());
-
   res.json((response.data.choices[0].text).trim());
 });
 

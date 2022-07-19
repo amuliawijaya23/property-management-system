@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Box, CssBaseline } from '@mui/material';
 
 // import components
@@ -14,7 +13,7 @@ import Transactions from './pages/transactions';
 import Contacts from './pages/contacts';
 import Property from './pages/property';
 import Home from './pages/home';
-import PageNotFound from './PageNotFound';
+import PageNotFound from './pages/PageNotFound';
 
 import useApplicationData from './hooks/useApplicationData';
 
@@ -27,13 +26,13 @@ export default function App() {
 		<Router>
 			<Box>
 				<CssBaseline />
-				<Navigation loginWithRedirect={loginWithRedirect} logout={logout} />
 				{isLoading && <Loading />}
 				{!isLoading && (
-					<Box sx={{ display: 'flex', mt: 8, alignItems: 'center', justifyContent: 'center' }}>
-						<Routes>
-							{isAuthenticated && (
-								<>
+					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+						{isAuthenticated && (
+							<>
+								<Navigation logout={logout} />
+								<Routes>
 									<Route path='/' element={<Dashboard />} />
 									<Route path='/properties' element={<Properties />} />
 									<Route path='/tasks' element={<Tasks />} />
@@ -41,15 +40,15 @@ export default function App() {
 									<Route path='/property/:id' element={<Property />} />
 									<Route path='/outreach' element={<Outreach />} />
 									<Route path='/transactions' element={<Transactions />} />
-								</>
-							)}
-							{!isAuthenticated && (
-								<>
-									<Route path='/' element={<Home />} />
-								</>
-							)}
-							<Route path='*' element={<PageNotFound />} />
-						</Routes>
+									<Route path='*' element={<PageNotFound error={error} />} />
+								</Routes>
+							</>
+						)}
+						{!isAuthenticated && (
+							<Routes>
+								<Route path='/' element={<Home login={loginWithRedirect} />} />
+							</Routes>
+						)}
 					</Box>
 				)}
 			</Box>

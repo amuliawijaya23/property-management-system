@@ -1,5 +1,5 @@
 import { Doughnut } from 'react-chartjs-2';
-import { Grid, Box, Card, CardContent, CardHeader, Divider, Typography, useTheme, Avatar, Button } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Divider, Typography, useTheme } from '@mui/material';
 
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
@@ -87,9 +87,9 @@ export const TransactionGraphType = (props) => {
 						alignItems: 'center',
 						pt: 1
 					}}>
-					{types.map(({ color, icon: Icon, title, value }) => (
+					{types.map(({ color, icon: Icon, value }, index) => (
 						<Box
-							key={title}
+							key={`dashboard-graph-type-${index}`}
 							sx={{
 								display: 'flex',
 								flexDirection: 'column',
@@ -99,9 +99,6 @@ export const TransactionGraphType = (props) => {
 								p: 1
 							}}>
 							<Icon color='action' />
-							<Typography color='textPrimary' variant='body1'>
-								{title}
-							</Typography>
 							<Typography style={{ color }} variant='body1'>
 								{isNaN(value) ? 'No Data' : `${value}%`}
 							</Typography>
