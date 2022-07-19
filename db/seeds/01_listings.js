@@ -20,36 +20,6 @@ exports.seed = async function(knex) {
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
         {
-          title: 'Moderate Size Home in Bandung',
-          description: 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla.',
-          address: 'Jln. Pasir Putih D/210, Bandung, Jawa Barat, Indonesia',
-          service_type: 'Sale',
-          property_type: 'House',
-          zip_code: 41812,
-          size: 3670,
-          number_of_bedrooms: 4,
-          number_of_bathrooms: 3,
-          parking_space: 2,
-          valuation: 3211000,
-          organization_id: 'org_SdeKNTPqOTyZc27v',
-          agent_id: 'auth0|62a915d40fb854efec56620b'
-        },
-        {
-          title: 'Modern Townhouse in Jakarta',
-          description: 'Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.',
-          address: 'Jln. Gajah Mada C/102, Jakarta, DKI Jakarta, Indonesia',
-          service_type: 'Sale',
-          property_type: 'Townhouse',
-          zip_code: 12849,
-          size: 1320,
-          number_of_bedrooms: 2,
-          number_of_bathrooms: 2,
-          parking_space: 1,
-          valuation: 1375000,
-          organization_id: 'org_SdeKNTPqOTyZc27v',
-          agent_id: 'auth0|62a915d40fb854efec56620b'
-        },
-        {
           title: 'Beautiful Townhose Located in the Heart Of The City',
           description: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.',
           address: 'Jln. Surya Kencana no. 242, Bogor, Jawa Barat, Indonesia',
@@ -61,21 +31,6 @@ exports.seed = async function(knex) {
           number_of_bathrooms: 2,
           parking_space: 2,
           valuation: 1583000,
-          organization_id: 'org_SdeKNTPqOTyZc27v',
-          agent_id: 'auth0|62a915d40fb854efec56620b'
-        },
-        {
-          title: 'Luxurious House in Bogor',
-          description: 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.',
-          address: 'Jln. Pajajaran Indah C/21, Bogor, Jawa Barat, Indonesia',
-          service_type: 'Sale',
-          property_type: 'House',
-          zip_code: 18924,
-          size: 5257,
-          number_of_bedrooms: 5,
-          number_of_bathrooms: 3,
-          parking_space: 4,
-          valuation: 6200000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
@@ -106,6 +61,52 @@ exports.seed = async function(knex) {
           number_of_bathrooms: 2,
           parking_space: 1,
           valuation: 780000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Moderate Size Home in Bandung',
+          description: 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla.',
+          address: 'Jln. Pasir Putih D/210, Bandung, Jawa Barat, Indonesia',
+          service_type: 'Sale',
+          property_type: 'House',
+          zip_code: 41812,
+          size: 3670,
+          number_of_bedrooms: 4,
+          number_of_bathrooms: 3,
+          parking_space: 2,
+          valuation: 3211000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Modern Townhouse in Jakarta',
+          description: 'Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.',
+          address: 'Jln. Gajah Mada C/102, Jakarta, DKI Jakarta, Indonesia',
+          service_type: 'Sale',
+          property_type: 'Townhouse',
+          zip_code: 12849,
+          size: 1320,
+          number_of_bedrooms: 2,
+          number_of_bathrooms: 2,
+          parking_space: 1,
+          valuation: 1375000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+
+        {
+          title: 'Luxurious House in Bogor',
+          description: 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.',
+          address: 'Jln. Pajajaran Indah C/21, Bogor, Jawa Barat, Indonesia',
+          service_type: 'Sale',
+          property_type: 'House',
+          zip_code: 18924,
+          size: 5257,
+          number_of_bedrooms: 5,
+          number_of_bathrooms: 3,
+          parking_space: 4,
+          valuation: 6200000,
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b'
         },
@@ -234,7 +235,135 @@ exports.seed = async function(knex) {
           organization_id: 'org_SdeKNTPqOTyZc27v',
           agent_id: 'auth0|62a915d40fb854efec56620b',
           status: 'Deposit Received'
+        },
+        {
+          title: 'Small Size Home in Jakarta',
+          description: 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla.',
+          address: 'Jln. Pasir Putih D/210, Jakarta, Jawa Barat, Indonesia',
+          service_type: 'Sale',
+          property_type: 'House',
+          zip_code: 51812,
+          size: 3670,
+          number_of_bedrooms: 2,
+          number_of_bathrooms: 2,
+          parking_space: 2,
+          valuation: 291000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Large Size Home in Jakarta',
+          description: 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.',
+          address: 'Jln. Lengkong Tengah II/66, Jakarta, Jawa Barat, Indonesia',
+          service_type: 'Sale',
+          property_type: 'House',
+          zip_code: 50293,
+          size: 4222,
+          number_of_bedrooms: 3,
+          number_of_bathrooms: 3,
+          parking_space: 3,
+          valuation: 392000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Large Size Home in Bandung',
+          description: 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.',
+          address: 'Jln. Lengkong Tengah II/66, Bandung, Jawa Barat, Indonesia',
+          service_type: 'Sale',
+          property_type: 'House',
+          zip_code: 40293,
+          size: 4222,
+          number_of_bedrooms: 3,
+          number_of_bathrooms: 3,
+          parking_space: 3,
+          valuation: 392000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Small Size Home in Bandung',
+          description: 'Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+          address: 'Jln. Cihampelas, Bandung, Jawa Barat, Indonesia',
+          service_type: 'Sale',
+          property_type: 'House',
+          zip_code: 40293,
+          size: 2922,
+          number_of_bedrooms: 2,
+          number_of_bathrooms: 2,
+          parking_space: 2,
+          valuation: 252000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Apartment in Bandung',
+          description: 'In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
+          address: 'Jln. Cihampelas No.23, Bandung, Jawa Barat, Indonesia',
+          service_type: 'Sale',
+          property_type: 'Apartment',
+          zip_code: 40293,
+          size: 1722,
+          number_of_bedrooms: 1,
+          number_of_bathrooms: 1,
+          parking_space: 1,
+          valuation: 152000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'House with a Pool in Bali',
+          description: 'In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
+          address: 'Jln. Raya Kuta, Bali, Bali, Indonesia',
+          service_type: 'Sale',
+          property_type: 'House',
+          zip_code: 42783,
+          size: 5985,
+          number_of_bedrooms: 3,
+          number_of_bathrooms: 3,
+          parking_space: 2,
+          valuation: 861000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Agricultural Land in Sumatra',
+          description: 'Duis consequat dui nec nisi volutpat eleifend.',
+          address: 'Jln. Padang, Sumatra, Sumatra, Indonesia',
+          service_type: 'Sale',
+          property_type: 'Land',
+          zip_code: 23474,
+          size: 150959,
+          number_of_bedrooms: 2,
+          number_of_bathrooms: 2,
+          parking_space: 1,
+          valuation: 261000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
+        },
+        {
+          title: 'Small Apartment in Jakarta',
+          description: 'Pellentesque eget nunc.',
+          address: 'Jln. Gunung Sahari, Jakarta, Jakarta, Indonesia',
+          service_type: 'Rent',
+          property_type: 'Apartment',
+          zip_code: 47411,
+          size: 590,
+          number_of_bedrooms: 1,
+          number_of_bathrooms: 1,
+          parking_space: 0,
+          valuation: 25000000,
+          organization_id: 'org_SdeKNTPqOTyZc27v',
+          agent_id: 'auth0|62a915d40fb854efec56620b'
         }
+
+
+
+
+
+
+
+       
       ]);
     });
 };

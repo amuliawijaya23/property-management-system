@@ -16,7 +16,7 @@ export const TransactionGraph = (props) => {
 	const data = {
 		datasets: [
 			{
-				backgroundColor: '#3F51B5',
+				backgroundColor: '#2196f3',
 				barPercentage: 0.5,
 				barThickness: 12,
 				borderRadius: 4,
@@ -26,7 +26,7 @@ export const TransactionGraph = (props) => {
 				maxBarThickness: 10
 			},
 			{
-				backgroundColor: '#EEEEEE',
+				backgroundColor: '#607d8b',
 				barPercentage: 0.5,
 				barThickness: 12,
 				borderRadius: 4,
