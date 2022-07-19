@@ -32,7 +32,7 @@ export default function PropertyImages(props) {
 		const images = {
 			images: acceptedFiles,
 			organization_id: property.details?.organization_id,
-			seller_id: property.details?.seller_id
+			agent_id: property.details?.agent_id
 		};
 		uploadImages(images, property.details?.id);
 	}, []);

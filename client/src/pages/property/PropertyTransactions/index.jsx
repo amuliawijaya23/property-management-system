@@ -50,7 +50,6 @@ export default function PropertyTransactions() {
 						<TableCell>ID</TableCell>
 						<TableCell>Agent</TableCell>
 						<TableCell>Type</TableCell>
-						<TableCell>Service</TableCell>
 						<TableCell>Start Date</TableCell>
 						<TableCell>End Date</TableCell>
 						<TableCell>Status</TableCell>
@@ -81,7 +80,7 @@ export default function PropertyTransactions() {
 						return (
 							<TableRow key={`property-transaction-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: 'pointer' }} hover onClick={() => handleSelect(currentTransaction)}>
 								<TableCell component='th' scope='row'>
-									TASK-{row.id}
+									TRX-{row.id}
 								</TableCell>
 								<TableCell>
 									<Tooltip title={row?.agent?.name}>
@@ -89,7 +88,6 @@ export default function PropertyTransactions() {
 									</Tooltip>
 								</TableCell>
 								<TableCell>{row.transaction_type}</TableCell>
-								<TableCell>{row.service_type}</TableCell>
 								<TableCell>{format(new Date(row.start_date), 'Ppp')}</TableCell>
 								<TableCell>{format(new Date(row.end_date), 'Ppp')}</TableCell>
 								<TableCell>
