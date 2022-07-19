@@ -21,11 +21,11 @@ export const useDashboardData = () => {
 	// Local State
 	const [range, setRange] = useState({
 		start: startOfYear(new Date()),
-		end: endOfYear(new Date())
+		end: new Date()
 	});
 	const [pastRange, setPastRange] = useState({
 		start: subYears(startOfYear(new Date()), 1),
-		end: subYears(endOfYear(new Date()), 1)
+		end: subYears(new Date(), 1)
 	});
 
 	const getStream = useCallback(async () => {
