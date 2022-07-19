@@ -68,22 +68,4 @@ router.get('/login', jwtCheck, async(req, res) => {
   }
 });
 
-// const options = {
-//   method: 'PATCH',
-//   url: 'https://dev-ptyxcp1a.au.auth0.com/api/v2/clients/Y8UigYR4SGqNwr50G1tvWm66b1sb5Yya',
-//   headers: {
-//     'content-type': 'application/json',
-//     authorization: 'Bearer API2_ACCESS_TOKEN',
-//     'cache-control': 'no-cache'
-//   },
-//   // eslint-disable-next-line camelcase
-//   data: {initiate_login_uri: '<login_url>'}
-// };
-
-// axios.request(options).then(function (response) {
-//   console.log(response.data);
-// }).catch(function (error) {
-//   console.error(error);
-// });
-
 module.exports = router;
