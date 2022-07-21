@@ -96,6 +96,7 @@ export default function PropertyFiles() {
 		axios.get(`/files/${link}`).then(async (res) => {
 			await setDownload(res.data);
 			setOpen(true);
+			setConfirm(false);
 			setSelected(null);
 		});
 	};
@@ -131,22 +132,24 @@ export default function PropertyFiles() {
 				</Grid>
 			</Grid>
 			<Dialog open={confirm} onClose={() => setConfirm(false)}>
-				<Card>
+				<Card sx={{ width: 400 }}>
 					<CardContent>
 						<List>
 							<ListItem>
 								<ListItemAvatar>
 									<Avatar sx={{ py: 0.5, px: 0.5 }} src={fileIcon(selected?.name?.split('.')[selected?.name.split('.').length - 1])} alt='file' />
-									<ListItemText primary={selected?.name} />
 								</ListItemAvatar>
+								<ListItemText primary={selected?.name} />
 							</ListItem>
 						</List>
 					</CardContent>
-					<CardActions>
-						<Button variant='contained' sx={{ width: 50 }} onClick={() => onDownload(selected?.id)}>
+					<CardActions sx={{ display: 'center', justifyContent: 'center' }}>
+						<Button sx={{ width: 115 }} variant='contained' onClick={() => onDownload(selected?.id)}>
+							Download
 							<DownloadIcon />
 						</Button>
-						<Button variant='contained' sx={{ width: 50 }}>
+						<Button sx={{ width: 115 }} variant='contained'>
+							Delete
 							<DeleteIcon />
 						</Button>
 					</CardActions>
