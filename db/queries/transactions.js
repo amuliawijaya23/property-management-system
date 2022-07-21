@@ -58,11 +58,34 @@ const getCompletedTransactions = (param, start, end) => {
     .then((res) => res);
 };
 
+const searchTransactions = (search) => {
+  const query =  knex('transactions')
+    .select('transactions.id', 'transactions.status', 'transaction_type', 'notes', 'start_date', 'end_date', 'listing_id', 'transactions.agent_id', 'transactions.organization_id', 'transaction_value', 'market_value', 'transactions.created_at', 'transactions.updated_at')
+    .from('transactions')
+    .leftJoin('users', {'users.id': 'transactions.agent_id'})
+    .rightJoin('listings', {'listings.id': 'transactions.listing_id'})
+    .whereILike('transactions.status', `%${search}%`)
+    .orWhereILike('transactions.transaction_type', `%${search}%`)
+    .orWhereILike('name', `%${search}%`)
+    .orWhereILike('email', `%${search}%`);
+
+  if (search.toLowerCase().split('-')[0] === 'trx') {
+    const searchId = search.split('-')[1];
+    if (searchId && !isNaN(searchId)) {
+      query.orWhere('transactions.id', '=', parseInt(searchId));
+    }
+  }
+
+  return query.then((res) => res)
+    .catch((e) => console.log(e.message));
+};
+
 module.exports =  {
   getTransactions,
   createTransactions,
   updateTransaction,
   getListingTransactions,
   getCompletedTransactions,
-  getCompletedSumCount
+  getCompletedSumCount,
+  searchTransactions
 };

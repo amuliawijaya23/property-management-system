@@ -3,7 +3,7 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
 
-const { updateTasks, getTasks, addTask, getListingTasks } = require('../../db/db');
+const { updateTasks, getTasks, addTask, getListingTasks, searchTasks } = require('../../db/queries/tasks');
 
 router.get('/tasks/:id', async(req, res) => {
   const id = req.params.id;
@@ -29,6 +29,16 @@ router.post('/tasks', async(req, res) => {
   await addTask(task);
   const result = await getTasks(task.organization_id);
   res.send(result);
+});
+
+router.post('/tasks/search', async(req, res) => {
+  try {
+    const search = req.body.search;
+    const result = await searchTasks(search);
+    res.send(result);
+  } catch (error) {
+    console.error(error.response ? error.response.body : error);
+  }
 });
 
 

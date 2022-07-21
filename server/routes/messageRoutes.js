@@ -3,7 +3,7 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
 
-const { getListingMessages, createMessage } = require('../../db/db');
+const { getListingMessages, createMessage } = require('../../db/queries/messages');
 
 router.post('/', async(req, res) => {
   await createMessage({...req.body});

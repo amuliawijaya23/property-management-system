@@ -16,7 +16,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 
 import { useNavigate } from 'react-router-dom';
 
-const drawerItems = ['Dashboard', 'Listings', 'Transactions', 'Tasks', 'Contacts', 'Outreach'];
+const drawerItems = ['Dashboard', 'Properties', 'Transactions', 'Tasks', 'Contacts', 'Outreach'];
 
 export default function DrawerList(props) {
 	const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function DrawerList(props) {
 						<ListItemButton onClick={() => clickHandlers(index)}>
 							<ListItemIcon>
 								{text === 'Dashboard' && <DashboardIcon />}
-								{text === 'Listings' && <HomeIcon />}
+								{text === 'Properties' && <HomeIcon />}
 								{text === 'Transactions' && <PaidIcon />}
 								{text === 'Tasks' && <AssignmentIcon />}
 								{text === 'Contacts' && <ContactsIcon />}

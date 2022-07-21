@@ -27,7 +27,7 @@ export default function Home({ login }) {
 					sm={4}
 					md={7}
 					sx={{
-						backgroundImage: 'url("/background-3.jpg")',
+						backgroundImage: 'url("/background-6.png")',
 						backgroundRepeat: 'no-repeat',
 						backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
 						backgroundSize: 'cover',
@@ -44,7 +44,7 @@ export default function Home({ login }) {
 							alignItems: 'center',
 							textAlign: 'center'
 						}}>
-						<Avatar src={'/Propertee.png'} alt='logo' sx={{ width: 100, height: 100 }} />
+						<Avatar src={'/17.png'} alt='logo' sx={{ width: 100, height: 100 }} />
 						<Typography component='h1' variant='h4'>
 							Welcome to ProperTee!
 						</Typography>

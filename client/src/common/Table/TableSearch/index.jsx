@@ -1,11 +1,11 @@
-import { useState } from 'react';
-
 import { Box, Grid, TextField, InputAdornment, Button } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 
+import useTableSearch from '../hooks/useTableSearch';
+
 export default function TableSearch(props) {
-	const [search, setSearch] = useState('');
+	const { searchData, search, setSearch } = useTableSearch();
 
 	return (
 		<Grid container spacing={1} justifyContent='flex-start'>
@@ -16,8 +16,8 @@ export default function TableSearch(props) {
 						size='small'
 						variant='outlined'
 						placeholder='Search...'
-						value={search}
-						onChange={(event) => setSearch(event.target.value)}
+						// value={}
+						onChange={(event) => searchData(event.target.value)}
 						sx={{ ml: '0.25rem', mr: '0.25rem' }}
 						InputProps={{
 							startAdornment: (
@@ -27,9 +27,6 @@ export default function TableSearch(props) {
 							)
 						}}
 					/>
-					<Button sx={{ mr: 1 }} variant='contained'>
-						Search
-					</Button>
 				</Box>
 			</Grid>
 		</Grid>

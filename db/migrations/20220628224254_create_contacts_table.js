@@ -9,7 +9,7 @@ exports.up = async function(knex) {
       table.bigint('home').default(null);
       table.bigint('office').default(null);
       table.string('address').default(null);
-      table.string('agent_id').notNullable();
+      table.string('agent_id').references('id').inTable('users').onDelete('cascade').notNullable();
       table.string('organization_id').notNullable();
       table.timestamps(false, true);
     });

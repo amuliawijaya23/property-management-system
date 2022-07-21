@@ -3,6 +3,8 @@ const FILES = 'FILES';
 const TASKS = 'TASKS';
 const PHOTO = 'PHOTO';
 const TRANSACTIONS = 'TRANSACTIONS';
+const LINE = 'LINE';
+const BAR = 'BAR';
 
 
 export {
@@ -11,4 +13,6 @@ export {
   FILES,
   TASKS,
   PHOTO,
+  LINE,
+  BAR
 };

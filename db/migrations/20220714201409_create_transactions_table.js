@@ -8,7 +8,7 @@ exports.up = async function(knex) {
       table.timestamp('start_date').notNullable();
       table.timestamp('end_date');
       table.integer('listing_id').unsigned().references('id').inTable('listings').onDelete('cascade');
-      table.string('agent_id').notNullable();
+      table.string('agent_id').references('id').inTable('users').onDelete('cascade').notNullable();
       table.string('organization_id').notNullable();
       table.decimal('transaction_value', 17, 0).notNullable();
       table.decimal('market_value', 17, 0);

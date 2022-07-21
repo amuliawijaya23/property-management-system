@@ -39,7 +39,7 @@ export default function PropertyImages() {
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	return (
-		<Box width={'100%'}>
+		<Box width={'100%'} sx={{ minHeight: 300 }}>
 			<Grid container spacing={1}>
 				<Grid item xs={12}>
 					<Typography variant='body2' component='span'>
@@ -53,7 +53,11 @@ export default function PropertyImages() {
 					</Paper>
 				</Grid>
 				<Grid item xs={12}>
-					{property.images.length < 1 && <Alert severity={'info'}>No image found, browse or drop an image above. </Alert>}
+					{property.images.length < 1 && (
+						<Alert sx={{ mt: 3 }} severity={'info'}>
+							No image found, browse or drop an image above.{' '}
+						</Alert>
+					)}
 					<ImageList cols={3}>
 						{property.images.map((image, i) => (
 							<ImageListItem key={`image-item-${i}`}>

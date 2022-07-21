@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert, Divider } from '@mui/material';
 import TaskForm from '../../../common/TaskForm';
 
 import { useSelector } from 'react-redux';
@@ -41,7 +41,7 @@ export default function PropertyTasks() {
 	});
 
 	return (
-		<Box width={'100%'} sx={{ overflow: 'auto' }}>
+		<Box width={'100%'} sx={{ overflow: 'auto', minHeight: 300 }}>
 			<Button onClick={handleOpen}>Add Task</Button>
 			<Table sx={{ minWidth: 650 }} aria-labelledby='dense table'>
 				<TableHead>

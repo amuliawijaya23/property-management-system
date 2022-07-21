@@ -73,6 +73,10 @@ export default function useTransactionsData() {
 				columns: columns,
 				rows: rows,
 				selected: [],
+				filters: {
+					agents: [],
+					status: []
+				},
 				type: 'transactions'
 			})
 		);

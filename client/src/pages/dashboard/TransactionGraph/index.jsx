@@ -1,117 +1,99 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
-
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Box, Button, Card, CardContent, CardHeader, Divider } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { Bar } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
-Chart.register(...registerables);
+import { Chart as ChartJS, registerables, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+
+import useVisualMode from '../../../hooks/useVisualMode';
+import { LINE, BAR } from '../../../helpers/modes';
+
+ChartJS.register(...registerables, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export const TransactionGraph = () => {
 	const dashboard = useSelector((state) => state.dashboard.value);
 	const currentData = dashboard?.graph?.current?.map((d) => parseInt(d.sum));
 	const pastData = dashboard?.graph?.past?.map((d) => parseInt(d.sum));
 
-	const theme = useTheme();
+	const { mode, transition } = useVisualMode(LINE);
 
-	const data = {
-		datasets: [
-			{
-				backgroundColor: '#2196f3',
-				barPercentage: 0.5,
-				barThickness: 12,
-				borderRadius: 4,
-				categoryPercentage: 0.5,
-				data: [...currentData],
-				label: 'This year',
-				maxBarThickness: 10
-			},
-			{
-				backgroundColor: '#607d8b',
-				barPercentage: 0.5,
-				barThickness: 12,
-				borderRadius: 4,
-				categoryPercentage: 0.5,
-				data: [...pastData],
-				label: 'Last year',
-				maxBarThickness: 10
-			}
-		],
-		labels: dashboard?.graph?.label
+	const clickHandler = () => {
+		mode === BAR ? transition(LINE) : transition(BAR);
 	};
 
 	const options = {
-		animation: false,
-		cornerRadius: 20,
-		layout: { padding: 0 },
-		legend: { display: false },
-		maintainAspectRatio: false,
 		responsive: true,
-		xAxes: [
-			{
-				ticks: {
-					fontColor: theme.palette.text.secondary
-				},
-				gridLines: {
-					display: false,
-					drawBorder: false
-				}
-			}
-		],
-		yAxes: [
-			{
-				ticks: {
-					fontColor: theme.palette.text.secondary,
-					beginAtZero: true,
-					min: 0
-				},
-				gridLines: {
-					borderDash: [2],
-					borderDashOffset: [2],
-					color: theme.palette.divider,
-					drawBorder: false,
-					zeroLineBorderDash: [2],
-					zeroLineBorderDashOffset: [2],
-					zeroLineColor: theme.palette.divider
-				}
-			}
-		],
-		tooltips: {
-			backgroundColor: theme.palette.background.paper,
-			bodyFontColor: theme.palette.text.secondary,
-			borderColor: theme.palette.divider,
-			borderWidth: 1,
-			enabled: true,
-			footerFontColor: theme.palette.text.secondary,
-			intersect: false,
+		interaction: {
 			mode: 'index',
-			titleFontColor: theme.palette.text.primary
+			intersect: false
+		},
+		stacked: false,
+		plugins: {
+			title: {
+				display: true,
+				text: 'Chart.js Line Chart - Multi Axis'
+			}
+		},
+		scales: {
+			y: {
+				type: 'linear',
+				display: true,
+				position: 'left'
+			},
+			y1: {
+				type: 'linear',
+				display: true,
+				position: 'right',
+				grid: {
+					drawOnChartArea: false
+				}
+			}
 		}
+	};
+
+	const labels = dashboard?.graph?.label;
+	const data = {
+		labels,
+		datasets: [
+			{
+				label: 'Current',
+				barPercentage: 0.5,
+				barThickness: 12,
+				borderRadius: 4,
+				categoryPercentage: 0.5,
+				maxBarThickness: 10,
+				data: [...currentData],
+				borderColor: '#2196f3',
+				backgroundColor: '#2196f3',
+				yAxisID: 'y'
+			},
+			{
+				label: 'Past',
+				barPercentage: 0.5,
+				barThickness: 12,
+				borderRadius: 4,
+				categoryPercentage: 0.5,
+				maxBarThickness: 10,
+				data: [...pastData],
+				borderColor: '#607d8b',
+				backgroundColor: '#607d8b',
+				yAxisID: 'y1'
+			}
+		]
 	};
 
 	return (
 		<Card>
-			<CardHeader title='Transactions By Date' titleTypographyProps={{ variant: 'captions' }} />
+			<CardHeader title='Transactions By Date' titleTypographyProps={{ variant: 'captions' }} action={<Button onClick={clickHandler}>{mode === BAR ? 'LINE' : 'BAR'}</Button>} />
 			<Divider />
 			<CardContent>
 				<Box
 					sx={{
-						height: 400,
+						height: 500,
 						position: 'relative'
 					}}>
-					<Bar data={data} options={options} />
+					{mode === BAR && <Bar data={data} options={options} />}
+					{mode === LINE && <Line options={options} data={data} />}
 				</Box>
 			</CardContent>
-			<Divider />
-			<Box
-				sx={{
-					display: 'flex',
-					justifyContent: 'flex-end',
-					p: 2
-				}}>
-				<Button color='primary' endIcon={<ArrowRightIcon fontSize='small' />} size='small'>
-					Overview
-				</Button>
-			</Box>
 		</Card>
 	);
 };

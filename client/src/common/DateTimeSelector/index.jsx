@@ -20,7 +20,7 @@ export default function DateTimeSelector(props) {
 					.join(' ')}
 				value={form[type]}
 				onChange={handleChange}
-				disablePast={true}
+				disablePast={false}
 				renderInput={(params) => (
 					<TextField {...params} sx={{ mt: 2 }} fullWidth margin='dense' size='small' variant='standard' helperText={`${formatDistanceToNowStrict(new Date(form[type]), { addSuffix: true })}`} />
 				)}

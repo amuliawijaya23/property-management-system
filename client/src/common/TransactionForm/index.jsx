@@ -21,22 +21,24 @@ const style = {
 
 export default function TransactionForm(props) {
 	const app = useSelector((state) => state.app.value);
+	const user = useSelector((state) => state?.user?.value);
 	const { open, onClose, listingId, transaction } = props;
 
 	const { updateTransaction, createTransaction } = useTransactionsForm();
 
 	const initialForm = useMemo(
 		() => ({
-			agent_id: '',
+			agent_id: user?.sub,
 			transaction_type: '',
 			start_date: new Date(),
 			end_date: new Date(),
 			notes: '',
 			status: 'Open',
 			transaction_value: false,
-			listing_id: listingId ? listingId : ''
+			listing_id: listingId ? listingId : '',
+			market_value: false || null
 		}),
-		[listingId]
+		[listingId, user?.sub]
 	);
 
 	const [form, setForm] = useState(initialForm);
@@ -56,13 +58,13 @@ export default function TransactionForm(props) {
 
 	const setStartDate = (input) => {
 		let data = { ...form };
-		data.date_started = input;
+		data.start_date = input;
 		setForm({ ...data });
 	};
 
 	const setEndDate = (input) => {
 		let data = { ...form };
-		data.date_closed = input;
+		data.end_date = input;
 		setForm({ ...data });
 	};
 
@@ -88,10 +90,10 @@ export default function TransactionForm(props) {
 				}
 			});
 
-		if (valid && transaction) {
+		if (valid && transaction?.id) {
 			updateTransaction({ ...form });
 			handleClose();
-		} else if (valid && !transaction) {
+		} else if (valid && !transaction?.id) {
 			createTransaction({ ...form });
 			handleClose();
 		}
@@ -131,7 +133,7 @@ export default function TransactionForm(props) {
 					</Grid>
 					<Grid item xs={6}>
 						<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
-							{['Open', 'Pending Confirmation', 'Completed', 'Canceled'].map((status) => (
+							{['Open', 'Pending Confirmation', 'Closed', 'Active', 'Canceled'].map((status) => (
 								<MenuItem key={`transaction-form-status-${status}`} value={status}>
 									{status}
 								</MenuItem>
@@ -148,7 +150,7 @@ export default function TransactionForm(props) {
 							margin='normal'
 							value={form.transaction_type}
 							onChange={(event) => setForm({ ...form, transaction_type: event.target.value })}>
-							{['Deposit', 'Sale', 'Lease'].map((transaction) => (
+							{['Deposit', 'Sale', 'Lease', 'Expense'].map((transaction) => (
 								<MenuItem key={`transaction-form-transaction-${transaction}`} value={transaction}>
 									{transaction}
 								</MenuItem>
@@ -166,7 +168,7 @@ export default function TransactionForm(props) {
 							<InputLabel>Amount</InputLabel>
 							<NumberFormat
 								type='text'
-								value={form.transaction_value}
+								value={form?.transaction_value}
 								customInput={Input}
 								variant='standard'
 								thousandSeparator='.'
@@ -182,6 +184,29 @@ export default function TransactionForm(props) {
 							/>
 						</FormControl>
 					</Grid>
+					{form?.transaction_type === 'Sale' && (
+						<Grid item xs={12}>
+							<FormControl variant='standard' fullWidth>
+								<InputLabel>Market Value</InputLabel>
+								<NumberFormat
+									type='text'
+									value={form.market_value}
+									customInput={Input}
+									variant='standard'
+									thousandSeparator='.'
+									decimalSeparator=','
+									decimalScale={2}
+									fixedDecimalScale={true}
+									prefix='Rp '
+									autoComplete='off'
+									onValueChange={(values) => {
+										const { floatValue } = values;
+										setForm({ ...form, market_value: floatValue });
+									}}
+								/>
+							</FormControl>
+						</Grid>
+					)}
 					<Grid item xs={12}>
 						<FormControl variant='standard' fullWidth>
 							<InputLabel>Notes</InputLabel>
@@ -190,7 +215,7 @@ export default function TransactionForm(props) {
 					</Grid>
 					<Grid item xs={12} sx={{ mt: 1 }}>
 						<Button variant='contained' sx={{ mr: 1 }} onClick={validate}>
-							{transaction ? 'Update' : 'Create'}
+							{transaction?.id ? 'Update' : 'Create'}
 						</Button>
 						<Button variant='contained' onClick={handleClose}>
 							Cancel

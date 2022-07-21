@@ -45,43 +45,21 @@ export default function EnhancedTableToolbar(props) {
 				<Grid item xs={12} md={10}>
 					{numSelected > 0 && (
 						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
-							{app.agents.map((agent) => (
-								<SelectAgent agent={agent} assignAgent={selectAgent} selected={agent?.user_id === selected?.user_id} table={true} />
+							{app.agents.map((agent, i) => (
+								<SelectAgent key={`table-agent-select${i}`} agent={agent} assignAgent={selectAgent} selected={agent?.user_id === selected?.user_id} table={true} />
 							))}
 						</AvatarGroup>
 					)}
 					{numSelected < 1 && <TableSearch />}
 				</Grid>
-
 				<Grid item xs={12} md={2} sx={{ mt: 1 }}>
 					<Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end', alignItems: 'center' }}>
 						{numSelected < 1 && (
-							<>
-								<Tooltip title={`Create ${table?.type[0]?.toUpperCase()}${table?.type?.substring(1, table?.type.length - 1)}`}>
-									<Button variant='text' onClick={() => handleOpen(null)}>
-										Create
-									</Button>
-								</Tooltip>
-								{table?.type === 'properties' && (
-									<>
-										<Tooltip title='View All Properties'>
-											<Button variant='text' fullWidth>
-												All
-											</Button>
-										</Tooltip>
-										<Tooltip title='View All Properties for Sale'>
-											<Button variant='text' fullWidth>
-												Sales
-											</Button>
-										</Tooltip>
-										<Tooltip title='View All Properties for Lease'>
-											<Button variant='text' fullWidth>
-												Leasing
-											</Button>
-										</Tooltip>
-									</>
-								)}
-							</>
+							<Tooltip title={`Create ${table?.type[0]?.toUpperCase()}${table?.type?.substring(1, table?.type.length - 1)}`}>
+								<Button variant='text' onClick={() => handleOpen(null)}>
+									Create
+								</Button>
+							</Tooltip>
 						)}
 						{numSelected > 0 && (
 							<>

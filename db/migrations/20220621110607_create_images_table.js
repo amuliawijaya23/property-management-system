@@ -5,7 +5,7 @@ exports.up = async function(knex) {
       table.string('link', 500).notNullable();
       table.integer('listing_id').unsigned().references('id').inTable('listings').onDelete('cascade').notNullable();
       table.string('organization_id').notNullable();
-      table.string('agent_id').notNullable();
+      table.string('agent_id').references('id').inTable('users').onDelete('cascade').notNullable();
       table.timestamps(false, true);
     });
 

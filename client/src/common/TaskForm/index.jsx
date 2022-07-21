@@ -20,6 +20,7 @@ const style = {
 };
 
 export default function TaskForm(props) {
+	const user = useSelector((state) => state?.user?.value);
 	const app = useSelector((state) => state.app.value);
 	const { open, onClose, listingId, task } = props;
 
@@ -31,11 +32,11 @@ export default function TaskForm(props) {
 			notes: '',
 			category: '',
 			due_date: new Date(),
-			agent_id: '',
+			agent_id: user?.sub,
 			listing_id: listingId ? listingId : '',
 			status: 'Open'
 		}),
-		[listingId]
+		[listingId, user?.sub]
 	);
 
 	const [form, setForm] = useState(initialForm);

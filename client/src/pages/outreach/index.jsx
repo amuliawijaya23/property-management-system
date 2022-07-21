@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-concat */
 import { useRef, useState } from 'react';
-import { Grid, Box, Chip, Input, Button, InputLabel, FormControl, Select, MenuItem, TextField, Autocomplete } from '@mui/material';
+import { Grid, Box, Chip, Input, Button, InputLabel, FormControl, Select, MenuItem, TextField, Autocomplete, LinearProgress, CircularProgress } from '@mui/material';
 
 import SendIcon from '@mui/icons-material/Send';
 
@@ -24,7 +24,7 @@ export default function Outreach(props) {
 	const { generateColdEmail, sendColdEmail } = useOutreachData();
 
 	const [state, setState] = useState(initialState);
-
+	const [loading, setLoading] = useState(false);
 	const [service, setService] = useState('Buyer');
 
 	const editorRef = useRef(null);
@@ -57,11 +57,14 @@ export default function Outreach(props) {
 	};
 
 	const generateHandler = async (service) => {
+		setLoading(true);
 		try {
 			const email = await generateColdEmail(service);
-			editorRef.current.setContent(`${email}`);
+			await editorRef.current.setContent(`${email}`);
+			setLoading(false);
 		} catch (error) {
 			console.error(error);
+			setLoading(false);
 		}
 	};
 
@@ -162,7 +165,7 @@ export default function Outreach(props) {
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<Grid container>
+							<Grid container sx={{ mt: 4.5 }}>
 								<Grid item xs={8}>
 									<Box sx={{ display: 'flex', height: '100%' }}>
 										<FormControl>
@@ -170,10 +173,11 @@ export default function Outreach(props) {
 											<Select labelId='demo-simple-select-label' id='demo-simple-select' value={service} label='Service' onChange={handleChange}>
 												<MenuItem value={'Renter'}>Renter</MenuItem>
 												<MenuItem value={'Buyer'}>Buyer</MenuItem>
+												<MenuItem value={'Seller'}>Seller</MenuItem>
 											</Select>
 										</FormControl>
-										<Button sx={{ ml: 1 }} onClick={() => generateHandler(service)} variant='contained'>
-											Generate
+										<Button sx={{ ml: 1, minWidth: 100 }} onClick={() => generateHandler(service)} variant='contained'>
+											{loading ? <CircularProgress color='inherit' /> : 'Generate'}
 										</Button>
 									</Box>
 								</Grid>

@@ -3,7 +3,7 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
 
-const { getTransactions, updateTransaction, createTransactions, getListingTransactions, getCompletedTransactions, getCompletedSumCount } = require('../../db/queries/transactions');
+const { getTransactions, updateTransaction, createTransactions, getListingTransactions, getCompletedTransactions, getCompletedSumCount, searchTransactions } = require('../../db/queries/transactions');
 
 router.get('/transactions/listing/:id', async(req, res) => {
   const id = req.params.id;
@@ -51,6 +51,16 @@ router.get('/transactions/:id', async(req, res) => {
   const id = req.params.id;
   const transactions = await getTransactions(id);
   res.send(transactions);
+});
+
+router.post('/transactions/search', async(req, res) => {
+  try {
+    const search = req.body.search;
+    const result = await searchTransactions(search);
+    res.send(result);
+  } catch (error) {
+    console.error(error.response ? error.response.body : error);
+  }
 });
 
 

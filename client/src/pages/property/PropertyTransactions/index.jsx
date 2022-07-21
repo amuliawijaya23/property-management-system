@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert, Tooltip } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert, Tooltip, Divider } from '@mui/material';
 import TransactionForm from '../../../common/TransactionForm';
 
 import { useSelector } from 'react-redux';
@@ -42,7 +42,7 @@ export default function PropertyTransactions() {
 	});
 
 	return (
-		<Box width={'100%'} sx={{ overflow: 'auto' }}>
+		<Box width={'100%'} sx={{ overflow: 'auto', minHeight: 300 }}>
 			<Button onClick={handleOpen}>Add Transaction</Button>
 			<Table sx={{ minWidth: 650 }} aria-labelledby='dense table'>
 				<TableHead>
@@ -66,7 +66,10 @@ export default function PropertyTransactions() {
 								case 'Pending Confirmation':
 									return 'warning';
 
-								case 'Completed':
+								case 'Active':
+									return 'secondary';
+
+								case 'Closed':
 									return 'success';
 
 								case 'Canceled':

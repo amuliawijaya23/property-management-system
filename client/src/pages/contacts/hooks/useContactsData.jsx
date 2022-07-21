@@ -60,6 +60,9 @@ export default function usePropertiesData() {
 				columns: columns,
 				rows: rows,
 				selected: [],
+				filters: {
+					agents: []
+				},
 				type: 'contacts'
 			})
 		);

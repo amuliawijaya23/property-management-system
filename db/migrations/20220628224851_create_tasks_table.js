@@ -8,7 +8,7 @@ exports.up = async function(knex) {
       table.timestamp('due_date').notNullable();
       table.integer('listing_id').unsigned().references('id').inTable('listings').onDelete('cascade');
       table.string('status').notNullable().defaultTo('Open');
-      table.string('agent_id').notNullable();
+      table.string('agent_id').references('id').inTable('users').onDelete('cascade').notNullable();
       table.string('organization_id').notNullable();
       table.timestamps(false, true);
     });

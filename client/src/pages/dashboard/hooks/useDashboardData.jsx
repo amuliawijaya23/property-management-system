@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setUser, setStream, setSale, setLease, setGraph } from '../../../state/reducers/dashboardReducer';
@@ -22,14 +22,20 @@ export const useDashboardData = () => {
 		start: startOfYear(new Date()),
 		end: new Date()
 	});
-	const [pastRange, setPastRange] = useState({
-		start: subYears(startOfYear(new Date()), 1),
-		end: subYears(new Date(), 1)
-	});
+
+	const [distance, setDistance] = useState(1);
+
+	const pastRange = useMemo(
+		() => ({
+			start: subYears(new Date(range?.start), distance),
+			end: subYears(new Date(range?.end), distance)
+		}),
+		[range?.start, range?.end, distance]
+	);
 
 	const getStream = useCallback(async () => {
 		const data = {
-			status: 'Completed',
+			status: 'Closed',
 			agent_id: dashboard?.user,
 			organization_id: user?.org_id
 		};
@@ -83,7 +89,7 @@ export const useDashboardData = () => {
 
 	const getGraphData = useCallback(async () => {
 		const data = {
-			status: 'Completed',
+			status: 'Closed',
 			agent_id: dashboard?.user,
 			organization_id: user?.org_id
 		};
@@ -99,7 +105,7 @@ export const useDashboardData = () => {
 				end: endOfMonth(month)
 			}));
 
-			const allTransactions = await axios.post(`/api/transactions/data`, { ...range, organization_id: user?.org_id, status: 'Completed' });
+			const allTransactions = await axios.post(`/api/transactions/data`, { ...range, organization_id: user?.org_id, status: 'Closed' });
 			const transactions = await (await Promise.all(months.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data })))).map((transaction) => transaction.data);
 			const pastTransactions = await (await Promise.all(pastMonths.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data })))).map((transaction) => transaction.data);
 			const label = months.map((month) => format(new Date(month.start), 'PP'));
@@ -126,7 +132,24 @@ export const useDashboardData = () => {
 		dispatch(setUser(input));
 	};
 
+	const setStart = (input) => {
+		setRange({ ...range, start: input });
+	};
+
+	const setEnd = (input) => {
+		setRange({ ...range, end: input });
+	};
+
+	const selectDistance = (event) => {
+		setDistance(event.target.value);
+	};
+
 	return {
+		range,
+		distance,
+		setStart,
+		setEnd,
+		selectDistance,
 		selectAgent
 	};
 };

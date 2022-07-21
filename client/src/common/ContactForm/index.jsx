@@ -20,6 +20,7 @@ const style = {
 };
 
 export default function ContactForm(props) {
+	const user = useSelector((state) => state?.user?.value);
 	const app = useSelector((state) => state.app.value);
 	const { open, onClose, contact } = props;
 
@@ -27,7 +28,7 @@ export default function ContactForm(props) {
 
 	const initialForm = useMemo(
 		() => ({
-			agent_id: '',
+			agent_id: user?.sub,
 			first_name: '',
 			last_name: '',
 			email: '',
@@ -36,7 +37,7 @@ export default function ContactForm(props) {
 			home: false,
 			office: false
 		}),
-		[]
+		[user?.sub]
 	);
 
 	const [form, setForm] = useState(initialForm);

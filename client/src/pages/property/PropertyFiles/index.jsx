@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import { Grid, Paper, Box, Button, Divider, List, ListItem, ListItemText, Typography, ListItemAvatar, Alert } from '@mui/material';
+import { Card, CardHeader, CardContent, CardActions, Grid, Paper, Box, Dialog, Button, Divider, List, ListItem, ListItemText, Typography, ListItemAvatar, Alert, Avatar } from '@mui/material';
 
-import ArticleIcon from '@mui/icons-material/Article';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Confirm from '../Confirm';
@@ -25,10 +25,40 @@ const style = {
 	cursor: 'pointer'
 };
 
+const fileIcon = (input) => {
+	switch (input) {
+		case 'xlsx' || 'xls' || 'xlsm':
+			return '/fileIcons/xls.png';
+
+		case 'docx' || 'doc' || 'docm':
+			return '/fileIcons/doc.png';
+
+		case 'csv':
+			return '/fileIcons/csv.png';
+
+		case 'pdf':
+			return '/fileIcons/pdf.png';
+
+		case 'ppt' || 'pptx':
+			return '/fileIcons/ppt.png';
+
+		case 'zip':
+			return '/fileIcons/zip.png';
+
+		case 'txt':
+			return '/fileIcons/txt.png';
+
+		default:
+			return '/fileIcons/file.png';
+	}
+};
+
 export default function PropertyFiles() {
 	const property = useSelector((state) => state.property.value);
+	const [selected, setSelected] = useState(null);
 	const [download, setDownload] = useState('');
 	const [open, setOpen] = useState(false);
+	const [confirm, setConfirm] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -55,20 +85,23 @@ export default function PropertyFiles() {
 
 	const handleClose = () => {
 		setOpen(false);
-		setTimeout(() => {
-			setDownload('');
-		}, 500);
+	};
+
+	const fileClick = (input) => {
+		setSelected(input);
+		setConfirm(true);
 	};
 
 	const onDownload = (link) => {
 		axios.get(`/files/${link}`).then(async (res) => {
 			await setDownload(res.data);
 			setOpen(true);
+			setSelected(null);
 		});
 	};
 
 	return (
-		<Box sx={{ width: '100%' }}>
+		<Box sx={{ width: '100%', minHeight: 300 }}>
 			<Grid container spacing={1}>
 				<Grid item xs={12}>
 					<Typography variant='body2' component='span'>
@@ -86,17 +119,39 @@ export default function PropertyFiles() {
 						{property.files.length < 1 && <Alert severity={'info'}>No files found, browse or drop a file above. </Alert>}
 						{property.files.map((file, i) => {
 							return (
-								<ListItem key={`property-task-${i}`} divider={i < property?.files?.length - 1} button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => onDownload(file.id)}>
+								<ListItem key={`property-task-${i}`} divider={i < property?.files?.length - 1} button sx={{ justifyContent: 'space-between', mb: 1 }} onClick={() => fileClick(file)}>
 									<ListItemAvatar>
-										<ArticleIcon sx={{ mr: 1, fontSize: '2rem' }} />
+										<Avatar sx={{ py: 0.5, px: 0.5 }} src={fileIcon(file?.name?.split('.')[file?.name.split('.').length - 1])} alt='file' />
 									</ListItemAvatar>
-									<ListItemText primary={file.id.split('__')[1]} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file.updated_at), { addSuffix: true })}`} />
+									<ListItemText primary={file?.name} secondary={`Last Updated ${formatDistanceToNowStrict(new Date(file?.updated_at), { addSuffix: true })}`} />
 								</ListItem>
 							);
 						})}
 					</List>
 				</Grid>
 			</Grid>
+			<Dialog open={confirm} onClose={() => setConfirm(false)}>
+				<Card>
+					<CardContent>
+						<List>
+							<ListItem>
+								<ListItemAvatar>
+									<Avatar sx={{ py: 0.5, px: 0.5 }} src={fileIcon(selected?.name?.split('.')[selected?.name.split('.').length - 1])} alt='file' />
+									<ListItemText primary={selected?.name} />
+								</ListItemAvatar>
+							</ListItem>
+						</List>
+					</CardContent>
+					<CardActions>
+						<Button variant='contained' sx={{ width: 50 }} onClick={() => onDownload(selected?.id)}>
+							<DownloadIcon />
+						</Button>
+						<Button variant='contained' sx={{ width: 50 }}>
+							<DeleteIcon />
+						</Button>
+					</CardActions>
+				</Card>
+			</Dialog>
 			<Confirm open={open} onClose={handleClose} download={download} />
 		</Box>
 	);

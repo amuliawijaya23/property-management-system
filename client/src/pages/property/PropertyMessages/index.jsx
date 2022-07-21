@@ -34,7 +34,7 @@ export default function PropertyMessages() {
 	const messages = property?.messages ? property?.messages?.map((message, i) => <Messages key={`message-${i}`} message={message} />) : <></>;
 
 	return (
-		<Grid container spacing={1}>
+		<Grid container spacing={1} sx={{ minHeight: 300 }}>
 			<Grid item xs={12}>
 				<List
 					key={'message-box'}

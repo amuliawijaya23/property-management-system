@@ -16,14 +16,13 @@ router.post('/description', async(req, res) => {
     title,
     address,
     property_type,
-    zip_code,
     size,
     number_of_bedrooms,
     number_of_bathrooms,
     parking_space
   } = req.body;
 
-  const setPrompt = `Generate a professional real estate listing descripton for a ${number_of_bedrooms} bedroom and ${number_of_bathrooms} bathroom ${property_type} located in ${address} with the size of ${size} sqft and ${parking_space} parking available`;
+  const setPrompt = `Generate a professional real estate listing descripton for a ${number_of_bedrooms} bedroom and ${number_of_bathrooms} bathroom ${property_type} located in ${address} with the title of ${title} and size of ${size} sqft and ${parking_space} parking available`;
 
   const response = await openai.createCompletion({
     model: 'text-davinci-002',

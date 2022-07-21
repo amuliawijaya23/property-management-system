@@ -3,7 +3,7 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
 
-const { getListings, addListing, getListing, getListingWatchers, updateListing, addListingWatchers, getWatcherById, updateWatcher } = require('../../db/db');
+const { getListings, addListing, getListing, getListingWatchers, updateListing, addListingWatchers, getWatcherById, updateWatcher, searchListings } = require('../../db/queries/listing');
 
 router.get('/listings/:id', async(req, res) => {
   const listings = await getListings(req.params.id);
@@ -61,6 +61,17 @@ router.put('/watchers/remove', async(req, res) => {
     res.send(watchers);
   } catch (error) {
     error.response ? console.error(error.response.body) : console.error(error);
+  }
+});
+
+
+router.post('/properties/search', async(req, res) => {
+  try {
+    const search = req.body.search;
+    const result = await searchListings(search);
+    res.send(result);
+  } catch (error) {
+    console.error(error.response ? error.response.body : error);
   }
 });
 

@@ -116,6 +116,10 @@ export default function usePropertiesData() {
 				columns: columns,
 				rows: rows,
 				selected: [],
+				filters: {
+					agents: [],
+					status: []
+				},
 				type: 'properties'
 			})
 		);

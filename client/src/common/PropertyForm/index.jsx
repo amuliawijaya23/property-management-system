@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Box, Drawer, Grid, Button, TextField, MenuItem, Input, InputLabel, InputAdornment, FormControl, AvatarGroup, Typography, LinearProgress } from '@mui/material';
 
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
@@ -15,27 +15,30 @@ import NumberFormat from 'react-number-format';
 
 import { useSelector } from 'react-redux';
 
-const initialForm = {
-	agent_id: '',
-	title: '',
-	status: '',
-	address: '',
-	zip_code: false,
-	service_type: 'Sale',
-	property_type: '',
-	description: '',
-	size: false,
-	number_of_bedrooms: false,
-	number_of_bathrooms: false,
-	parking_space: false,
-	valuation: false
-};
-
 export default function PropertyForm(props) {
 	const { generateDescription, addProperty, updateProperty } = usePropertyForm();
 	const { open, onClose, property } = props;
-
+	const user = useSelector((state) => state?.user?.value);
 	const app = useSelector((state) => state.app.value);
+
+	const initialForm = useMemo(
+		() => ({
+			agent_id: user?.sub,
+			title: '',
+			address: '',
+			zip_code: false,
+			service_type: 'Sale',
+			property_type: '',
+			description: '',
+			size: false,
+			number_of_bedrooms: false,
+			number_of_bathrooms: false,
+			parking_space: false,
+			valuation: false,
+			market_valuation: false
+		}),
+		[user?.sub]
+	);
 
 	const [form, setForm] = useState(initialForm);
 	const [alert, setAlert] = useState('');
@@ -54,7 +57,7 @@ export default function PropertyForm(props) {
 
 			setForm({ ...propertyForm, id: property?.id, organization_id: property?.organization_id });
 		}
-	}, [property]);
+	}, [property, initialForm]);
 
 	const handleClose = () => {
 		property ? setForm({ ...property }) : setForm(initialForm);
@@ -138,19 +141,6 @@ export default function PropertyForm(props) {
 		}
 	};
 
-	const stepOptions = (() => {
-		switch (form.service_type) {
-			case 'Sale':
-				return ['Open', 'Offer Accepted', 'Deposit Received', 'Closing', 'Closed', 'Contract Canceled'];
-
-			case 'Lease':
-				return ['Open', 'Offer Accepted', 'Deposit Received', 'Closing', 'Contract Active', 'Contract Canceled'];
-
-			default:
-				return [];
-		}
-	})();
-
 	return (
 		<>
 			<Drawer anchor='right' open={open} onClose={onClose} PaperProps={{ sx: { width: '65%' } }}>
@@ -161,15 +151,6 @@ export default function PropertyForm(props) {
 								<InputLabel>Title</InputLabel>
 								<Input value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} id='property-form-title' />
 							</FormControl>
-						</Grid>
-						<Grid item md={12} xs={12}>
-							<TextField variant='standard' select label='Status' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })} size='small' fullWidth>
-								{stepOptions?.map((type) => (
-									<MenuItem key={`property-form-status-menu-${type}`} value={type}>
-										{type}
-									</MenuItem>
-								))}
-							</TextField>
 						</Grid>
 						<Grid item md={12} xs={12}>
 							<Typography variant='body2' component='span'>
@@ -276,6 +257,27 @@ export default function PropertyForm(props) {
 									onValueChange={(values) => {
 										const { floatValue } = values;
 										setForm({ ...form, valuation: floatValue });
+									}}
+								/>
+							</FormControl>
+						</Grid>
+						<Grid item md={6} xs={12} sx={{ mt: 2 }}>
+							<FormControl variant='standard' fullWidth>
+								<InputLabel>Market Valuation</InputLabel>
+								<NumberFormat
+									type='text'
+									value={form.market_valuation}
+									customInput={Input}
+									variant='standard'
+									thousandSeparator='.'
+									decimalSeparator=','
+									decimalScale={2}
+									fixedDecimalScale={true}
+									prefix='Rp '
+									autoComplete='off'
+									onValueChange={(values) => {
+										const { floatValue } = values;
+										setForm({ ...form, market_valuation: floatValue });
 									}}
 								/>
 							</FormControl>

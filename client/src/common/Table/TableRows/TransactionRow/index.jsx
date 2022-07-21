@@ -13,7 +13,10 @@ export default function TransactionRow({ row, labelId, handleOpen }) {
 			case 'Pending Confirmation':
 				return 'warning';
 
-			case 'Completed':
+			case 'Active':
+				return 'secondary';
+
+			case 'Closed':
 				return 'success';
 
 			case 'Canceled':

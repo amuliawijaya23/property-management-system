@@ -3,7 +3,7 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
 
-const { getContacts, updateContacts, createContact } = require('../../db/db');
+const { getContacts, updateContacts, createContact, searchContacts } = require('../../db/queries/contacts');
 
 router.get('/contacts/:id', async(req, res) => {
   try {
@@ -33,6 +33,17 @@ router.post('/contacts', async(req, res) => {
     res.send(contacts);
   } catch (error) {
     error.response ? console.error(error.response.body) : console.error(error);
+  }
+});
+
+
+router.post('/contacts/search', async(req, res) => {
+  try {
+    const search = req.body.search;
+    const result = await searchContacts(search);
+    res.send(result);
+  } catch (error) {
+    console.error(error.response ? error.response.body : error);
   }
 });
 

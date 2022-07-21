@@ -5,6 +5,7 @@ const initialState = {
     columns: [],
     rows: [],
     selected: [],
+    filters: {},
     type: ''
   }
 };
@@ -22,6 +23,9 @@ export const tableSlice =  createSlice({
     setTableRows: (state, action) => {
       state.value.rows = action.payload;
     },
+    setTableFilters: (state, action) => {
+      state.value.filters = action.payload;
+    },
     setSelected: (state, action) => {
       state.value.selected = action.payload;
     }
@@ -33,6 +37,7 @@ export const {
   setTableColumns, 
   setTableRows,
   setSelected,
+  setTableFilters
 } = tableSlice.actions;
 
 export default tableSlice.reducer;
