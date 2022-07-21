@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Box, Drawer, Grid, Button, TextField, MenuItem, Input, InputLabel, InputAdornment, FormControl, AvatarGroup, Typography, LinearProgress } from '@mui/material';
+import { Box, Drawer, Grid, Button, TextField, MenuItem, Input, InputLabel, InputAdornment, FormControl, Autocomplete, LinearProgress } from '@mui/material';
 
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import ShowerRoundedIcon from '@mui/icons-material/ShowerRounded';
@@ -46,6 +46,8 @@ export default function PropertyForm(props) {
 	const [severity, setSeverity] = useState('info');
 	const [loading, setLoading] = useState(false);
 
+	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
+
 	useEffect(() => {
 		if (property) {
 			let propertyForm = { ...initialForm };
@@ -68,12 +70,6 @@ export default function PropertyForm(props) {
 		setAlert('');
 		setOpenAlert(false);
 		setSeverity('info');
-	};
-
-	const selectAgent = (input) => {
-		let data = { ...form };
-		data.agent_id = input;
-		setForm({ ...data });
 	};
 
 	const setAddress = (input) => {
@@ -153,14 +149,19 @@ export default function PropertyForm(props) {
 							</FormControl>
 						</Grid>
 						<Grid item md={12} xs={12}>
-							<Typography variant='body2' component='span'>
-								Assignee:
-							</Typography>
-							<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-								{app.agents.map((agent, i) => (
-									<SelectAgent key={`select-agent-property-${i}`} agent={agent} assignAgent={selectAgent} selected={agent?.user_id === form?.agent_id} />
-								))}
-							</AvatarGroup>
+							<Autocomplete
+								sx={{ mb: 2, mt: 2 }}
+								value={agent?.name || ''}
+								onChange={(event, newValue) => {
+									const agent = app?.agents?.find((a) => a?.name === newValue);
+									let newForm = { ...form };
+									newForm.agent_id = agent?.user_id;
+									setForm(newForm);
+								}}
+								options={app?.agents?.filter((agent) => agent?.user_id !== property?.agent_id).map((option) => option?.name)}
+								freeSolo
+								renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
+							/>
 						</Grid>
 						<Grid item md={6} xs={12}>
 							<TextField variant='standard' select label='Service' value={form.service_type} onChange={(event) => setForm({ ...form, service_type: event.target.value })} size='small' fullWidth>

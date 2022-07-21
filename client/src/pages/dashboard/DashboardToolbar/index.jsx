@@ -1,10 +1,12 @@
-import { Grid, Card, Button, AvatarGroup, CardActions, CardHeader, FormControl, Select, InputLabel, MenuItem } from '@mui/material/';
+import { Grid, Card, Button, AvatarGroup, CardActions, CardHeader, FormControl, Select, InputLabel, MenuItem, TextField } from '@mui/material/';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import SelectAgent from '../../../common/SelectAgent';
 
 import { useSelector } from 'react-redux';
 
 import { useDashboardData } from '../hooks/useDashboardData';
-import DateTimeSelector from '../../../common/DateTimeSelector';
 
 export const DashboardToolbar = () => {
 	const { range, distance, selectDistance, setStart, setEnd, selectAgent } = useDashboardData();
@@ -26,21 +28,23 @@ export const DashboardToolbar = () => {
 				</Grid>
 				<Grid item xs={12} md={12}>
 					<CardActions>
-						{/* <AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }} > */}
 						{app?.agents?.map((agent, i) => (
 							<SelectAgent key={`select-agent-dashboard-${i}`} agent={agent} assignAgent={selectAgent} selected={agent?.user_id === dashboard?.user} />
 						))}
-						{/* </AvatarGroup> */}
 					</CardActions>
 				</Grid>
 				<Grid item container alignItems='center'>
 					<Grid item xs={4.5} sx={{ px: 2 }}>
-						<DateTimeSelector form={range} setDate={setStart} type={'start'} />
+						<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<DesktopDatePicker label='Start' inputFormat='MM/dd/yyyy' value={range?.start} onChange={setStart} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
+						</LocalizationProvider>
 					</Grid>
 					<Grid item xs={4.5} sx={{ px: 2 }}>
-						<DateTimeSelector form={range} setDate={setEnd} type={'end'} />
+						<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<DesktopDatePicker label='End' inputFormat='MM/dd/yyyy' value={range?.end} onChange={setEnd} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
+						</LocalizationProvider>
 					</Grid>
-					<Grid item xs={3} sx={{ px: 1, mb: 2 }}>
+					<Grid item xs={3} sx={{ px: 1 }}>
 						<FormControl margin='dense'>
 							<InputLabel id='select-label'>Past Data</InputLabel>
 							<Select variant='standard' labelId='select-label' value={distance} label='Past Data' onChange={selectDistance}>

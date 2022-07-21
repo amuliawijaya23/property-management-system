@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Box, Modal, Grid, FormControl, Input, InputLabel, AvatarGroup, Button, Typography, FormHelperText, Divider } from '@mui/material';
+import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, Autocomplete, Button, Typography, FormHelperText, Divider } from '@mui/material';
 import SelectAgent from '../SelectAgent';
 import SearchLocationInput from '../SearchLocationInput';
 
@@ -41,6 +41,7 @@ export default function ContactForm(props) {
 	);
 
 	const [form, setForm] = useState(initialForm);
+	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
 
 	useEffect(() => {
 		if (contact) {
@@ -54,12 +55,6 @@ export default function ContactForm(props) {
 			setForm({ ...contactForm, id: contact?.id, organization_id: contact?.organization_id });
 		}
 	}, [contact, initialForm]);
-
-	const selectAgent = (input) => {
-		let data = { ...form };
-		data.agent_id = input;
-		setForm({ ...data });
-	};
 
 	const setAddress = (input) => {
 		let data = { ...form };
@@ -100,11 +95,19 @@ export default function ContactForm(props) {
 						<Typography variant='body2' component='span'>
 							Agent:
 						</Typography>
-						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-							{app.agents.map((agent, i) => (
-								<SelectAgent key={`select-agent-contact-${i}`} agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
-							))}
-						</AvatarGroup>
+						<Autocomplete
+							sx={{ mb: 2, mt: 2 }}
+							value={agent?.name || ''}
+							onChange={(event, newValue) => {
+								const agent = app?.agents?.find((a) => a?.name === newValue);
+								let newForm = { ...form };
+								newForm.agent_id = agent?.user_id;
+								setForm(newForm);
+							}}
+							options={app?.agents?.filter((agent) => agent?.user_id !== contact?.agent_id).map((option) => option?.name)}
+							freeSolo
+							renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
+						/>
 					</Grid>
 					<Grid item xs={6}>
 						<FormControl variant='standard' fullWidth>

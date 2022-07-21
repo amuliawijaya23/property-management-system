@@ -1,7 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, AvatarGroup, Button, Typography } from '@mui/material';
+import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, Button, Typography, Autocomplete } from '@mui/material';
 import DateTimeSelector from '../DateTimeSelector';
-import SelectAgent from '../SelectAgent';
 
 import useTaskForm from './hooks/useTaskForm';
 
@@ -40,6 +39,7 @@ export default function TaskForm(props) {
 	);
 
 	const [form, setForm] = useState(initialForm);
+	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
 
 	useEffect(() => {
 		if (task) {
@@ -56,12 +56,6 @@ export default function TaskForm(props) {
 	const setDueDate = (input) => {
 		let data = { ...form };
 		data.due_date = input;
-		setForm({ ...data });
-	};
-
-	const selectAgent = (input) => {
-		let data = { ...form };
-		data.agent_id = input;
 		setForm({ ...data });
 	};
 
@@ -102,11 +96,19 @@ export default function TaskForm(props) {
 						<Typography variant='body2' component='span'>
 							Assignee:
 						</Typography>
-						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-							{app.agents.map((agent, i) => (
-								<SelectAgent key={`select-agent-task-${i}`} agent={agent} assignAgent={selectAgent} selected={agent.user_id === form.agent_id} />
-							))}
-						</AvatarGroup>
+						<Autocomplete
+							sx={{ mb: 2, mt: 2 }}
+							value={agent?.name || ''}
+							onChange={(event, newValue) => {
+								const agent = app?.agents?.find((a) => a?.name === newValue);
+								let newForm = { ...form };
+								newForm.agent_id = agent?.user_id;
+								setForm(newForm);
+							}}
+							options={app?.agents?.filter((agent) => agent?.user_id !== task?.agent_id).map((option) => option?.name)}
+							freeSolo
+							renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
+						/>
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<TextField

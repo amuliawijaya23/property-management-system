@@ -29,7 +29,6 @@ export default function AssignAgent(props) {
 	};
 
 	const validate = () => {
-		console.log('value', value);
 		if (value) {
 			const selectedAgent = app.agents.find((user) => user.name === value);
 			const newData = { ...property?.details, agent_id: selectedAgent.user_id };
