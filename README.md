@@ -44,7 +44,7 @@ Create a .env file based on the example file and do the same inside the client f
 
 Click [Here](https://my-property-management-system.herokuapp.com/)!
 
-Login with test account:
+Login with test account
 
 email: properteedemo@gmail.com
 
