@@ -66,7 +66,7 @@ pass: Test123!
 
 #### Search Table
 
-![Authentication](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/talbe_search.gif?raw=true)
+![Authentication](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/table_search.gif?raw=true)
 
 #### Create Listing and Generate Description
 
