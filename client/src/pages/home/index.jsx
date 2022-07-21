@@ -53,9 +53,9 @@ export default function Home({ login }) {
 						</Typography>
 						<Typography component='div' variant='caption'>
 							<>
-								{'Not a member? '}
-								<Link color='inherit' href='/register'>
-									Sign up here!
+								{'Check Github for login information '}
+								<Link color='inherit' target='_blank' href='https://github.com/amuliawijaya23/property-management-system'>
+									Click here!
 								</Link>
 							</>
 						</Typography>
