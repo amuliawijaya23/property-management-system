@@ -16,7 +16,6 @@ export default function TableSearch(props) {
 						size='small'
 						variant='outlined'
 						placeholder='Search...'
-						// value={}
 						onChange={(event) => searchData(event.target.value)}
 						sx={{ ml: '0.25rem', mr: '0.25rem' }}
 						InputProps={{

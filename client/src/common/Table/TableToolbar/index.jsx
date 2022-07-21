@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 import { alpha } from '@mui/material/styles';
 
-import { Grid, Box, Toolbar, Tooltip, Button, AvatarGroup } from '@mui/material';
-
+import { Grid, Box, Toolbar, Tooltip, Button, Autocomplete, TextField, InputAdornment } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TableSearch from '../TableSearch';
-import SelectAgent from '../../SelectAgent';
 
 import { useSelector } from 'react-redux';
 
 import useUpdateTable from '../hooks/useUpdateTable';
 
 export default function EnhancedTableToolbar(props) {
-	const { updateRowsAgent, updateTableData } = useUpdateTable();
+	const { updateRowsAgent, updateTableData, resetRows } = useUpdateTable();
 	const app = useSelector((state) => state.app.value);
 	const table = useSelector((state) => state.table.value);
 
@@ -44,11 +42,19 @@ export default function EnhancedTableToolbar(props) {
 			<Grid container alignItems='center'>
 				<Grid item xs={12} md={10}>
 					{numSelected > 0 && (
-						<AvatarGroup spacing={'medium'} sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
-							{app.agents.map((agent, i) => (
-								<SelectAgent key={`table-agent-select${i}`} agent={agent} assignAgent={selectAgent} selected={agent?.user_id === selected?.user_id} table={true} />
-							))}
-						</AvatarGroup>
+						<Autocomplete
+							sx={{ mb: 2, mt: 2, width: 300 }}
+							value={selected?.name || ''}
+							onChange={(event, newValue) => {
+								if (newValue) {
+									const agent = app?.agents?.find((a) => a?.name === newValue);
+									updateRowsAgent(agent);
+								}
+							}}
+							options={app?.agents?.map((option) => option?.name)}
+							freeSolo
+							renderInput={(params) => <TextField variant='outlined' size='small' placeholder='Select Agent...' {...params} />}
+						/>
 					)}
 					{numSelected < 1 && <TableSearch />}
 				</Grid>
