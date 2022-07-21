@@ -3,6 +3,7 @@ import { Grid, Typography, Collapse, CardContent } from '@mui/material';
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import ShowerRoundedIcon from '@mui/icons-material/ShowerRounded';
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+import NumberFormat from 'react-number-format';
 
 import { useSelector } from 'react-redux';
 
@@ -13,9 +14,46 @@ export default function Collapsable({ expanded }) {
 		<Collapse in={expanded} timeout='auto' unmountOnExit>
 			<CardContent sx={{ mb: '1rem' }}>
 				<Grid container spacing={1}>
+					<Grid item xs={6}>
+						<Typography variant='h7' color='text.secondary' component='div'>
+							<b>Valuation: </b>
+							<NumberFormat
+								value={property?.details?.valuation}
+								thousandSeparator={','}
+								decimalScale={2}
+								fixedDecimalScale={true}
+								decimalSeparator={'.'}
+								displayType='text'
+								prefix='$ '
+								renderText={(value) => <>{value}</>}
+							/>
+						</Typography>
+					</Grid>
+					{property?.details?.market_valuation && (
+						<Grid item xs={6}>
+							<Typography variant='h7' color='text.secondary' component='div'>
+								<b>Market Valuation: </b>
+								<NumberFormat
+									value={property?.details?.market_valuation}
+									thousandSeparator={','}
+									decimalScale={2}
+									fixedDecimalScale={true}
+									decimalSeparator={'.'}
+									displayType='text'
+									prefix='$ '
+									renderText={(value) => <>{value}</>}
+								/>
+							</Typography>
+						</Grid>
+					)}
 					<Grid item xs={12}>
 						<Typography variant='h7' color='text.secondary' component='div'>
-							<b>Address:</b> {property?.details?.address}, {property?.details?.zip_code}
+							<b>Service:</b> {property?.details?.service_type}
+						</Typography>
+					</Grid>
+					<Grid item xs={12}>
+						<Typography variant='h7' color='text.secondary' component='div'>
+							<b>Address:</b> {property?.details?.address}, {property?.details?.postal_code}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>

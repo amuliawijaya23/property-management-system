@@ -84,7 +84,7 @@ pass: Test123!
 
 ![Upload Image](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/image_upload.gif?raw=true)
 
-![Upload Files](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/upload_download_files.gif?raw=true)
+![Upload Files](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/uploading_downloading_files.gif?raw=true)
 
 #### Listing Workflow
 

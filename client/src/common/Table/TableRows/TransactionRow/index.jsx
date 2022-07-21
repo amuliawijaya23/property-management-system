@@ -51,12 +51,12 @@ export default function TransactionRow({ row, labelId, handleOpen }) {
 				{
 					<NumberFormat
 						value={row.amount}
-						thousandSeparator={'.'}
+						thousandSeparator={','}
 						decimalScale={2}
 						fixedDecimalScale={true}
-						decimalSeparator={','}
+						decimalSeparator={'.'}
 						displayType='text'
-						prefix='Rp '
+						prefix='$ '
 						renderText={(value) => <>{value}</>}
 					/>
 				}

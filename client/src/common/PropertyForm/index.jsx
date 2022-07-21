@@ -25,7 +25,7 @@ export default function PropertyForm(props) {
 			agent_id: user?.sub,
 			title: '',
 			address: '',
-			zip_code: false,
+			postal_code: '',
 			service_type: 'Sale',
 			property_type: '',
 			description: '',
@@ -185,8 +185,8 @@ export default function PropertyForm(props) {
 						</Grid>
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
 							<FormControl variant='standard' fullWidth>
-								<InputLabel>Zip Code</InputLabel>
-								<Input type='number' value={form.zip_code} onChange={(event) => setForm({ ...form, zip_code: event.target.value })} />
+								<InputLabel>Postal Code</InputLabel>
+								<Input type='text' value={form.zip_code} onChange={(event) => setForm({ ...form, postal_code: event.target.value })} />
 							</FormControl>
 						</Grid>
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
@@ -248,11 +248,11 @@ export default function PropertyForm(props) {
 									value={form.valuation}
 									customInput={Input}
 									variant='standard'
-									thousandSeparator='.'
-									decimalSeparator=','
+									thousandSeparator=','
+									decimalSeparator='.'
 									decimalScale={2}
 									fixedDecimalScale={true}
-									prefix='Rp '
+									prefix='$ '
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;
@@ -269,11 +269,11 @@ export default function PropertyForm(props) {
 									value={form.market_valuation}
 									customInput={Input}
 									variant='standard'
-									thousandSeparator='.'
-									decimalSeparator=','
+									thousandSeparator={','}
+									decimalSeparator={'.'}
 									decimalScale={2}
 									fixedDecimalScale={true}
-									prefix='Rp '
+									prefix='$ '
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;

@@ -108,7 +108,6 @@ export const useDashboardData = () => {
 						end: range?.end
 					};
 				}
-				console.log('hello');
 				return {
 					start: startOfMonth(month),
 					end: endOfMonth(month)
@@ -128,7 +127,6 @@ export const useDashboardData = () => {
 						end: pastRange?.end
 					};
 				}
-				console.log('hello');
 				return {
 					start: startOfMonth(month),
 					end: endOfMonth(month)
@@ -138,7 +136,7 @@ export const useDashboardData = () => {
 			const allTransactions = await axios.post(`/api/transactions/data`, { ...range, organization_id: user?.org_id, status: 'Closed' });
 			const transactions = await (await Promise.all(months.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data })))).map((transaction) => transaction.data);
 			const pastTransactions = await (await Promise.all(pastMonths.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data })))).map((transaction) => transaction.data);
-			const label = months.map((month, i) => (i === 0 ? format(new Date(month.start), 'PP') : format(new Date(month.end), 'PP')));
+			const label = months.map((month, i) => (i === 0 ? format(new Date(month.start), 'P') : format(new Date(month.end), 'P')));
 
 			dispatch(
 				setGraph({

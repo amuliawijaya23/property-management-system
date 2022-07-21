@@ -1,5 +1,6 @@
 import { TableCell, Typography, Avatar, Tooltip } from '@mui/material';
 import { useSelector } from 'react-redux';
+import NumberFormat from 'react-number-format';
 
 export default function ContactRow({ row, labelId, handleOpen }) {
 	const app = useSelector((state) => state.app.value);
@@ -20,7 +21,9 @@ export default function ContactRow({ row, labelId, handleOpen }) {
 			</TableCell>
 			<TableCell align='left'>{row?.name?.length < 40 ? row.name : `${row.name.substring(0, 40)}...`}</TableCell>
 			<TableCell align='left'>{row?.email}</TableCell>
-			<TableCell align='left'>{row?.mobile}</TableCell>
+			<TableCell align='left'>
+				<NumberFormat isNumericString displayType='text' value={row?.mobile} format={`###-###-####`} />
+			</TableCell>
 		</>
 	);
 }

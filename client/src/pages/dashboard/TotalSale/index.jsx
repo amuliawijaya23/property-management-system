@@ -38,7 +38,7 @@ export const TotalSale = (props) => {
 										fixedDecimalScale={true}
 										decimalSeparator={','}
 										displayType='text'
-										prefix='Rp '
+										prefix='$ '
 										renderText={(value) => <>{value}</>}
 									/>
 								</Typography>

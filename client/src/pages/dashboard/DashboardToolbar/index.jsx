@@ -47,11 +47,12 @@ export const DashboardToolbar = () => {
 					<Grid item xs={3} sx={{ px: 1 }}>
 						<FormControl margin='dense'>
 							<InputLabel id='select-label'>Past Data</InputLabel>
-							<Select variant='standard' labelId='select-label' value={distance} label='Past Data' onChange={selectDistance}>
-								<MenuItem value={1}>a year ago</MenuItem>
-								<MenuItem value={2}>2 years ago</MenuItem>
-								<MenuItem value={3}>3 years ago</MenuItem>
-								<MenuItem value={3}>4 years ago</MenuItem>
+							<Select variant='standard' labelId='select-label' value={distance} label='Past Data' onChange={selectDistance} sx={{ minWidth: 100 }}>
+								<MenuItem value={1}>1 year</MenuItem>
+								<MenuItem value={2}>2 years</MenuItem>
+								<MenuItem value={3}>3 years</MenuItem>
+								<MenuItem value={4}>4 years</MenuItem>
+								<MenuItem value={5}>5 years</MenuItem>
 							</Select>
 						</FormControl>
 					</Grid>

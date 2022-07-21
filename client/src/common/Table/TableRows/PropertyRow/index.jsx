@@ -55,7 +55,7 @@ export default function PropertyRow({ row, labelId }) {
 			<TableCell align='left'>{formatDistanceToNowStrict(new Date(row?.updated_at), { addSuffix: true })}</TableCell>
 			<TableCell align='left'>{formatDistanceToNowStrict(new Date(row?.created_at), { addSuffix: true })}</TableCell>
 			<TableCell align='left' sx={{ minWidth: 175 }}>
-				<NumberFormat isNumericString displayType='text' value={row?.valuation} thousandSeparator='.' decimalSeparator=',' decimalScale={2} fixedDecimalScale={true} prefix='Rp ' />
+				<NumberFormat isNumericString displayType='text' value={row?.valuation} thousandSeparator=',' decimalSeparator='.' decimalScale={2} fixedDecimalScale={true} prefix='$ ' />
 			</TableCell>
 			<TableCell align='left' sx={{ minWidth: 300 }}>
 				{row?.address}

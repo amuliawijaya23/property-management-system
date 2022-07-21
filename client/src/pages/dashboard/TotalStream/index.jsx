@@ -33,12 +33,12 @@ export const TotalStream = (props) => {
 								<Typography color='textPrimary' variant='h6'>
 									<NumberFormat
 										value={sum}
-										thousandSeparator={'.'}
+										thousandSeparator={','}
 										decimalScale={2}
 										fixedDecimalScale={true}
-										decimalSeparator={','}
+										decimalSeparator={'.'}
 										displayType='text'
-										prefix='Rp '
+										prefix='$ '
 										renderText={(value) => <>{value}</>}
 									/>
 								</Typography>

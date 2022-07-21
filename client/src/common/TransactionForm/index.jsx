@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, Autocomplete, Typography, Button } from '@mui/material';
-import DateTimeSelector from '../DateTimeSelector';
-import SelectAgent from '../SelectAgent';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import { useSelector } from 'react-redux';
 import NumberFormat from 'react-number-format';
@@ -31,9 +32,9 @@ export default function TransactionForm(props) {
 			agent_id: user?.sub,
 			transaction_type: '',
 			start_date: new Date(),
-			end_date: new Date(),
+			end_date: null,
 			notes: '',
-			status: 'Open',
+			status: 'Pending',
 			transaction_value: false,
 			listing_id: listingId ? listingId : '',
 			market_value: false || null
@@ -133,7 +134,7 @@ export default function TransactionForm(props) {
 					</Grid>
 					<Grid item xs={6}>
 						<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
-							{['Open', 'Pending Confirmation', 'Closed', 'Active', 'Canceled'].map((status) => (
+							{['Pending', 'Closed', 'Active', 'Canceled'].map((status) => (
 								<MenuItem key={`transaction-form-status-${status}`} value={status}>
 									{status}
 								</MenuItem>
@@ -158,11 +159,30 @@ export default function TransactionForm(props) {
 						</TextField>
 					</Grid>
 					<Grid item xs={12}>
-						<DateTimeSelector form={form} setDate={setStartDate} type={'start_date'} />
+						<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<DesktopDatePicker
+								label='Date'
+								inputFormat='MM/dd/yyyy'
+								value={form?.start_date}
+								onChange={setStartDate}
+								renderInput={(params) => <TextField variant='standard' {...params} fullWidth />}
+							/>
+						</LocalizationProvider>
 					</Grid>
-					<Grid item xs={12}>
-						<DateTimeSelector form={form} setDate={setEndDate} type={'end_date'} />
-					</Grid>
+					{form?.transaction_type === 'Lease' ||
+						(form?.transaction_type === 'Deposit' && (
+							<Grid item xs={12}>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
+									<DesktopDatePicker
+										label='End Date'
+										inputFormat='MM/dd/yyyy'
+										value={form?.end_date}
+										onChange={setEndDate}
+										renderInput={(params) => <TextField variant='standard' {...params} fullWidth />}
+									/>
+								</LocalizationProvider>
+							</Grid>
+						))}
 					<Grid item xs={12}>
 						<FormControl variant='standard' fullWidth>
 							<InputLabel>Amount</InputLabel>
@@ -171,11 +191,11 @@ export default function TransactionForm(props) {
 								value={form?.transaction_value}
 								customInput={Input}
 								variant='standard'
-								thousandSeparator='.'
-								decimalSeparator=','
+								thousandSeparator={','}
+								decimalSeparator={'.'}
 								decimalScale={2}
 								fixedDecimalScale={true}
-								prefix='Rp '
+								prefix='$ '
 								autoComplete='off'
 								onValueChange={(values) => {
 									const { floatValue } = values;
@@ -193,11 +213,11 @@ export default function TransactionForm(props) {
 									value={form.market_value}
 									customInput={Input}
 									variant='standard'
-									thousandSeparator='.'
-									decimalSeparator=','
+									thousandSeparator={','}
+									decimalSeparator={'.'}
 									decimalScale={2}
 									fixedDecimalScale={true}
-									prefix='Rp '
+									prefix='$ '
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;

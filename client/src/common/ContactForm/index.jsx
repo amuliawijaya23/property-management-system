@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, Autocomplete, Button, Typography, FormHelperText, Divider } from '@mui/material';
-import SelectAgent from '../SelectAgent';
 import SearchLocationInput from '../SearchLocationInput';
+import NumberFormat from 'react-number-format';
 
 import { useSelector } from 'react-redux';
 
@@ -137,23 +137,56 @@ export default function ContactForm(props) {
 						<SearchLocationInput setAddress={setAddress} form={form} />
 					</Grid>
 					<Grid item xs={12}>
-						<FormControl variant='standard' fullWidth>
+						<FormControl Mobile='standard' fullWidth>
 							<InputLabel>Mobile</InputLabel>
-							<Input value={form.mobile} onChange={(event) => setForm({ ...form, mobile: event.target.value })} type='number' />
+							<NumberFormat
+								type='text'
+								format={'###-###-####'}
+								value={form?.mobile}
+								customInput={Input}
+								variant='standard'
+								autoComplete='off'
+								onValueChange={(values) => {
+									const { floatValue } = values;
+									setForm({ ...form, mobile: floatValue });
+								}}
+							/>
 							<FormHelperText>Optional</FormHelperText>
 						</FormControl>
 					</Grid>
 					<Grid item xs={6}>
-						<FormControl variant='standard' fullWidth>
+						<FormControl Mobile='standard' fullWidth>
 							<InputLabel>Home</InputLabel>
-							<Input value={form.home} onChange={(event) => setForm({ ...form, home: event.target.value })} type='number' />
+							<NumberFormat
+								type='text'
+								format={'###-###-####'}
+								value={form?.home}
+								customInput={Input}
+								variant='standard'
+								autoComplete='off'
+								onValueChange={(values) => {
+									const { floatValue } = values;
+									setForm({ ...form, home: floatValue });
+								}}
+							/>
 							<FormHelperText>Optional</FormHelperText>
 						</FormControl>
 					</Grid>
 					<Grid item xs={6}>
-						<FormControl variant='standard' fullWidth>
+						<FormControl Mobile='standard' fullWidth>
 							<InputLabel>Office</InputLabel>
-							<Input value={form.office} onChange={(event) => setForm({ ...form, office: event.target.value })} type='number' />
+							<NumberFormat
+								type='text'
+								format={'###-###-####'}
+								value={form?.office}
+								customInput={Input}
+								variant='standard'
+								autoComplete='off'
+								onValueChange={(values) => {
+									const { floatValue } = values;
+									setForm({ ...form, office: floatValue });
+								}}
+							/>
 							<FormHelperText>Optional</FormHelperText>
 						</FormControl>
 					</Grid>
