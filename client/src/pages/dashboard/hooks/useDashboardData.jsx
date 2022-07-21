@@ -95,20 +95,50 @@ export const useDashboardData = () => {
 		};
 
 		try {
-			const months = eachMonthOfInterval({ ...range }).map((month) => ({
-				start: startOfMonth(month),
-				end: endOfMonth(month)
-			}));
+			const months = eachMonthOfInterval({ ...range }).map((month, i) => {
+				if (i === 0) {
+					return {
+						start: range?.start,
+						end: endOfMonth(month)
+					};
+				}
+				if (i === eachMonthOfInterval({ ...range }).length - 1) {
+					return {
+						start: startOfMonth(month),
+						end: range?.end
+					};
+				}
+				console.log('hello');
+				return {
+					start: startOfMonth(month),
+					end: endOfMonth(month)
+				};
+			});
 
-			const pastMonths = eachMonthOfInterval({ ...pastRange }).map((month) => ({
-				start: startOfMonth(month),
-				end: endOfMonth(month)
-			}));
+			const pastMonths = eachMonthOfInterval({ ...pastRange }).map((month, i) => {
+				if (i === 0) {
+					return {
+						start: pastRange?.start,
+						end: endOfMonth(month)
+					};
+				}
+				if (i === eachMonthOfInterval({ ...pastRange }).length - 1) {
+					return {
+						start: startOfMonth(month),
+						end: pastRange?.end
+					};
+				}
+				console.log('hello');
+				return {
+					start: startOfMonth(month),
+					end: endOfMonth(month)
+				};
+			});
 
 			const allTransactions = await axios.post(`/api/transactions/data`, { ...range, organization_id: user?.org_id, status: 'Closed' });
 			const transactions = await (await Promise.all(months.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data })))).map((transaction) => transaction.data);
 			const pastTransactions = await (await Promise.all(pastMonths.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data })))).map((transaction) => transaction.data);
-			const label = months.map((month) => format(new Date(month.start), 'PP'));
+			const label = months.map((month, i) => (i === 0 ? format(new Date(month.start), 'PP') : format(new Date(month.end), 'PP')));
 
 			dispatch(
 				setGraph({
