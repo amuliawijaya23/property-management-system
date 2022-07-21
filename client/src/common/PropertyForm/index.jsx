@@ -5,7 +5,6 @@ import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import ShowerRoundedIcon from '@mui/icons-material/ShowerRounded';
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
 
-import SelectAgent from '../SelectAgent';
 import SearchLocationInput from '../SearchLocationInput';
 
 import usePropertyForm from './hooks/usePropertyForm';

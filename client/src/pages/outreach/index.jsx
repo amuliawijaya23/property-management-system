@@ -92,6 +92,7 @@ export default function Outreach(props) {
 						<Grid item xs={12}>
 							<Autocomplete
 								value={state.to}
+								disableCloseOnSelect
 								onChange={(event, newValue) => setState({ ...state, to: newValue })}
 								multiple
 								options={stateToOptions}
@@ -103,6 +104,7 @@ export default function Outreach(props) {
 						<Grid item xs={12}>
 							<Autocomplete
 								value={state.cc}
+								disableCloseOnSelect
 								onChange={(event, newValue) => setState({ ...state, cc: newValue })}
 								multiple
 								options={stateCcOptions}
@@ -114,6 +116,7 @@ export default function Outreach(props) {
 						<Grid item xs={12}>
 							<Autocomplete
 								value={state.bcc}
+								disableCloseOnSelect
 								onChange={(event, newValue) => setState({ ...state, bcc: newValue })}
 								multiple
 								options={stateBccOptions}
