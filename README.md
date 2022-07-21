@@ -12,6 +12,12 @@ The application also includes a WYSIWYG editor (tinymce) for creating comments a
 
 ---
 
+### Tech Stack
+
+- React, React-Redux, React-Router, MUI, Axios, OpenAI, Auth0, AWS SDK, SendGrid, tinymce, express-jwt, knex, PostgreSQL, Node, Express
+
+---
+
 ### Future Updates
 
 - WebSocket for real time interaction
@@ -44,7 +50,9 @@ Create a .env file based on the example file and do the same inside the client f
 
 Click [Here](https://my-property-management-system.herokuapp.com/)!
 
-Login with test account
+Login with test account:
+
+Organization name: propertee
 
 email: properteedemo@gmail.com
 
@@ -115,7 +123,3 @@ pass: Test123!
 - Users can create and track transactions
 - Users can create and track contacts/leads
 - Users can generate and send emails to available contacts
-
-### Tech Stack
-
-- React, React-Redux, React-Router, MUI, Axios, OpenAI, Auth0, AWS SDK, SendGrid, tinymce, express-jwt, knex, PostgreSQL, Node, Express
