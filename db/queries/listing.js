@@ -78,7 +78,7 @@ const removeWatcher = (watcher) => {
 
 const searchListings = (search) => {
   const query =  knex('listings')
-    .select('listings.id', 'listings.title', 'listings.description', 'address', 'property_type', 'service_type', 'zip_code', 'size', 'number_of_bedrooms', 'number_of_bathrooms', 'parking_space', 'valuation', 'market_valuation', 'status', 'date_closed', 'listings.organization_id', 'listings.agent_id', 'listings.created_at', 'listings.updated_at')
+    .select('listings.id', 'listings.title', 'listings.description', 'address', 'property_type', 'service_type', 'postal_code', 'size', 'number_of_bedrooms', 'number_of_bathrooms', 'parking_space', 'valuation', 'market_valuation', 'status', 'date_closed', 'listings.organization_id', 'listings.agent_id', 'listings.created_at', 'listings.updated_at')
     .from('listings')
     .leftJoin('users', {'users.id': 'listings.agent_id'})
     .whereILike('listings.status', `%${search}%`)
