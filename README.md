@@ -40,6 +40,62 @@ Create a .env file based on the example file and do the same inside the client f
 
 ---
 
+### Preview:
+
+Click [Here](https://my-property-management-system.herokuapp.com/)!
+
+Login with test account:
+
+email: properteedemo@gmail.com
+
+pass: Test123!
+
+---
+
+#### Authentication with Auth0
+
+![Authentication](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/authentication.gif?raw=true)
+
+#### Search Table
+
+![Authentication](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/talbe_search.gif?raw=true)
+
+#### Create Listing and Generate Description
+
+![Create Listing](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/create_listing_and_generate_description.gif?raw=true)
+
+#### Create Listing Task
+
+![Create Task](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/create_task.gif?raw=true)
+
+#### Create Listing Transaction
+
+![Create Transaction](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/create_transaction.gif?raw=true)
+
+#### Upload Listing Images and Files to AWS S3 Bucket
+
+![Upload Image](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/image_upload.gif?raw=true)
+
+![Upload Files](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/upload_download_file.gif?raw=true)
+
+#### Listing Workflow
+
+![Workflow](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/workflow.gif?raw=true)
+
+#### Create Contacts and Send Emails
+
+![Create Contact](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/create_contacts.gif?raw=true)
+
+#### Generate and send emails
+
+![Generate Email](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/generate_cold_email.gif?raw=true)
+
+![Send Email](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/send_emails.gif?raw=true)
+
+#### Track transactions
+
+![Transactions Tracking](https://github.com/amuliawijaya23/property-management-system/blob/main/assets/transactions_tracking.gif?raw=true)
+
 ### User Stories
 
 - User can register as an organization/brokerage
