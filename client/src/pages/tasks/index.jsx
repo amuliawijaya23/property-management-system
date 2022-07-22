@@ -30,7 +30,7 @@ export default function Tasks() {
 	return (
 		<Box width={'100%'} mt={10} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleOpen} defaultOrder='desc' defaultOrderBy='due_date' />
-			{open && <TaskForm open={open} onClose={handleClose} task={task} alert={alert} setAlert={setAlert} />}
+			{open && <TaskForm open={open} onClose={handleClose} task={task} alert={alert} setAlert={setAlert} setTask={setTask} />}
 			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);

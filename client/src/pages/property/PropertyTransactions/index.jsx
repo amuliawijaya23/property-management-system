@@ -112,7 +112,7 @@ export default function PropertyTransactions() {
 					No transaction found for this listing, click add transaction to create one.
 				</Alert>
 			)}
-			{open && <TransactionForm open={open} onClose={handleClose} listingId={property?.details?.id} transaction={selected} alert={alert} setAlert={setAlert} />}
+			{open && <TransactionForm open={open} onClose={handleClose} listingId={property?.details?.id} transaction={selected} alert={alert} setAlert={setAlert} setTransaction={setSelected} />}
 			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);

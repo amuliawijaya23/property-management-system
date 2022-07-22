@@ -5,12 +5,18 @@ const router = express.Router();
 
 const { uploadDoc, getDoc } = require('../s3');
 const { upload } = require('../multer');
-const { getListingFiles, uploadFileData, updateFileData } = require('../../db/queries/files');
+const { getListingFiles, uploadFileData, updateFileData, getListingOffer } = require('../../db/queries/files');
 
 router.get('/listing/:id', async(req, res) => {
   const id = req.params.id;
   const files = await getListingFiles(id);
   res.send(files);
+});
+
+router.get('/offer/:id', async(req, res) => {
+  const id = req.params.id;
+  const offer = await getListingOffer(id);
+  res.send(offer);
 });
 
 router.post('/listing/:id', upload.single('file'), async(req, res) => {

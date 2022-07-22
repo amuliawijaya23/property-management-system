@@ -30,7 +30,7 @@ export default function Contacts() {
 	return (
 		<Box width={'100%'} mt={10} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleClickOpen} defaultOrder='asc' defaultOrderBy='name' />
-			{open && <ContactForm open={open} onClose={handleClose} contact={contact} alert={alert} setAlert={setAlert} />}
+			{open && <ContactForm open={open} onClose={handleClose} contact={contact} alert={alert} setAlert={setAlert} setContact={setContact} />}
 			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);

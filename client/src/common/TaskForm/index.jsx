@@ -20,7 +20,7 @@ const style = {
 	p: 4
 };
 
-export default function TaskForm({ open, onClose, listingId, task, alert, setAlert }) {
+export default function TaskForm({ open, onClose, listingId, task, alert, setAlert, setTask }) {
 	const app = useSelector((state) => state.app.value);
 
 	const { form, setInput, setValue, setDueDate, handleCloseReset, createTask, updateTask } = useTaskForm(task);
@@ -55,12 +55,14 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 
 		if (valid && task) {
 			updateTask({ ...form });
-			handleCancel();
+			setTask({ ...form });
 			setAlert({ open: true, message: 'Task Updated!', severity: 'success' });
+			handleCancel();
 		} else if (valid && !task) {
 			createTask({ ...form });
-			handleCancel();
 			setAlert({ open: true, message: 'New Task Created!', severity: 'success' });
+			setTask({ ...form });
+			handleCancel();
 		}
 	};
 

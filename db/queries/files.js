@@ -9,7 +9,6 @@ const getListingFiles = (id) => {
     .catch(e => console.log(e.message));
 };
 
-
 const uploadFileData = (file) => {
   return knex('files')
     .insert({ ...file })
@@ -25,7 +24,15 @@ const updateFileData = (file) => {
     .catch((e) => console.log(e.message));
 };
 
+const getListingOffer = (id) => {
+  return knex('files')
+    .where({ is_offer: true, is_archived: false, listing_id: id })
+    .then((res) => res[0])
+    .catch((e) => console.log(e.message));
+};
+
 module.exports = {
+  getListingOffer,
   uploadFileData,
   getListingFiles,
   updateFileData

@@ -19,7 +19,7 @@ const style = {
 	p: 4
 };
 
-export default function ContactForm({ open, onClose, contact, alert, setAlert }) {
+export default function ContactForm({ open, onClose, contact, alert, setAlert, setContact }) {
 	const app = useSelector((state) => state.app.value);
 
 	const { form, setInput, setValue, setAddress, handleCloseReset, createContact, updateContact } = useContactForm(contact);
@@ -54,12 +54,14 @@ export default function ContactForm({ open, onClose, contact, alert, setAlert })
 
 		if (valid && contact) {
 			updateContact({ ...form });
-			handleClose();
+			setContact({ ...form });
 			setAlert({ open: true, message: `Contact CON-${contact?.id} Updated!`, severity: 'success' });
+			handleCancel();
 		} else if (valid && !contact) {
 			createContact({ ...form });
-			handleClose();
+			setContact({ ...form });
 			setAlert({ open: true, message: `New Contact Created!`, severity: 'success' });
+			handleCancel();
 		}
 	};
 

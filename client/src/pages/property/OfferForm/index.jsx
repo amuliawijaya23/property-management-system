@@ -54,8 +54,8 @@ export default function OfferForm({ onClose, open }) {
 
 	return (
 		<Dialog onClose={onCancel} open={open}>
-			<Grid container sx={{ px: 3, py: 3, width: 400 }}>
-				<Grid item xs={12} textAlign='center'>
+			<Grid container>
+				<Grid item xs={12} textAlign='start' sx={{ px: 1, py: 0.5, minWidth: 400 }}>
 					<Typography variant='caption'>{offer ? 'Do you want to use this file as offer?' : 'Browse or drop the offer below.'}</Typography>
 				</Grid>
 				<Grid item xs={12}>
@@ -72,7 +72,7 @@ export default function OfferForm({ onClose, open }) {
 					</List>
 				</Grid>
 				<Grid item xs={12}>
-					<Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', py: 1, px: 1 }}>
+					<Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', py: 0.5, px: 1 }}>
 						{!offer && (
 							<Paper {...getRootProps()} sx={{ border: 'dotted 1px', height: 75, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 								<input {...getInputProps()} />

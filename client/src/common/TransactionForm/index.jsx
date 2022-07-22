@@ -21,7 +21,7 @@ const style = {
 	p: 4
 };
 
-export default function TransactionForm({ open, listingId, transaction, onClose, setAlert, alert }) {
+export default function TransactionForm({ open, listingId, transaction, onClose, setAlert, alert, setTransaction }) {
 	const app = useSelector((state) => state.app.value);
 	const { form, setStartDate, setEndDate, handleCloseReset, setValue, setInput, updateTransaction, createTransaction } = useTransactionsForm(transaction);
 	const initialMode = transaction?.id ? false : true;
@@ -56,10 +56,12 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 
 		if (valid && transaction?.id) {
 			updateTransaction({ ...form });
+			setTransaction({ ...form });
 			setAlert({ ...alert, open: true, message: `Transaction TRX-${transaction?.id} Updated!`, severity: 'success' });
 			handleCancel();
 		} else if (valid && !transaction?.id) {
 			createTransaction({ ...form });
+			setTransaction({ ...form });
 			setAlert({ ...alert, open: true, message: `Transaction Created!`, severity: 'success' });
 			handleCancel();
 		}

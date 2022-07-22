@@ -6,6 +6,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
+import usePropertyStatus from '../hooks/usePropertyStatus';
+
 import { useSelector } from 'react-redux';
 
 const inProgress = () => <RadioButtonCheckedIcon sx={{ fontSize: 30 }} />;
@@ -13,6 +15,7 @@ const Done = () => <CheckCircleIcon sx={{ fontSize: 30 }} />;
 const Blocked = () => <RadioButtonUncheckedIcon sx={{ fontSize: 30 }} />;
 
 export default function PropertyStatus() {
+	const { getListingOffer } = usePropertyStatus();
 	const property = useSelector((state) => state?.property?.value);
 	const steps = (() => {
 		switch (property?.details?.service_type) {
@@ -27,7 +30,28 @@ export default function PropertyStatus() {
 		}
 	})();
 
-	// const status = (() => (property?.details?.status === 'Open' || property?.details?.status === 'Open' ? steps.indexOf(property?.details?.status) + 1 : steps.indexOf(property?.details?.status)))();
+	const onStepSelect = (step) => {
+		const status = property?.details?.status;
+		const statusIndex = steps?.indexOf(status);
+		const index = steps.indexOf(step);
+
+		if (statusIndex >= index) {
+			switch (step) {
+				case 'Offer Accepted':
+					getListingOffer();
+					break;
+				case 'Deposit Received':
+					break;
+				case 'Closing':
+					break;
+				case 'Closed':
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
 	const status = steps.indexOf(property?.details?.status);
 
 	return (
@@ -62,7 +86,7 @@ export default function PropertyStatus() {
 					const labelProps = {};
 					return (
 						<Step sx={{ cursor: 'pointer', color: stepStyles?.color }} key={label} {...stepProps}>
-							<StepLabel StepIconComponent={stepStyles?.icon} {...labelProps}>
+							<StepLabel StepIconComponent={stepStyles?.icon} {...labelProps} onClick={() => onStepSelect(label)}>
 								{label}
 							</StepLabel>
 						</Step>

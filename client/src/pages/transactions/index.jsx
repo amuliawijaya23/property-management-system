@@ -29,7 +29,7 @@ export default function Transactions() {
 	return (
 		<Box width={'100%'} mt={10} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleOpen} defaultOrder='asc' defaultOrderBy='end_date' />
-			{open && <TransactionForm open={open} onClose={handleClose} transaction={transaction} alert={alert} setAlert={setAlert} />}
+			{open && <TransactionForm open={open} onClose={handleClose} transaction={transaction} alert={alert} setAlert={setAlert} setTransaction={setTransaction} />}
 			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);

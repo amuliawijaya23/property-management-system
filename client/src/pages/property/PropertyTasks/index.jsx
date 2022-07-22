@@ -106,7 +106,7 @@ export default function PropertyTasks() {
 					No task found for this listing, click add task to create one.
 				</Alert>
 			)}
-			{open && <TaskForm open={open} onClose={handleClose} listingId={property?.details?.id} task={selected} alert={alert} setAlert={setAlert} />}
+			{open && <TaskForm open={open} onClose={handleClose} listingId={property?.details?.id} task={selected} alert={alert} setAlert={setAlert} setTask={setSelected} />}
 			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);
