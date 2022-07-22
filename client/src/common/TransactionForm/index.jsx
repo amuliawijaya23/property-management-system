@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Box, Modal, Grid, FormControl, Input, InputLabel, TextField, MenuItem, Autocomplete, Avatar, Typography, Button, Tooltip } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -21,69 +21,24 @@ const style = {
 	p: 4
 };
 
-export default function TransactionForm(props) {
+export default function TransactionForm({ open, listingId, transaction, onClose }) {
 	const app = useSelector((state) => state.app.value);
-	const user = useSelector((state) => state?.user?.value);
-	const { open, onClose, listingId, transaction } = props;
-
-	const { updateTransaction, createTransaction } = useTransactionsForm();
-
-	const initialForm = useMemo(
-		() => ({
-			agent_id: user?.sub,
-			transaction_type: '',
-			start_date: new Date(),
-			end_date: null,
-			notes: '',
-			status: 'Pending',
-			transaction_value: false,
-			listing_id: listingId ? listingId : '',
-			market_value: false || null
-		}),
-		[listingId, user?.sub]
-	);
-
+	const { form, setStartDate, setEndDate, handleCloseReset, setValue, setInput, updateTransaction, createTransaction } = useTransactionsForm(transaction);
 	const initialMode = transaction?.id ? false : true;
 	const [edit, setEdit] = useState(initialMode);
-	const [form, setForm] = useState(initialForm);
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
-
-	useEffect(() => {
-		if (transaction) {
-			let transactionForm = { ...initialForm };
-			Object.keys(transactionForm).forEach((key) => {
-				if (transaction[key]) {
-					transactionForm[key] = transaction[key];
-				}
-			});
-
-			setForm({ ...transactionForm, id: transaction?.id, organization_id: transaction?.organization_id });
-		}
-	}, [transaction, initialForm]);
-
-	const handleClose = () => {
-		setForm(initialForm);
-		onClose();
-	};
 
 	const handleClickEdit = () => {
 		edit ? setEdit(false) : setEdit(true);
 	};
 
+	const handleClose = () => {
+		handleCloseReset();
+		onClose();
+	};
+
 	const handleCancel = () => {
 		transaction?.id ? setEdit(false) : handleClose();
-	};
-
-	const setStartDate = (input) => {
-		let data = { ...form };
-		data.start_date = input;
-		setForm({ ...data });
-	};
-
-	const setEndDate = (input) => {
-		let data = { ...form };
-		data.end_date = input;
-		setForm({ ...data });
 	};
 
 	const validate = () => {
@@ -117,9 +72,7 @@ export default function TransactionForm(props) {
 								value={agent?.name || ''}
 								onChange={(event, newValue) => {
 									const agent = app?.agents?.find((a) => a?.name === newValue);
-									let newForm = { ...form };
-									newForm.agent_id = agent?.user_id;
-									setForm(newForm);
+									setValue(agent?.user_id, 'agent_id');
 								}}
 								options={app?.agents?.filter((agent) => agent?.user_id !== transaction?.agent_id).map((option) => option?.name)}
 								freeSolo
@@ -135,8 +88,8 @@ export default function TransactionForm(props) {
 								size='small'
 								fullWidth
 								margin='normal'
-								value={form.listing_id}
-								onChange={(event) => setForm({ ...form, listing_id: event.target.value })}>
+								value={form?.listing_id}
+								onChange={(event) => setInput(event, 'listing_id')}>
 								{app?.properties?.map((property) => (
 									<MenuItem key={`transaction-form-status-${property?.id}`} value={property?.id}>
 										LIST-{property?.id}
@@ -145,7 +98,7 @@ export default function TransactionForm(props) {
 							</TextField>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
+							<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form?.status} onChange={(event) => setInput(event, 'status')}>
 								{['Pending', 'Closed', 'Active', 'Canceled'].map((status) => (
 									<MenuItem key={`transaction-form-status-${status}`} value={status}>
 										{status}
@@ -154,15 +107,7 @@ export default function TransactionForm(props) {
 							</TextField>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField
-								variant='standard'
-								select
-								label='Transaction'
-								size='small'
-								fullWidth
-								margin='normal'
-								value={form.transaction_type}
-								onChange={(event) => setForm({ ...form, transaction_type: event.target.value })}>
+							<TextField variant='standard' select label='Transaction' size='small' fullWidth margin='normal' value={form?.transaction_type} onChange={(event) => setInput(event, 'transaction_type')}>
 								{['Deposit', 'Sale', 'Lease', 'Expense'].map((transaction) => (
 									<MenuItem key={`transaction-form-transaction-${transaction}`} value={transaction}>
 										{transaction}
@@ -211,7 +156,7 @@ export default function TransactionForm(props) {
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;
-										setForm({ ...form, transaction_value: floatValue });
+										setValue(floatValue, 'transaction_value');
 									}}
 								/>
 							</FormControl>
@@ -222,7 +167,7 @@ export default function TransactionForm(props) {
 									<InputLabel>Market Value</InputLabel>
 									<NumberFormat
 										type='text'
-										value={form.market_value}
+										value={form?.market_value}
 										customInput={Input}
 										variant='standard'
 										thousandSeparator={','}
@@ -233,7 +178,7 @@ export default function TransactionForm(props) {
 										autoComplete='off'
 										onValueChange={(values) => {
 											const { floatValue } = values;
-											setForm({ ...form, market_value: floatValue });
+											setValue(floatValue, 'market_value');
 										}}
 									/>
 								</FormControl>
@@ -242,7 +187,7 @@ export default function TransactionForm(props) {
 						<Grid item xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Notes</InputLabel>
-								<Input multiline rows={3} value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} />
+								<Input multiline rows={3} value={form?.notes} onChange={(event) => setInput(event, 'notes')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12} sx={{ mt: 1 }}>
@@ -277,7 +222,7 @@ export default function TransactionForm(props) {
 						{transaction?.agent_id && (
 							<Grid item container justifyContent='center' alignItems='center' sx={{ mb: 2 }}>
 								<Grid item xs={2}>
-									<Tooltip title={agent?.name}>
+									<Tooltip title={agent?.name || ''}>
 										<Avatar src={agent?.picture} alt='agent' />
 									</Tooltip>
 								</Grid>
