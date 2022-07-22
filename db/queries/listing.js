@@ -77,23 +77,34 @@ const removeWatcher = (watcher) => {
 };
 
 const searchListings = (search) => {
+  const searchTerm = (() => {
+    const term = search.trim().toLowerCase();
+    const arrId = term.split('-');
+    if (arrId[0] === 'list' && arrId.length === 2) {
+      return arrId[1];
+    }
+    return term;
+  })();
   const query =  knex('listings')
     .select('listings.id', 'listings.title', 'listings.description', 'address', 'property_type', 'service_type', 'postal_code', 'size', 'number_of_bedrooms', 'number_of_bathrooms', 'parking_space', 'valuation', 'market_valuation', 'status', 'date_closed', 'listings.organization_id', 'listings.agent_id', 'listings.created_at', 'listings.updated_at')
     .from('listings')
-    .leftJoin('users', {'users.id': 'listings.agent_id'})
-    .whereILike('listings.status', `%${search}%`)
-    .orWhereILike('listings.title', `%${search}%`)
-    .orWhereILike('listings.address', `%${search}%`)
-    .orWhereILike('listings.property_type', `%${search}%`)
-    .orWhereILike('listings.service_type', `%${search}%`)
-    .orWhereILike('name', `%${search}%`)
-    .orWhereILike('email', `%${search}%`);
+    .leftJoin('users', { 'users.id': 'listings.agent_id' })
+    .whereILike('listings.status', `%${searchTerm}%`)
+    .orWhereILike('listings.title', `%${searchTerm}%`)
+    .orWhereILike('listings.address', `%${searchTerm}%`)
+    .orWhereILike('listings.property_type', `%${searchTerm}%`)
+    .orWhereILike('listings.service_type', `%${searchTerm}%`)
+    .orWhereILike('name', `%${searchTerm}%`)
+    .orWhereILike('email', `%${searchTerm}%`);
 
-  if (search.toLowerCase().split('-')[0] === 'list') {
-    const searchId = search.split('-')[1];
-    if (searchId && !isNaN(searchId)) {
-      query.orWhere('listings.id', '=', parseInt(searchId));
-    }
+  searchTerm.split(' ').forEach((t) => {
+    query.orWhereILike('listings.title', `%${t}%`)
+      .orWhereILike('listings.address', `%${t}%`)
+      .orWhereILike('name', `%${t}%`);
+  });
+
+  if (searchTerm && !isNaN(searchTerm)) {
+    query.orWhere('listings.id', '=', parseInt(searchTerm));
   }
 
   return query.then((res) => res)
