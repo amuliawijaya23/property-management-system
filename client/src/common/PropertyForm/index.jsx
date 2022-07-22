@@ -44,6 +44,12 @@ export default function PropertyForm(props) {
 		Object.keys(form).forEach((key) => {
 			if (!form[key] && key !== 'description' && key !== 'market_valuation' && key !== 'valuation') {
 				valid = false;
+				setAlert({
+					...alert,
+					open: true,
+					message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required`
+				});
+				return;
 			}
 		});
 
@@ -53,12 +59,6 @@ export default function PropertyForm(props) {
 				open: true,
 				message: 'New Description Generated',
 				severity: 'success'
-			});
-		} else {
-			setAlert({
-				...alert,
-				open: true,
-				message: 'Missing Required Field(s)'
 			});
 		}
 	};

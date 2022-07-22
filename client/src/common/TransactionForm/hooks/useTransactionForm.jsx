@@ -10,22 +10,22 @@ export default function useTransactionsForm(transaction) {
 	const listingId = property?.details?.id;
 	const dispatch = useDispatch();
 
-	const [form, setForm] = useState({});
-
 	const initialForm = useMemo(
 		() => ({
 			agent_id: user?.sub,
 			transaction_type: '',
+			status: '',
+			transaction_value: false,
 			start_date: new Date(),
 			end_date: null,
 			notes: '',
-			status: 'Pending',
-			transaction_value: false,
-			listing_id: listingId ? listingId : '',
-			market_value: false || null
+			listing_id: listingId ? listingId : false,
+			market_value: false
 		}),
 		[listingId, user?.sub]
 	);
+
+	const [form, setForm] = useState(initialForm);
 
 	const setEditForm = useCallback(() => {
 		let transactionForm = { ...initialForm };
@@ -74,7 +74,12 @@ export default function useTransactionsForm(transaction) {
 	};
 
 	const createTransaction = async (transaction) => {
-		const transactionData = { ...transaction, organization_id: user.org_id };
+		let transactionData = { organization_id: user?.org_id };
+		Object.keys(transaction).forEach((key) => {
+			if (transaction[key]) {
+				transactionData[key] = transaction[key];
+			}
+		});
 		try {
 			const response = await axios.post('/api/transactions', transactionData);
 			dispatch(updateTransactionsData(response.data));
