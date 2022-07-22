@@ -24,22 +24,34 @@ const updateContacts = (data) => {
 };
 
 const searchContacts = (search) => {
+  const searchTerm = (() => {
+    const term = search.trim().toLowerCase();
+    const arrId = term.split('-');
+    if (arrId[0] === 'con' && arrId.length === 2) {
+      return arrId[1];
+    }
+    return term;
+  })();
   const query =  knex('contacts')
     .select('contacts.id', 'contacts.first_name', 'contacts.last_name', 'contacts.email', 'mobile', 'home', 'office', 'address', 'contacts.agent_id', 'contacts.organization_id', 'contacts.created_at', 'contacts.updated_at')
     .from('contacts')
     .leftJoin('users', {'users.id': 'contacts.agent_id'})
-    .whereILike('contacts.first_name', `%${search}%`)
-    .orWhereILike('contacts.last_name', `%${search}%`)
-    .orWhereILike('contacts.email', `%${search}%`)
-    .orWhereILike('contacts.address', `%${search}%`)
-    .orWhereILike('users.name', `%${search}%`)
-    .orWhereILike('contacts.email', `%${search}%`);
+    .whereILike('contacts.first_name', `%${searchTerm}%`)
+    .orWhereILike('contacts.last_name', `%${searchTerm}%`)
+    .orWhereILike('contacts.email', `%${searchTerm}%`)
+    .orWhereILike('contacts.address', `%${searchTerm}%`)
+    .orWhereILike('users.name', `%${searchTerm}%`);
 
-  if (search.toLowerCase().split('-')[0] === 'con') {
-    const searchId = search.split('-')[1];
-    if (searchId && !isNaN(searchId)) {
-      query.orWhere('contacts.id', '=', parseInt(searchId));
-    }
+  searchTerm.split(' ').forEach((t) => {
+    query.orWhereILike('contacts.first_name', `%${t}%`)
+      .orWhereILike('contacts.last_name', `%${t}%`)
+      .orWhereILike('contacts.email', `%${t}%`)
+      .orWhereILike('contacts.address', `%${t}%`)
+      .orWhereILike('users.name', `%${t}%`);
+  });
+
+  if (searchTerm && !isNaN(searchTerm)) {
+    query.orWhere('contacts.id', '=', parseInt(searchTerm));
   }
 
   return query.then((res) => res)

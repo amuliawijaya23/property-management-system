@@ -100,7 +100,8 @@ const searchListings = (search) => {
   searchTerm.split(' ').forEach((t) => {
     query.orWhereILike('listings.title', `%${t}%`)
       .orWhereILike('listings.address', `%${t}%`)
-      .orWhereILike('name', `%${t}%`);
+      .orWhereILike('name', `%${t}%`)
+      .orWhereILike('email', `%${t}%`);
   });
 
   if (searchTerm && !isNaN(searchTerm)) {

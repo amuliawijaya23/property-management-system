@@ -59,21 +59,31 @@ const getCompletedTransactions = (param, start, end) => {
 };
 
 const searchTransactions = (search) => {
+  const searchTerm = (() => {
+    const term = search.trim().toLowerCase();
+    const arrId = term.split('-');
+    if (arrId[0] === 'task' && arrId.length === 2) {
+      return arrId[1];
+    }
+    return term;
+  })();
   const query =  knex('transactions')
     .select('transactions.id', 'transactions.status', 'transaction_type', 'notes', 'start_date', 'end_date', 'listing_id', 'transactions.agent_id', 'transactions.organization_id', 'transaction_value', 'market_value', 'transactions.created_at', 'transactions.updated_at')
     .from('transactions')
     .leftJoin('users', {'users.id': 'transactions.agent_id'})
     .rightJoin('listings', {'listings.id': 'transactions.listing_id'})
-    .whereILike('transactions.status', `%${search}%`)
-    .orWhereILike('transactions.transaction_type', `%${search}%`)
-    .orWhereILike('name', `%${search}%`)
-    .orWhereILike('email', `%${search}%`);
+    .whereILike('transactions.status', `%${searchTerm}%`)
+    .orWhereILike('transactions.transaction_type', `%${searchTerm}%`)
+    .orWhereILike('name', `%${searchTerm}%`)
+    .orWhereILike('email', `%${searchTerm}%`);
 
-  if (search.toLowerCase().split('-')[0] === 'trx') {
-    const searchId = search.split('-')[1];
-    if (searchId && !isNaN(searchId)) {
-      query.orWhere('transactions.id', '=', parseInt(searchId));
-    }
+  searchTerm.split(' ').forEach((t) => {
+    query.orWhereILike('name', `%${t}%`)
+      .orWhereILike('email', `%${t}%`);
+  });
+
+  if (searchTerm && !isNaN(searchTerm)) {
+    query.orWhere('transactions.id', '=', parseInt(searchTerm));
   }
 
   return query.then((res) => res)
