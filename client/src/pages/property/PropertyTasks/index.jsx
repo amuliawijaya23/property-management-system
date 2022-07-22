@@ -100,7 +100,7 @@ export default function PropertyTasks() {
 					No task found for this listing, click add task to create one.
 				</Alert>
 			)}
-			<TaskForm open={open} onClose={handleClose} listingId={property?.details?.id} task={selected} />
+			{open && <TaskForm open={open} onClose={handleClose} listingId={property?.details?.id} task={selected} />}
 		</Box>
 	);
 }

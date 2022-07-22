@@ -22,7 +22,7 @@ export default function Properties() {
 	return (
 		<Box width={'100%'} mt={10} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleClickOpen} defaultOrder='asc' defaultOrderBy='title' />
-			<PropertyForm open={open} onClose={handleClose} />
+			{open && <PropertyForm open={open} onClose={handleClose} />}
 		</Box>
 	);
 }

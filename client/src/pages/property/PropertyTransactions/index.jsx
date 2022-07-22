@@ -106,7 +106,7 @@ export default function PropertyTransactions() {
 					No transaction found for this listing, click add transaction to create one.
 				</Alert>
 			)}
-			<TransactionForm open={open} onClose={handleClose} listingId={property?.details?.id} transaction={selected} />
+			{open && <TransactionForm open={open} onClose={handleClose} listingId={property?.details?.id} transaction={selected} />}
 		</Box>
 	);
 }
