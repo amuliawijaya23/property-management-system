@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import EnhancedTable from '../../common/Table';
+import FormAlert from '../../common/FormAlert';
 
 import TaskForm from '../../common/TaskForm';
 
@@ -10,6 +11,11 @@ export default function Tasks() {
 	useTasksData();
 	const [open, setOpen] = useState(false);
 	const [task, setTask] = useState(null);
+	const [alert, setAlert] = useState({ open: false, message: '', severity: 'error' });
+
+	const closeAlert = () => {
+		setAlert({ open: false, message: '', severity: 'error' });
+	};
 
 	const handleClose = () => {
 		setTask(null);
@@ -24,7 +30,8 @@ export default function Tasks() {
 	return (
 		<Box width={'100%'} mt={10} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleOpen} defaultOrder='desc' defaultOrderBy='due_date' />
-			{open && <TaskForm open={open} onClose={handleClose} task={task} />}
+			{open && <TaskForm open={open} onClose={handleClose} task={task} alert={alert} setAlert={setAlert} />}
+			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);
 }

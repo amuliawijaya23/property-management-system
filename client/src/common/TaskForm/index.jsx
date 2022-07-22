@@ -20,77 +20,47 @@ const style = {
 	p: 4
 };
 
-export default function TaskForm(props) {
-	const user = useSelector((state) => state?.user?.value);
+export default function TaskForm({ open, onClose, listingId, task, alert, setAlert }) {
 	const app = useSelector((state) => state.app.value);
-	const { open, onClose, listingId, task } = props;
 
-	const { createTask, updateTask } = useTaskForm();
-
-	const initialForm = useMemo(
-		() => ({
-			summary: '',
-			notes: '',
-			category: '',
-			due_date: new Date(),
-			agent_id: user?.sub,
-			listing_id: listingId ? listingId : '',
-			status: 'Open'
-		}),
-		[listingId, user?.sub]
-	);
-
+	const { form, setInput, setValue, setDueDate, handleCloseReset, createTask, updateTask } = useTaskForm(task);
 	const initialMode = task?.id ? false : true;
 	const [edit, setEdit] = useState(initialMode);
-	const [form, setForm] = useState(initialForm);
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
-
-	useEffect(() => {
-		if (task) {
-			let taskForm = { ...initialForm };
-			Object.keys(taskForm).forEach((key) => {
-				if (task[key]) {
-					taskForm[key] = task[key];
-				}
-			});
-			setForm({ ...taskForm, id: task?.id, organization_id: task?.organization_id });
-		}
-	}, [task, initialForm]);
-
-	const handleClose = () => {
-		setForm(initialForm);
-		onClose();
-	};
 
 	const handleClickEdit = () => {
 		edit ? setEdit(false) : setEdit(true);
+	};
+
+	const handleClose = () => {
+		handleCloseReset();
+		onClose();
 	};
 
 	const handleCancel = () => {
 		task?.id ? setEdit(false) : handleClose();
 	};
 
-	const setDueDate = (input) => {
-		let data = { ...form };
-		data.due_date = input;
-		setForm({ ...data });
-	};
-
 	const validate = () => {
 		let valid = true;
 
-		Object.keys(form).forEach((key) => {
-			if (!form[key]) {
-				valid = false;
-			}
-		});
+		Object.keys(form)
+			.slice(0, 4)
+			.forEach((key) => {
+				if (!form[key]) {
+					valid = false;
+					setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
+				}
+			});
 
 		if (valid && task) {
 			updateTask({ ...form });
-			handleClose();
+			handleCancel();
+			setAlert({ open: true, message: 'Task Updated!', severity: 'success' });
 		} else if (valid && !task) {
 			createTask({ ...form });
-			handleClose();
+			handleCancel();
+			setAlert({ open: true, message: 'New Task Created!', severity: 'success' });
 		}
 	};
 
@@ -102,7 +72,7 @@ export default function TaskForm(props) {
 						<Grid item xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Summary</InputLabel>
-								<Input value={form.summary} onChange={(event) => setForm({ ...form, summary: event.target.value })} />
+								<Input value={form.summary} onChange={(event) => setInput(event, 'summary')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12} sx={{ mt: 2 }}>
@@ -114,9 +84,7 @@ export default function TaskForm(props) {
 								value={agent?.name || ''}
 								onChange={(event, newValue) => {
 									const agent = app?.agents?.find((a) => a?.name === newValue);
-									let newForm = { ...form };
-									newForm.agent_id = agent?.user_id;
-									setForm(newForm);
+									setValue(agent?.user_id, 'agent_id');
 								}}
 								options={app?.agents?.filter((agent) => agent?.user_id !== task?.agent_id).map((option) => option?.name)}
 								freeSolo
@@ -133,7 +101,7 @@ export default function TaskForm(props) {
 								fullWidth
 								margin='normal'
 								value={form.listing_id}
-								onChange={(event) => setForm({ ...form, listing_id: event.target.value })}>
+								onChange={(event) => setInput(event, 'listing_id')}>
 								{app?.properties?.map((property) => (
 									<MenuItem key={`task-form-property-${property.id}`} value={property.id}>
 										LIST-{property.id}
@@ -142,15 +110,7 @@ export default function TaskForm(props) {
 							</TextField>
 						</Grid>
 						<Grid item xs={12} md={6}>
-							<TextField
-								variant='standard'
-								select
-								label='Category'
-								size='small'
-								fullWidth
-								margin='normal'
-								value={form.category}
-								onChange={(event) => setForm({ ...form, category: event.target.value })}>
+							<TextField variant='standard' select label='Category' size='small' fullWidth margin='normal' value={form.category} onChange={(event) => setInput(event, 'category')}>
 								{['Open House', 'Inspection', 'Call', 'Follow Up', 'Meeting', 'Adhoc'].map((type) => (
 									<MenuItem key={`task-form-type-${type}`} value={type}>
 										{type}
@@ -159,7 +119,7 @@ export default function TaskForm(props) {
 							</TextField>
 						</Grid>
 						<Grid item xs={12} md={6}>
-							<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
+							<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setInput(event, 'status')}>
 								{['Blocked', 'Open', 'Completed', 'Closed', 'Canceled'].map((type) => (
 									<MenuItem key={`task-form-type-${type}`} value={type}>
 										{type}
@@ -173,7 +133,7 @@ export default function TaskForm(props) {
 						<Grid item xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Notes</InputLabel>
-								<Input multiline rows={3} value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} />
+								<Input multiline rows={3} value={form.notes} onChange={(event) => setInput(event, 'notes')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12} sx={{ mt: 1 }}>
