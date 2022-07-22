@@ -24,7 +24,7 @@ export default function Contacts() {
 	return (
 		<Box width={'100%'} mt={10} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<EnhancedTable handleOpen={handleClickOpen} defaultOrder='asc' defaultOrderBy='name' />
-			<ContactForm open={open} onClose={handleClose} contact={contact} />
+			{open && <ContactForm open={open} onClose={handleClose} contact={contact} />}
 		</Box>
 	);
 }
