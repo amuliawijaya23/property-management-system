@@ -2,28 +2,7 @@ import axios from 'axios';
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import {
-	Popover,
-	Card,
-	CardHeader,
-	CardContent,
-	CardActions,
-	Grid,
-	Paper,
-	Box,
-	Dialog,
-	Button,
-	Divider,
-	List,
-	ListItem,
-	ListItemText,
-	Typography,
-	ListItemAvatar,
-	ListItemIcon,
-	Alert,
-	IconButton,
-	Avatar
-} from '@mui/material';
+import { Popover, Grid, Paper, Box, List, ListItem, ListItemText, Typography, ListItemAvatar, ListItemIcon, Alert, IconButton, Avatar } from '@mui/material';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -33,7 +12,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Confirm from '../Confirm';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setPropertyFiles } from '../../../state/reducers/propertyReducer';
+import { useFileForm } from '../hooks/useFileForm';
 
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 
@@ -79,26 +58,13 @@ export default function PropertyFiles() {
 	const property = useSelector((state) => state.property.value);
 	const [download, setDownload] = useState('');
 	const [confirm, setConfirm] = useState(null);
-
-	const dispatch = useDispatch();
+	const { uploadFiles, getDownloadLink } = useFileForm();
 
 	const onDrop = useCallback(
 		(acceptedFiles) => {
-			acceptedFiles.map(async (file) => {
-				const formData = await new FormData();
-				formData.append('file', file);
-				formData.append('organization_id', property.details?.organization_id);
-				formData.append('agent_id', property.details?.agent_id);
-
-				try {
-					const response = await axios.post(`/files/listing/${property.details?.id}`, formData);
-					dispatch(setPropertyFiles(response.data));
-				} catch (error) {
-					console.error(error);
-				}
-			});
+			uploadFiles(acceptedFiles);
 		},
-		[dispatch, property?.details?.id, property?.details?.agent_id, property?.details?.organization_id]
+		[uploadFiles]
 	);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -112,8 +78,8 @@ export default function PropertyFiles() {
 
 	const onDownload = async (event, link) => {
 		setConfirm(event?.currentTarget);
-		const response = await axios.get(`/files/${link}`);
-		setDownload(response?.data);
+		const response = await getDownloadLink(link);
+		setDownload(response);
 	};
 
 	return (

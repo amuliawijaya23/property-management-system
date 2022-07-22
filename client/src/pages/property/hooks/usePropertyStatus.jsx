@@ -7,7 +7,7 @@ export default function usePropertyStatus() {
 	const getListingOffer = async () => {
 		try {
 			const result = await axios.get(`/files/offer/${property?.details?.id}`);
-			console.log(result);
+			return result.data;
 		} catch (error) {
 			console.error(error.response ? error.response.body : error);
 		}

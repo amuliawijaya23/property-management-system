@@ -21,11 +21,11 @@ export default function usePropertyHeader() {
 
 	const [alert, setAlert] = useState('');
 	const [openAlert, setOpenAlert] = useState(false);
-	const [severity, setSeverity] = useState('info');
+	const [severity, setSeverity] = useState('error');
 
 	const closeAlert = () => {
 		setOpenAlert(false);
-		setSeverity('info');
+		setSeverity('error');
 		setAlert('');
 	};
 
@@ -64,27 +64,34 @@ export default function usePropertyHeader() {
 		switch (input) {
 			case 'Offer Accepted':
 				if (!property?.files?.find((f) => f?.is_offer && !f?.is_archived)) {
-					setSeverity('info');
-					setOpenAlert(true);
 					setAlert('Please upload the accepted offer to proceed.');
+					setSeverity('error');
+					setOpenAlert(true);
 					let newState = { ...close };
 					newState.offer = e?.currentTarget;
 					setState({ ...newState });
 				} else {
 					updateStatus('Offer Accepted');
+					setSeverity('success');
+					setAlert('Offer Accepted!');
+					setOpenAlert(true);
 				}
 				break;
 
 			case 'Deposit Received':
-				if (!property?.transactions?.find((t) => t?.transaction_type === 'Deposit' && t?.status === 'Active')) {
-					setSeverity('error');
+				const statusReq = property?.details?.service_type === 'Sale' ? 'Closed' : 'Active';
+				if (property?.transactions?.find((t) => t?.transaction_type === 'Deposit' && t?.status === statusReq)) {
+					updateStatus('Deposit Received');
+					setSeverity('success');
+					setAlert('Deposit Received!');
 					setOpenAlert(true);
-					setAlert('No Active Deposit Found! Either create one or update an existing transaction to proceed.');
+				} else {
+					setSeverity('error');
+					setAlert(`No ${statusReq} Deposit Found! Either create one or update an existing transaction to proceed.`);
+					setOpenAlert(true);
 					let newState = { ...close };
 					newState.transaction = e?.currentTarget;
 					setState({ ...newState });
-				} else {
-					updateStatus('Deposit Received');
 				}
 				break;
 
@@ -121,6 +128,9 @@ export default function usePropertyHeader() {
 		state,
 		updateOptions,
 		alert,
+		setAlert,
+		setOpenAlert,
+		setSeverity,
 		openAlert,
 		severity,
 		closeAlert,

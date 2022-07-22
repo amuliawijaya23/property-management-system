@@ -35,7 +35,7 @@ const fileIcon = (input) => {
 	}
 };
 
-export default function OfferForm({ onClose, open }) {
+export default function OfferForm({ onClose, open, setAlert, setOpenAlert, setSeverity }) {
 	const { offer, onDrop, removeFile, submitOffer } = useOfferForm();
 
 	const property = useSelector((state) => state.property.value);
@@ -49,13 +49,16 @@ export default function OfferForm({ onClose, open }) {
 
 	const submitHandler = () => {
 		submitOffer();
+		setSeverity('success');
+		setAlert('Offer Accepted');
+		setOpenAlert(true);
 		onClose();
 	};
 
 	return (
 		<Dialog onClose={onCancel} open={open}>
-			<Grid container>
-				<Grid item xs={12} textAlign='start' sx={{ px: 1, py: 0.5, minWidth: 400 }}>
+			<Grid container sx={{ width: 400 }}>
+				<Grid item xs={12} textAlign='start' sx={{ px: 1, py: 0.5 }}>
 					<Typography variant='caption'>{offer ? 'Do you want to use this file as offer?' : 'Browse or drop the offer below.'}</Typography>
 				</Grid>
 				<Grid item xs={12}>

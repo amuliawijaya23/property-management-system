@@ -19,7 +19,7 @@ export default function PropertyHeader({ onOpen }) {
 	const agent = app.agents?.find((agent) => agent.user_id === property.details?.agent_id);
 	const watchers = property?.watchers?.map((watcher) => watcher.user_id);
 	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.agent_id);
-	const { state, updateOptions, handleClickOpen, handleClose, open, updateHandler, alert, severity, openAlert, closeAlert } = usePropertyHeader();
+	const { state, updateOptions, handleClickOpen, handleClose, open, updateHandler, alert, severity, openAlert, setAlert, setSeverity, setOpenAlert, closeAlert } = usePropertyHeader();
 
 	return (
 		<CardActions>
@@ -79,11 +79,11 @@ export default function PropertyHeader({ onOpen }) {
 							))}
 						</List>
 					</Popover>
-					<FormAlert open={openAlert} message={alert} onClose={closeAlert} severity={severity} />
-					<OfferForm open={open('offer')} onClose={handleClose} />
-					<TransactionForm open={open('transaction')} onClose={handleClose} listingId={property?.details?.id} transaction={{ transaction_type: 'Deposit' }} />
 				</Grid>
 			</Grid>
+			<OfferForm open={open('offer')} onClose={handleClose} setAlert={setAlert} setOpenAlert={setOpenAlert} setSeverity={setSeverity} />
+			<TransactionForm open={open('transaction')} onClose={handleClose} listingId={property?.details?.id} transaction={{ transaction_type: 'Deposit' }} />
+			<FormAlert open={openAlert} message={alert} onClose={closeAlert} severity={severity} />
 		</CardActions>
 	);
 }

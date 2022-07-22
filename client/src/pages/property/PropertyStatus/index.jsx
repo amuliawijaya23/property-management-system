@@ -1,12 +1,13 @@
-import { Stepper, Step, StepLabel } from '@mui/material';
+import { Stepper, Step, StepLabel, Modal } from '@mui/material';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import PendingIcon from '@mui/icons-material/Pending';
+import { useState } from 'react';
+import StatusInfo from './StatusInfo';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 import usePropertyStatus from '../hooks/usePropertyStatus';
+import { useFileForm } from '../hooks/useFileForm';
 
 import { useSelector } from 'react-redux';
 
@@ -16,6 +17,7 @@ const Blocked = () => <RadioButtonUncheckedIcon sx={{ fontSize: 30 }} />;
 
 export default function PropertyStatus() {
 	const { getListingOffer } = usePropertyStatus();
+	const { getDownloadLink } = useFileForm();
 	const property = useSelector((state) => state?.property?.value);
 	const steps = (() => {
 		switch (property?.details?.service_type) {
@@ -30,7 +32,24 @@ export default function PropertyStatus() {
 		}
 	})();
 
-	const onStepSelect = (step) => {
+	const [open, setOpen] = useState(false);
+	const [step, setStep] = useState({
+		data: {},
+		step: '',
+		download: ''
+	});
+
+	const onOfferAccepted = async () => {
+		const response = await getListingOffer();
+		const link = await getDownloadLink(response.id);
+		setStep({
+			data: response,
+			step: 'Offer Accepted',
+			download: link
+		});
+	};
+
+	const onStepSelect = async (step) => {
 		const status = property?.details?.status;
 		const statusIndex = steps?.indexOf(status);
 		const index = steps.indexOf(step);
@@ -38,7 +57,8 @@ export default function PropertyStatus() {
 		if (statusIndex >= index) {
 			switch (step) {
 				case 'Offer Accepted':
-					getListingOffer();
+					onOfferAccepted();
+					setOpen(true);
 					break;
 				case 'Deposit Received':
 					break;
@@ -51,6 +71,13 @@ export default function PropertyStatus() {
 			}
 		}
 	};
+
+	const handleClose = () => {
+		setStep({ data: null, type: '' });
+		setOpen(false);
+	};
+
+	const selectStep = () => {};
 
 	const status = steps.indexOf(property?.details?.status);
 
@@ -93,6 +120,7 @@ export default function PropertyStatus() {
 					);
 				})}
 			</Stepper>
+			<StatusInfo open={open} onClose={handleClose} step={step} />
 		</>
 	);
 }
