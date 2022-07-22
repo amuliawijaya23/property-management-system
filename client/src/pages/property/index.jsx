@@ -118,7 +118,7 @@ export default function Property() {
 							</Grid>
 						</Card>
 					</Grid>
-					<PropertyForm open={open} onClose={handleClose} property={property?.details} />
+					<PropertyForm open={open} onClose={handleClose} edit={true} />
 				</Grid>
 			)}
 		</>

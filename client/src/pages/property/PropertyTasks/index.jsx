@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert, Divider } from '@mui/material';
 import TaskForm from '../../../common/TaskForm';
+import FormAlert from '../../../common/FormAlert';
 
 import { useSelector } from 'react-redux';
 
@@ -13,6 +14,11 @@ export default function PropertyTasks() {
 
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState(null);
+	const [alert, setAlert] = useState({ open: false, message: '', severity: 'error' });
+
+	const closeAlert = () => {
+		setAlert({ open: false, message: '', severity: 'error' });
+	};
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -100,7 +106,8 @@ export default function PropertyTasks() {
 					No task found for this listing, click add task to create one.
 				</Alert>
 			)}
-			{open && <TaskForm open={open} onClose={handleClose} listingId={property?.details?.id} task={selected} />}
+			{open && <TaskForm open={open} onClose={handleClose} listingId={property?.details?.id} task={selected} alert={alert} setAlert={setAlert} />}
+			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState } from 'react';
 import { Box, Drawer, Grid, Button, TextField, MenuItem, Input, InputLabel, InputAdornment, FormControl, Autocomplete, LinearProgress } from '@mui/material';
 
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
@@ -15,136 +15,83 @@ import NumberFormat from 'react-number-format';
 import { useSelector } from 'react-redux';
 
 export default function PropertyForm(props) {
-	const { generateDescription, addProperty, updateProperty } = usePropertyForm();
-	const { open, onClose, property } = props;
-	const user = useSelector((state) => state?.user?.value);
+	const { open, onClose, edit } = props;
+	const { form, loading, setInput, setValue, setAddress, generateDescription, createUpdateListing, handleCloseReset } = usePropertyForm(edit);
 	const app = useSelector((state) => state.app.value);
-
-	const initialForm = useMemo(
-		() => ({
-			agent_id: user?.sub,
-			title: '',
-			address: '',
-			postal_code: '',
-			service_type: 'Sale',
-			property_type: '',
-			description: '',
-			size: false,
-			number_of_bedrooms: false,
-			number_of_bathrooms: false,
-			parking_space: false,
-			valuation: false,
-			market_valuation: false
-		}),
-		[user?.sub]
-	);
-
-	const [form, setForm] = useState(initialForm);
-	const [alert, setAlert] = useState('');
-	const [openAlert, setOpenAlert] = useState(false);
-	const [severity, setSeverity] = useState('info');
-	const [loading, setLoading] = useState(false);
-
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
 
-	useEffect(() => {
-		if (property) {
-			let propertyForm = { ...initialForm };
-			Object.keys(propertyForm).forEach((key) => {
-				if (property[key]) {
-					propertyForm[key] = property[key];
-				}
-			});
+	const [alert, setAlert] = useState({
+		open: false,
+		message: '',
+		severity: 'error'
+	});
 
-			setForm({ ...propertyForm, id: property?.id, organization_id: property?.organization_id });
-		}
-	}, [property, initialForm]);
+	const closeAlert = () => {
+		setAlert({
+			open: false,
+			message: '',
+			severity: 'error'
+		});
+	};
 
 	const handleClose = () => {
-		property ? setForm({ ...property }) : setForm(initialForm);
+		handleCloseReset();
 		onClose();
 	};
 
-	const closeAlert = () => {
-		setAlert('');
-		setOpenAlert(false);
-		setSeverity('info');
-	};
-
-	const setAddress = (input) => {
-		let data = { ...form };
-		data.address = input;
-		setForm({ ...data });
-	};
-
-	const getDescription = async () => {
+	const getDescripton = async () => {
 		let valid = true;
-
 		Object.keys(form).forEach((key) => {
-			if (!form[key] && key !== 'description') {
+			if (!form[key] && key !== 'description' && key !== 'market_valuation' && key !== 'valuation') {
 				valid = false;
+				setAlert({
+					...alert,
+					open: true,
+					message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required`
+				});
+				return;
 			}
 		});
 
 		if (valid) {
-			setLoading(true);
-			let data = { ...form };
-			const result = await generateDescription(data);
-			data.description = result;
-			await setForm({ ...data });
-			await setAlert('New Description Generated');
-			setOpenAlert(true);
-			setLoading(false);
-			setSeverity('success');
-		} else {
-			setAlert('Missing Required Field(s)');
-			setOpenAlert(true);
-			setSeverity('error');
+			await generateDescription();
+			setAlert({
+				open: true,
+				message: 'New Description Generated',
+				severity: 'success'
+			});
 		}
 	};
 
-	const createUpdateListing = () => {
+	const onSubmit = async () => {
 		let valid = true;
 		Object.keys(form).forEach((key) => {
 			if (!form[key]) {
 				valid = false;
-				setAlert(`${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required`);
-				setOpenAlert(true);
-				setSeverity('error');
+				setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
 			}
 		});
-
 		if (form.description.length > 1000) {
 			valid = false;
-			setAlert('Description exceeds character limit');
-			setOpenAlert(true);
-			setSeverity('error');
-		}
-
-		if (valid && property) {
-			updateProperty({ ...form });
-			setAlert('Listing Updated!');
-			setOpenAlert(true);
-			setSeverity('success');
+			setAlert({ ...alert, open: true, message: 'Description exceeds character limit' });
 			handleClose();
-		} else if (valid && !property) {
-			addProperty({ ...form });
-			setAlert('Listing Created!');
-			setOpenAlert(true);
-			setSeverity('success');
+		}
+		if (valid) {
+			await createUpdateListing();
+			edit ? setAlert({ open: true, message: 'Listing Updated', severity: 'success' }) : setAlert({ open: true, message: 'Listing Created', severity: 'success' });
 			handleClose();
 		}
 	};
 
 	return (
 		<>
-			<Drawer anchor='right' open={open} onClose={onClose} PaperProps={{ sx: { width: '65%' } }}>
+			<Drawer anchor='right' open={open} onClose={handleClose} PaperProps={{ sx: { width: '65%' } }}>
 				<Box sx={{ padding: 3, minHeight: '95%' }}>
 					<Grid container spacing={3}>
 						<Grid item md={12} xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Title</InputLabel>
-								<Input value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} id='property-form-title' />
+								<Input value={form.title} onChange={(event) => setInput(event, 'title')} id='property-form-title' />
 							</FormControl>
 						</Grid>
 						<Grid item md={12} xs={12}>
@@ -153,17 +100,15 @@ export default function PropertyForm(props) {
 								value={agent?.name || ''}
 								onChange={(event, newValue) => {
 									const agent = app?.agents?.find((a) => a?.name === newValue);
-									let newForm = { ...form };
-									newForm.agent_id = agent?.user_id;
-									setForm(newForm);
+									setValue(agent?.user_id, 'agent_id');
 								}}
-								options={app?.agents?.filter((agent) => agent?.user_id !== property?.agent_id).map((option) => option?.name)}
+								options={app?.agents?.map((option) => option?.name)}
 								freeSolo
 								renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
 							/>
 						</Grid>
 						<Grid item md={6} xs={12}>
-							<TextField variant='standard' select label='Service' value={form.service_type} onChange={(event) => setForm({ ...form, service_type: event.target.value })} size='small' fullWidth>
+							<TextField variant='standard' select label='Service' value={form.service_type} onChange={(event) => setInput(event, 'service_type')} size='small' fullWidth>
 								{['Sale', 'Lease'].map((type) => (
 									<MenuItem key={`property-form-service-menu-${type}`} value={type}>
 										{type}
@@ -172,7 +117,7 @@ export default function PropertyForm(props) {
 							</TextField>
 						</Grid>
 						<Grid item md={6} xs={12}>
-							<TextField variant='standard' select label='Type' value={form.property_type} onChange={(event) => setForm({ ...form, property_type: event.target.value })} size='small' fullWidth>
+							<TextField variant='standard' select label='Type' value={form.property_type} onChange={(event) => setInput(event, 'property_type')} size='small' fullWidth>
 								{['House', 'Apartment', 'Townhouse', 'Penthouse', 'Ruko'].map((type) => (
 									<MenuItem key={`property-form-type-menu-${type}`} value={type}>
 										{type}
@@ -186,13 +131,13 @@ export default function PropertyForm(props) {
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Postal Code</InputLabel>
-								<Input type='text' value={form.zip_code} onChange={(event) => setForm({ ...form, postal_code: event.target.value })} />
+								<Input type='text' value={form.postal_code} onChange={(event) => setInput(event, 'postal_code')} />
 							</FormControl>
 						</Grid>
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Size</InputLabel>
-								<Input type='number' value={form.size} onChange={(event) => setForm({ ...form, size: event.target.value })} />
+								<Input type='number' value={form.size} onChange={(event) => setInput(event, 'size')} />
 							</FormControl>
 						</Grid>
 						<Grid item md={4} xs={12}>
@@ -201,7 +146,7 @@ export default function PropertyForm(props) {
 								<Input
 									type='number'
 									value={form.number_of_bedrooms}
-									onChange={(event) => setForm({ ...form, number_of_bedrooms: event.target.value })}
+									onChange={(event) => setInput(event, 'number_of_bedrooms')}
 									startAdornment={
 										<InputAdornment position='start'>
 											<HotelRoundedIcon />
@@ -216,7 +161,7 @@ export default function PropertyForm(props) {
 								<Input
 									type='number'
 									value={form.number_of_bathrooms}
-									onChange={(event) => setForm({ ...form, number_of_bathrooms: event.target.value })}
+									onChange={(event) => setInput(event, 'number_of_bathrooms')}
 									startAdornment={
 										<InputAdornment position='start'>
 											<ShowerRoundedIcon />
@@ -231,7 +176,7 @@ export default function PropertyForm(props) {
 								<Input
 									type='number'
 									value={form.parking_space}
-									onChange={(event) => setForm({ ...form, parking_space: event.target.value })}
+									onChange={(event) => setInput(event, 'parking_space')}
 									startAdornment={
 										<InputAdornment position='start'>
 											<DirectionsCarFilledIcon />
@@ -256,7 +201,7 @@ export default function PropertyForm(props) {
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;
-										setForm({ ...form, valuation: floatValue });
+										setValue(floatValue, 'valuation');
 									}}
 								/>
 							</FormControl>
@@ -277,7 +222,7 @@ export default function PropertyForm(props) {
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;
-										setForm({ ...form, market_valuation: floatValue });
+										setValue(floatValue, 'market_valuation');
 									}}
 								/>
 							</FormControl>
@@ -286,7 +231,7 @@ export default function PropertyForm(props) {
 							<TextField
 								label={'Description'}
 								value={form.description}
-								onChange={(event) => setForm({ ...form, description: event.target.value })}
+								onChange={(event) => setInput({ ...form, description: event.target.value })}
 								size='small'
 								multiline={true}
 								rows={5}
@@ -294,14 +239,14 @@ export default function PropertyForm(props) {
 								helperText={1000 - form?.description?.length}
 								variant='standard'
 							/>
-							<Button variant='contained' fullWidth onClick={getDescription}>
+							<Button variant='contained' fullWidth onClick={getDescripton}>
 								Generate
 							</Button>
 							{loading && <LinearProgress color='inherit' />}
 						</Grid>
 						<Grid item md={12} xs={12} sx={{ mb: 2 }}>
-							<Button variant='contained' sx={{ mr: 1 }} onClick={createUpdateListing}>
-								{property ? 'Update' : 'Create'}
+							<Button variant='contained' sx={{ mr: 1 }} onClick={onSubmit}>
+								{edit ? 'Update' : 'Create'}
 							</Button>
 							<Button variant='contained' onClick={handleClose}>
 								Cancel
@@ -310,7 +255,7 @@ export default function PropertyForm(props) {
 					</Grid>
 				</Box>
 			</Drawer>
-			<FormAlert open={openAlert} message={alert} onClose={closeAlert} severity={severity} />
+			<FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />
 		</>
 	);
 }

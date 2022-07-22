@@ -4,7 +4,7 @@ exports.up = async function(knex) {
       table.increments('id').primary().notNullable();
       table.string('status').notNullable().default('Open');
       table.string('transaction_type', 255).notNullable();
-      table.string('notes', 1000).notNullable();
+      table.string('notes', 1000);
       table.timestamp('start_date').notNullable();
       table.timestamp('end_date');
       table.integer('listing_id').unsigned().references('id').inTable('listings').onDelete('cascade');

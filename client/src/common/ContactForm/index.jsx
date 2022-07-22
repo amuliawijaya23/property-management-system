@@ -19,62 +19,25 @@ const style = {
 	p: 4
 };
 
-export default function ContactForm(props) {
-	const user = useSelector((state) => state?.user?.value);
+export default function ContactForm({ open, onClose, contact, alert, setAlert }) {
 	const app = useSelector((state) => state.app.value);
-	const { open, onClose, contact } = props;
 
-	const { createContact, updateContact } = useContactForm();
-
-	const initialForm = useMemo(
-		() => ({
-			agent_id: user?.sub,
-			first_name: '',
-			last_name: '',
-			email: '',
-			address: '',
-			mobile: false,
-			home: false,
-			office: false
-		}),
-		[user?.sub]
-	);
-
+	const { form, setInput, setValue, setAddress, handleCloseReset, createContact, updateContact } = useContactForm(contact);
 	const initialMode = contact?.id ? false : true;
 	const [edit, setEdit] = useState(initialMode);
-	const [form, setForm] = useState(initialForm);
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
-
-	useEffect(() => {
-		if (contact) {
-			let contactForm = { ...initialForm };
-			Object.keys(contactForm).forEach((key) => {
-				if (contact[key]) {
-					contactForm[key] = contact[key];
-				}
-			});
-
-			setForm({ ...contactForm, id: contact?.id, organization_id: contact?.organization_id });
-		}
-	}, [contact, initialForm]);
-
-	const handleClose = () => {
-		setForm(initialForm);
-		onClose();
-	};
 
 	const handleClickEdit = () => {
 		edit ? setEdit(false) : setEdit(true);
 	};
 
-	const handleCancel = () => {
-		contact?.id ? setEdit(false) : handleClose();
+	const handleClose = () => {
+		handleCloseReset();
+		onClose();
 	};
 
-	const setAddress = (input) => {
-		let data = { ...form };
-		data.address = input;
-		setForm({ ...data });
+	const handleCancel = () => {
+		contact?.id ? setEdit(false) : handleClose();
 	};
 
 	const validate = () => {
@@ -85,15 +48,18 @@ export default function ContactForm(props) {
 			.forEach((key) => {
 				if (!form[key]) {
 					valid = false;
+					setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
 				}
 			});
 
 		if (valid && contact) {
 			updateContact({ ...form });
 			handleClose();
+			setAlert({ open: true, message: `Contact CON-${contact?.id} Updated!`, severity: 'success' });
 		} else if (valid && !contact) {
 			createContact({ ...form });
 			handleClose();
+			setAlert({ open: true, message: `New Contact Created!`, severity: 'success' });
 		}
 	};
 
@@ -111,9 +77,7 @@ export default function ContactForm(props) {
 								value={agent?.name || ''}
 								onChange={(event, newValue) => {
 									const agent = app?.agents?.find((a) => a?.name === newValue);
-									let newForm = { ...form };
-									newForm.agent_id = agent?.user_id;
-									setForm(newForm);
+									setValue(agent?.user_id, 'agent_id');
 								}}
 								options={app?.agents?.filter((agent) => agent?.user_id !== contact?.agent_id).map((option) => option?.name)}
 								freeSolo
@@ -123,19 +87,19 @@ export default function ContactForm(props) {
 						<Grid item xs={6}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>First Name</InputLabel>
-								<Input value={form.first_name} onChange={(event) => setForm({ ...form, first_name: event.target.value })} />
+								<Input value={form.first_name} onChange={(event) => setInput(event, 'first_name')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Last Name</InputLabel>
-								<Input value={form.last_name} onChange={(event) => setForm({ ...form, last_name: event.target.value })} />
+								<Input value={form.last_name} onChange={(event) => setInput(event, 'last_name')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Email</InputLabel>
-								<Input value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} />
+								<Input value={form.email} onChange={(event) => setInput(event, 'email')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12} sx={{ mt: 3 }}>
@@ -159,7 +123,7 @@ export default function ContactForm(props) {
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;
-										setForm({ ...form, mobile: floatValue });
+										setValue(floatValue, 'mobile');
 									}}
 								/>
 								<FormHelperText>Optional</FormHelperText>
@@ -177,7 +141,7 @@ export default function ContactForm(props) {
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;
-										setForm({ ...form, home: floatValue });
+										setValue(floatValue, 'home');
 									}}
 								/>
 								<FormHelperText>Optional</FormHelperText>
@@ -195,7 +159,7 @@ export default function ContactForm(props) {
 									autoComplete='off'
 									onValueChange={(values) => {
 										const { floatValue } = values;
-										setForm({ ...form, office: floatValue });
+										setValue(floatValue, 'office');
 									}}
 								/>
 								<FormHelperText>Optional</FormHelperText>

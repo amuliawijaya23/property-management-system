@@ -3,7 +3,7 @@ exports.up = async function(knex) {
     .createTable('tasks', (table) => {
       table.increments('id').primary().notNullable();
       table.string('summary', 255).notNullable();
-      table.string('notes', 1000).notNullable();
+      table.string('notes', 1000);
       table.string('category', 255).notNullable();
       table.timestamp('due_date').notNullable();
       table.integer('listing_id').unsigned().references('id').inTable('listings').onDelete('cascade');

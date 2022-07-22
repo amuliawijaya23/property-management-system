@@ -43,7 +43,8 @@ router.post('/watchers', async(req, res) => {
 });
 
 router.post('/listings', async(req, res) => {
-  const result = await addListing({...req.body});
+  await addListing({...req.body});
+  const result = await getListings(req.body.organization_id);
   res.send(result);
 });
 

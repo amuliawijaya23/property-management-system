@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert, Tooltip, Divider } from '@mui/material';
 import TransactionForm from '../../../common/TransactionForm';
+import FormAlert from '../../../common/FormAlert';
 
 import { useSelector } from 'react-redux';
 
@@ -13,6 +14,11 @@ export default function PropertyTransactions() {
 
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState(null);
+	const [alert, setAlert] = useState({ open: false, message: '', severity: 'error' });
+
+	const closeAlert = () => {
+		setAlert({ open: false, message: '', severity: 'error' });
+	};
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -106,7 +112,8 @@ export default function PropertyTransactions() {
 					No transaction found for this listing, click add transaction to create one.
 				</Alert>
 			)}
-			{open && <TransactionForm open={open} onClose={handleClose} listingId={property?.details?.id} transaction={selected} />}
+			{open && <TransactionForm open={open} onClose={handleClose} listingId={property?.details?.id} transaction={selected} alert={alert} setAlert={setAlert} />}
+			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</Box>
 	);
 }
