@@ -7,8 +7,6 @@ import { useDispatch } from 'react-redux';
 // reducers
 import { login } from '../state/reducers/userReducer';
 import { initialize } from '../state/reducers/app';
-import { setDashboard } from '../state/reducers/dashboardReducer';
-// import { setTableData } from '../state/reducers/tableReducer';
 
 import axios from 'axios';
 

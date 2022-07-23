@@ -1,4 +1,4 @@
-import { Stepper, Step, StepLabel, Modal } from '@mui/material';
+import { Stepper, Step, StepLabel } from '@mui/material';
 
 import { useState } from 'react';
 import StatusInfo from './StatusInfo';
@@ -76,8 +76,6 @@ export default function PropertyStatus() {
 		setStep({ data: null, type: '' });
 		setOpen(false);
 	};
-
-	const selectStep = () => {};
 
 	const status = steps.indexOf(property?.details?.status);
 

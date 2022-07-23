@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert, Divider } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Chip, Avatar, Button, Alert } from '@mui/material';
 import TaskForm from '../../../common/TaskForm';
 import FormAlert from '../../../common/FormAlert';
 

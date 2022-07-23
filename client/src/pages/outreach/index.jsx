@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-concat */
 import { useRef, useState } from 'react';
-import { Grid, Box, Chip, Input, Button, InputLabel, FormControl, Select, MenuItem, TextField, Autocomplete, LinearProgress, CircularProgress } from '@mui/material';
+import { Grid, Box, Chip, Input, Button, InputLabel, FormControl, Select, MenuItem, TextField, Autocomplete, CircularProgress } from '@mui/material';
 
 import SendIcon from '@mui/icons-material/Send';
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 export default function usePropertyStatus() {
 	const property = useSelector((state) => state.property.value);

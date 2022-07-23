@@ -1,9 +1,6 @@
-import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Grid, Box, Paper, List, ListItem, ListItemAvatar, Avatar, ListItemText, DialogTitle, Dialog, Typography, Button } from '@mui/material';
-import { CloudUpload as CloudUploadIcon, FileUpload as FileUploadIcon, Clear as ClearIcon, Image as ImageIcon } from '@mui/icons-material';
-
-import { useSelector } from 'react-redux';
+import { Grid, Box, Paper, List, ListItem, ListItemAvatar, Avatar, ListItemText, Dialog, Typography, Button } from '@mui/material';
+import { CloudUpload as CloudUploadIcon, FileUpload as FileUploadIcon, Clear as ClearIcon } from '@mui/icons-material';
 
 import useOfferForm from '../hooks/useOfferForm';
 

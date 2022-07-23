@@ -1,11 +1,11 @@
-import { Box, Grid, TextField, InputAdornment, Button } from '@mui/material';
+import { Box, Grid, TextField, InputAdornment } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 
 import useTableSearch from '../hooks/useTableSearch';
 
 export default function TableSearch(props) {
-	const { searchData, search, setSearch } = useTableSearch();
+	const { searchData } = useTableSearch();
 
 	return (
 		<Grid container spacing={1} justifyContent='flex-start'>

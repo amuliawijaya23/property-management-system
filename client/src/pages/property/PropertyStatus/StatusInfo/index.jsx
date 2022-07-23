@@ -1,32 +1,4 @@
-import { useState } from 'react';
-import {
-	Box,
-	Modal,
-	Paper,
-	Grid,
-	List,
-	ListItem,
-	ListITemText,
-	ListItemAvatar,
-	FormControl,
-	Input,
-	InputLabel,
-	TextField,
-	MenuItem,
-	Autocomplete,
-	Avatar,
-	Typography,
-	Button,
-	Tooltip,
-	ListItemText
-} from '@mui/material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-
-import { useSelector } from 'react-redux';
-import format from 'date-fns/format';
-import NumberFormat from 'react-number-format';
+import { Box, Modal, Grid, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import { formatDistanceToNowStrict } from 'date-fns';
 
 const style = {
@@ -42,8 +14,6 @@ const style = {
 };
 
 export default function StatusInfo({ open, step, onClose }) {
-	const app = useSelector((state) => state.app.value);
-	const agent = app?.agents?.find((a) => a?.user_id === step?.data?.agent_id);
 	const fileIcon = (input) => {
 		switch (input) {
 			case 'xlsx' || 'xls' || 'xlsm':

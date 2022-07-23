@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -9,9 +8,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import Confirm from '../Confirm';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFileForm } from '../hooks/useFileForm';
 
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';

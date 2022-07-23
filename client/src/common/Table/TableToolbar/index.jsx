@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { alpha } from '@mui/material/styles';
 
-import { Grid, Box, Toolbar, Tooltip, Button, Autocomplete, TextField, InputAdornment } from '@mui/material';
+import { Grid, Box, Toolbar, Tooltip, Button, Autocomplete, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TableSearch from '../TableSearch';
 
@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import useUpdateTable from '../hooks/useUpdateTable';
 
 export default function EnhancedTableToolbar(props) {
-	const { updateRowsAgent, updateTableData, resetRows } = useUpdateTable();
+	const { updateRowsAgent, updateTableData } = useUpdateTable();
 	const app = useSelector((state) => state.app.value);
 	const table = useSelector((state) => state.table.value);
 
@@ -18,11 +18,6 @@ export default function EnhancedTableToolbar(props) {
 	const [selected, setSelected] = useState(null);
 
 	const numSelected = table?.selected?.length;
-
-	const selectAgent = (input) => {
-		setSelected(input);
-		updateRowsAgent(input);
-	};
 
 	useEffect(() => {
 		if (table?.selected?.length < 1 && selected) {
