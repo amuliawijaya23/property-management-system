@@ -53,8 +53,8 @@ export const TransactionGraph = () => {
 				categoryPercentage: 0.5,
 				maxBarThickness: 10,
 				data: salesData,
-				borderColor: '#2196f3',
-				backgroundColor: '#2196f3',
+				borderColor: '#673ab7',
+				backgroundColor: '#673ab7',
 				yAxisID: 'y'
 			},
 			{
@@ -65,8 +65,8 @@ export const TransactionGraph = () => {
 				categoryPercentage: 0.5,
 				maxBarThickness: 10,
 				data: leaseData,
-				borderColor: '#607d8b',
-				backgroundColor: '#607d8b',
+				borderColor: '#2196f3',
+				backgroundColor: '#2196f3',
 				yAxisID: 'y'
 			},
 			{
@@ -77,8 +77,8 @@ export const TransactionGraph = () => {
 				categoryPercentage: 0.5,
 				maxBarThickness: 10,
 				data: pastSalesData,
-				borderColor: '#2196f3',
-				backgroundColor: '#219600',
+				borderColor: '#d1c4e9',
+				backgroundColor: '#d1c4e9',
 				hidden: true,
 				yAxisID: 'y'
 			},
@@ -90,8 +90,8 @@ export const TransactionGraph = () => {
 				categoryPercentage: 0.5,
 				maxBarThickness: 10,
 				data: pastLeasesData,
-				borderColor: '#607d8b',
-				backgroundColor: '#607d00',
+				borderColor: '#bbdefb',
+				backgroundColor: '#bbdefb',
 				hidden: true,
 				yAxisID: 'y'
 			}

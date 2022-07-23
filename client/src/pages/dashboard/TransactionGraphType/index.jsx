@@ -6,7 +6,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 
 import { useSelector } from 'react-redux';
 
-const colours = ['#FB8C00', '#3F51B5', '#e53935', '#26a69a', '#607d8b'];
+const colours = ['#673ab7', '#2196f3', '#e53935', '#26a69a', '#607d8b'];
 
 export const TransactionGraphType = (props) => {
 	const dashboard = useSelector((state) => state.dashboard.value);
@@ -14,6 +14,10 @@ export const TransactionGraphType = (props) => {
 	const stream = dashboard?.stream?.current;
 	const sale = dashboard?.sale?.current;
 	const lease = dashboard?.lease?.current;
+
+	console.log('stream', stream);
+	console.log('sale', sale);
+	console.log('lease', lease);
 
 	const current = {
 		data: [sale, lease],

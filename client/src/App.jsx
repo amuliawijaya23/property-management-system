@@ -23,7 +23,27 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const customTheme = createTheme({
 	palette: {
-		type: 'dark'
+		default: {
+			main: '#37474f'
+		},
+		primary: {
+			main: '#37474f'
+		},
+		secondary: {
+			main: '#2196f3'
+		},
+		info: {
+			main: '#673ab7'
+		},
+		warning: {
+			main: '#ffc107'
+		},
+		error: {
+			main: '#d50000'
+		},
+		success: {
+			main: '#43a047'
+		}
 	}
 });
 

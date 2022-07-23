@@ -35,51 +35,64 @@ export const useDashboardData = () => {
 
 	const getStream = useCallback(async () => {
 		const data = {
-			status: 'Closed',
 			agent_id: dashboard?.user,
 			organization_id: user?.org_id
 		};
 
 		try {
-			const [totalStream, pastStream, totalSale, pastSale, totalLease, pastLease] = await Promise.all([
-				axios.post(`/api/transactions/data`, { ...range, ...data }),
-				axios.post(`/api/transactions/data`, { ...pastRange, ...data }),
+			const [totalSale, pastTotalSales, totalLeases, pastTotalLeases] = await Promise.all([
 				axios.post(`/api/transactions/data`, { ...range, ...data, transaction_type: 'Sale' }),
 				axios.post(`/api/transactions/data`, { ...pastRange, ...data, transaction_type: 'Sale' }),
 				axios.post(`/api/transactions/data`, { ...range, ...data, transaction_type: 'Lease' }),
 				axios.post(`/api/transactions/data`, { ...pastRange, ...data, transaction_type: 'Lease' })
 			]);
 
+			const sales = parseInt(totalSale?.data?.sum);
+			const salesCount = parseInt(totalSale?.data?.count);
+			const salesTransactions = totalSale?.data?.transactions;
+
+			const leases = parseInt(totalLeases?.data?.sum);
+			const leasesCount = parseInt(totalLeases?.data?.count);
+			const leasesTransactions = totalLeases?.data?.transactions;
+
+			const pastSales = parseInt(pastTotalSales?.data?.sum);
+			const pastSalesCount = parseInt(pastTotalSales?.data?.count);
+			const pastSalesTransactions = pastTotalSales?.data?.transactions;
+
+			const pastLeases = parseInt(pastTotalLeases?.data?.sum);
+			const pastLeasesCount = parseInt(pastTotalLeases?.data?.count);
+			const pastLeasesTransactions = pastTotalLeases?.data?.transactions;
+
 			dispatch(
 				setStream({
-					current: parseInt(totalStream?.data?.sum),
-					past: parseInt(pastStream?.data?.sum),
-					currentTransactions: totalStream?.data?.transactions,
-					pastTransactions: pastStream?.data?.transactions,
-					count: parseInt(totalStream?.data?.count),
-					pastCount: parseInt(pastStream?.data?.count)
+					current: sales + leases,
+					past: pastSales + pastLeases,
+					currentTransactions: salesTransactions.concat(leasesTransactions),
+					pastTransactions: pastSalesTransactions.concat(pastLeasesTransactions),
+					count: salesCount,
+					pastCount: pastSalesCount
 				})
 			);
 
 			dispatch(
 				setSale({
-					current: parseInt(totalSale?.data?.sum),
-					past: parseInt(pastSale?.data?.sum),
-					currentTransactions: totalSale?.data?.transactions,
-					pastTransactions: pastSale?.data?.transactions,
-					count: parseInt(totalSale?.data?.count),
-					pastCount: parseInt(pastSale?.data?.count)
+					current: sales,
+					past: pastSales,
+					currentTransactions: salesTransactions,
+					pastTransactions: pastSalesTransactions,
+					count: salesCount,
+					pastCount: pastSalesCount
 				})
 			);
 
 			dispatch(
 				setLease({
-					current: parseInt(totalLease?.data?.sum),
-					past: parseInt(pastLease?.data?.sum),
-					currentTransactions: totalLease?.data?.transactions,
-					pastTransactions: pastLease?.data?.transactions,
-					count: parseInt(totalLease?.data?.count),
-					pastCount: parseInt(pastLease?.data?.count)
+					current: leases,
+					past: pastLeases,
+					currentTransactions: leasesTransactions,
+					pastTransactions: pastLeasesTransactions,
+					count: leasesCount,
+					pastCount: pastLeasesCount
 				})
 			);
 		} catch (error) {
@@ -89,7 +102,6 @@ export const useDashboardData = () => {
 
 	const getGraphData = useCallback(async () => {
 		const data = {
-			status: 'Closed',
 			agent_id: dashboard?.user,
 			organization_id: user?.org_id
 		};
