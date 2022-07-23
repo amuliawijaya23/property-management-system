@@ -102,7 +102,7 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 								size='small'
 								fullWidth
 								margin='normal'
-								value={form.listing_id}
+								value={form?.listing_id}
 								onChange={(event) => setInput(event, 'listing_id')}>
 								{app?.properties?.map((property) => (
 									<MenuItem key={`task-form-property-${property.id}`} value={property.id}>

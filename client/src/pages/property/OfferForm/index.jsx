@@ -37,6 +37,7 @@ const fileIcon = (input) => {
 
 export default function OfferForm({ onClose, open, setAlert, setOpenAlert, setSeverity }) {
 	const { offer, onDrop, removeFile, submitOffer } = useOfferForm();
+	const fileType = offer?.name?.split('.')[offer?.name.split('.')?.length - 1];
 
 	const property = useSelector((state) => state.property.value);
 
@@ -57,25 +58,27 @@ export default function OfferForm({ onClose, open, setAlert, setOpenAlert, setSe
 
 	return (
 		<Dialog onClose={onCancel} open={open}>
-			<Grid container sx={{ width: 400 }}>
+			<Grid container justifyContent='center' alignItems='center' sx={{ maxWidth: 400 }}>
 				<Grid item xs={12} textAlign='start' sx={{ px: 1, py: 0.5 }}>
-					<Typography variant='caption'>{offer ? 'Do you want to use this file as offer?' : 'Browse or drop the offer below.'}</Typography>
+					<Typography textAlign='center' variant='body1'>
+						{offer ? 'Do you want to use this file as offer?' : 'Browse or drop the offer below.'}
+					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<List>
 						{offer && (
 							<ListItem key={`file-offer`}>
 								<ListItemAvatar>
-									<Avatar sx={{ py: 0.5, px: 0.5 }} src={fileIcon(offer?.name?.split('.')[offer?.name.split('.')?.length - 1])} title='file' />
+									<Avatar sx={{ py: 0.5, px: 0.5 }} src={fileIcon(fileType)} title='file' />
 								</ListItemAvatar>
-								<ListItemText primary={offer.name} />
+								<ListItemText primary={offer.name.length < 15 ? offer?.name : `${offer?.name.slice(0, 15)}..${fileType}`} />
 								<ClearIcon onClick={() => removeFile()} sx={{ cursor: 'pointer' }} />
 							</ListItem>
 						)}
 					</List>
 				</Grid>
-				<Grid item xs={12}>
-					<Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', py: 0.5, px: 1 }}>
+				<Grid item xs={12} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					<Box sx={{ width: '100%', display: 'flex', justifySelf: 'center', alignSelf: 'center', py: 0.5, px: 0.5 }}>
 						{!offer && (
 							<Paper {...getRootProps()} sx={{ border: 'dotted 1px', height: 75, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 								<input {...getInputProps()} />

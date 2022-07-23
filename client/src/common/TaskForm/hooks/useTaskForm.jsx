@@ -18,7 +18,7 @@ export default function useTaskForm(task) {
 			due_date: new Date(),
 			agent_id: user?.sub,
 			notes: '',
-			listing_id: listingId ? listingId : false,
+			listing_id: listingId ? listingId : '',
 			status: 'Open'
 		}),
 		[listingId, user?.sub]
@@ -65,7 +65,12 @@ export default function useTaskForm(task) {
 	};
 
 	const createTask = async (task) => {
-		const taskData = { ...task, organization_id: user.org_id };
+		const taskData = { organization_id: user.org_id };
+		Object.keys(task).forEach((key) => {
+			if (task[key]) {
+				taskData[key] = task[key];
+			}
+		});
 		try {
 			const response = await axios.post('/api/tasks', taskData);
 			dispatch(updateTasksData(response.data));
@@ -80,7 +85,12 @@ export default function useTaskForm(task) {
 	};
 
 	const updateTask = async (task) => {
-		const taskData = { ...task, organization_id: user.org_id };
+		const taskData = { organization_id: user.org_id };
+		Object.keys(task).forEach((key) => {
+			if (task[key]) {
+				taskData[key] = task[key];
+			}
+		});
 		try {
 			const response = await axios.put('/api/tasks', taskData);
 			dispatch(updateTasksData(response.data));

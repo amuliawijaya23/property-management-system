@@ -114,7 +114,7 @@ export default function ContactForm({ open, onClose, contact, alert, setAlert, s
 							<SearchLocationInput setAddress={setAddress} form={form} />
 						</Grid>
 						<Grid item xs={12}>
-							<FormControl Mobile='standard' fullWidth>
+							<FormControl variant='standard' fullWidth>
 								<InputLabel>Mobile</InputLabel>
 								<NumberFormat
 									type='text'
@@ -132,7 +132,7 @@ export default function ContactForm({ open, onClose, contact, alert, setAlert, s
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
-							<FormControl Mobile='standard' fullWidth>
+							<FormControl variant='standard' fullWidth>
 								<InputLabel>Home</InputLabel>
 								<NumberFormat
 									type='text'
@@ -150,7 +150,7 @@ export default function ContactForm({ open, onClose, contact, alert, setAlert, s
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
-							<FormControl Mobile='standard' fullWidth>
+							<FormControl variant='standard' fullWidth>
 								<InputLabel>Office</InputLabel>
 								<NumberFormat
 									type='text'

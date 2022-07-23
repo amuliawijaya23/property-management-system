@@ -65,12 +65,14 @@ export default function PropertyForm(props) {
 
 	const onSubmit = async () => {
 		let valid = true;
-		Object.keys(form).forEach((key) => {
-			if (!form[key]) {
-				valid = false;
-				setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
-			}
-		});
+		Object.keys(form)
+			.slice(0, 12)
+			.forEach((key) => {
+				if (!form[key]) {
+					valid = false;
+					setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
+				}
+			});
 		if (form.description.length > 1000) {
 			valid = false;
 			setAlert({ ...alert, open: true, message: 'Description exceeds character limit' });

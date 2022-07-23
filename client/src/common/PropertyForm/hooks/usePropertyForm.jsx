@@ -90,7 +90,12 @@ export default function usePropertyForm(edit) {
 	};
 
 	const createUpdateListing = async () => {
-		const listing = { ...form, organization_id: user.org_id };
+		let listing = { organization_id: user.org_id };
+		Object.keys(form).forEach((key) => {
+			if (form[key]) {
+				listing[key] = form[key];
+			}
+		});
 		if (property?.details?.id) {
 			try {
 				const response = await axios.put(`/api/properties`, listing);

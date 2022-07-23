@@ -19,7 +19,7 @@ export default function useTransactionsForm(transaction) {
 			start_date: new Date(),
 			end_date: null,
 			notes: '',
-			listing_id: listingId ? listingId : false,
+			listing_id: listingId ? listingId : '',
 			market_value: false
 		}),
 		[listingId, user?.sub]
@@ -94,7 +94,12 @@ export default function useTransactionsForm(transaction) {
 	};
 
 	const updateTransaction = async (transaction) => {
-		const transactionData = { ...transaction, organization_id: user.org_id };
+		let transactionData = { organization_id: user?.org_id };
+		Object.keys(transaction).forEach((key) => {
+			if (transaction[key]) {
+				transactionData[key] = transaction[key];
+			}
+		});
 		try {
 			const response = await axios.put('/api/transactions', transactionData);
 			dispatch(updateTransactionsData(response.data));

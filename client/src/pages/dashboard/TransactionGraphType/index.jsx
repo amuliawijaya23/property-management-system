@@ -15,10 +15,6 @@ export const TransactionGraphType = (props) => {
 	const sale = dashboard?.sale?.current;
 	const lease = dashboard?.lease?.current;
 
-	console.log('stream', stream);
-	console.log('sale', sale);
-	console.log('lease', lease);
-
 	const current = {
 		data: [sale, lease],
 		labels: ['Sale', 'Lease']
