@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, IconButton, List, ListItem, ListItemAvatar, Avatar, ListItemText, Chip } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Divider, IconButton, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import NumberFormat from 'react-number-format';
 
-export const TransactionsByLease = (props) => {
+export const TransactionsByLease = ({ handleOpen }) => {
 	const dashboard = useSelector((state) => state.dashboard.value);
 	const app = useSelector((state) => state.app.value);
 
@@ -18,14 +18,14 @@ export const TransactionsByLease = (props) => {
 	}
 
 	return (
-		<Card {...props} sx={{ minHeight: '100%' }}>
+		<Card sx={{ minHeight: '100%' }}>
 			<CardHeader subtitle={`${transactions?.length} in total`} title='Lease' subheaderTypographyProps={{ variant: 'captions' }} titleTypographyProps={{ variant: 'captions' }} />
 			<Divider />
 			<CardContent sx={{ height: 400, overflow: 'auto' }}>
 				<List sx={{ display: 'flex', flexDirection: 'column' }}>
 					{transactions?.map((transaction, i) => {
 						return (
-							<ListItem divider={i < transactions?.length - 1} key={`TRX-${transaction.id}`} button>
+							<ListItem divider={i < transactions?.length - 1} key={`TRX-${transaction.id}`} button onClick={() => handleOpen(transaction)}>
 								<ListItemAvatar>
 									<Avatar src={app?.agents?.find((agent) => agent?.user_id === transaction?.agent_id)?.picture} alt='agent' />
 								</ListItemAvatar>

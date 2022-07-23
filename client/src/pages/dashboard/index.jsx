@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { Box, Grid } from '@mui/material';
-
 import { TotalStream } from './TotalStream';
 import { TotalSale } from './TotalSale';
 import { TotalLease } from './TotalLease';
@@ -8,11 +8,33 @@ import { TransactionGraphType } from './TransactionGraphType';
 import { DashboardLayout } from './dashboard-layout';
 import { TransactionsBySale } from './TransactionsBySale';
 import { TransactionsByLease } from './TransactionsByLease';
-import { AllTransactions } from './AllTransactions';
-
 import { DashboardToolbar } from './DashboardToolbar';
+import TransactionForm from '../../common/TransactionForm';
+import FormAlert from '../../common/FormAlert';
 
 export default function Dashboard() {
+	const [open, setOpen] = useState(false);
+	const [transaction, setTransaction] = useState(null);
+	const [alert, setAlert] = useState({
+		open: false,
+		message: '',
+		severity: 'error'
+	});
+
+	const closeAlert = () => {
+		setAlert({ open: false, message: '', severity: 'error' });
+	};
+
+	const handleClickOpen = (input) => {
+		setTransaction(input);
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setTransaction(null);
+		setOpen(false);
+	};
+
 	return (
 		<>
 			<Box
@@ -43,13 +65,15 @@ export default function Dashboard() {
 						<TransactionGraph />
 					</Grid>
 					<Grid item xs={12} md={6}>
-						<TransactionsBySale sx={{ height: '100%' }} />
+						<TransactionsBySale sx={{ height: '100%' }} handleOpen={handleClickOpen} />
 					</Grid>
 					<Grid item xs={12} md={6}>
-						<TransactionsByLease sx={{ height: '100%' }} />
+						<TransactionsByLease sx={{ height: '100%' }} handleOpen={handleClickOpen} />
 					</Grid>
 				</Grid>
+				{open && <TransactionForm open={open} onClose={handleClose} transaction={transaction} setTransaction={setTransaction} alert={alert} setAlert={setAlert} />}
 			</Box>
+			{alert?.open && <FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />}
 		</>
 	);
 }

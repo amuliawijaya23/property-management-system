@@ -39,8 +39,6 @@ export default function OfferForm({ onClose, open, setAlert, setOpenAlert, setSe
 	const { offer, onDrop, removeFile, submitOffer } = useOfferForm();
 	const fileType = offer?.name?.split('.')[offer?.name.split('.')?.length - 1];
 
-	const property = useSelector((state) => state.property.value);
-
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	const onCancel = () => {
