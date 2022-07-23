@@ -14,7 +14,7 @@ export default function TransactionRow({ row, labelId, handleOpen }) {
 				return 'warning';
 
 			case 'Active':
-				return 'secondary';
+				return 'info';
 
 			case 'Closed':
 				return 'success';

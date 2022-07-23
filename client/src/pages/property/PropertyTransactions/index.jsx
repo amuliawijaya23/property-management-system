@@ -69,11 +69,11 @@ export default function PropertyTransactions() {
 								case 'Open':
 									return 'primary';
 
-								case 'Pending Confirmation':
+								case 'Pending':
 									return 'warning';
 
 								case 'Active':
-									return 'secondary';
+									return 'success';
 
 								case 'Closed':
 									return 'success';
