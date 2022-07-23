@@ -16,7 +16,7 @@ exports.seed = async function(knex) {
           transaction_value: 10000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '48 months rent deposit',
           start_date: '2021-01-18T08:15:00',
@@ -57,10 +57,10 @@ exports.seed = async function(knex) {
           listing_id: 3,
           agent_id: 'auth0|62a915d40fb854efec56620b',
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          transaction_value: 80000000
+          transaction_value: 800
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: 'Sale Agreement',
           start_date: '2021-04-18T08:15:00',
@@ -68,7 +68,7 @@ exports.seed = async function(knex) {
           listing_id: 3,
           agent_id: 'auth0|62a915d40fb854efec56620b',
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          transaction_value: 80000000
+          transaction_value: 800000
         },
         {
           status: 'Closed',
@@ -101,10 +101,10 @@ exports.seed = async function(knex) {
           listing_id: 5,
           agent_id: 'auth0|62a915d40fb854efec56620b',
           organization_id: 'org_SdeKNTPqOTyZc27v',
-          transaction_value: 380000000
+          transaction_value: 30000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: 'transaction started',
           start_date: '2021-04-29T08:20:00',
@@ -148,7 +148,7 @@ exports.seed = async function(knex) {
           transaction_value: 5000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2021-05-18T08:15:00',
@@ -236,7 +236,7 @@ exports.seed = async function(knex) {
           transaction_value: 3500
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2021-08-20T08:15:00',
@@ -280,7 +280,7 @@ exports.seed = async function(knex) {
           transaction_value: 10000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '5 years rent agreement',
           start_date: '2021-11-18T08:15:00',
@@ -368,7 +368,7 @@ exports.seed = async function(knex) {
           transaction_value: 3000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: 'transaction started',
           start_date: '2022-02-24T08:20:00',
@@ -412,7 +412,7 @@ exports.seed = async function(knex) {
           transaction_value: 2000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2022-04-18T08:15:00',
@@ -456,7 +456,7 @@ exports.seed = async function(knex) {
           transaction_value: 30000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2022-05-16T08:15:00',
@@ -499,7 +499,7 @@ exports.seed = async function(knex) {
           transaction_value: 10000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '48 months rent deposit',
           start_date: '2021-01-18T08:15:00',
@@ -543,7 +543,7 @@ exports.seed = async function(knex) {
           transaction_value: 2300
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: 'Sale Agreement',
           start_date: '2021-04-18T08:15:00',
@@ -587,7 +587,7 @@ exports.seed = async function(knex) {
           transaction_value: 3400
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: 'transaction started',
           start_date: '2021-04-29T08:20:00',
@@ -631,7 +631,7 @@ exports.seed = async function(knex) {
           transaction_value: 5000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2021-05-18T08:15:00',
@@ -719,7 +719,7 @@ exports.seed = async function(knex) {
           transaction_value: 3500
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2021-09-18T08:15:00',
@@ -763,7 +763,7 @@ exports.seed = async function(knex) {
           transaction_value: 10000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '5 years rent agreement',
           start_date: '2021-11-18T08:15:00',
@@ -851,7 +851,7 @@ exports.seed = async function(knex) {
           transaction_value: 3000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: 'transaction started',
           start_date: '2022-02-24T08:20:00',
@@ -895,7 +895,7 @@ exports.seed = async function(knex) {
           transaction_value: 2000
         },
         {
-          status: 'Closed',
+          status: 'Active',
           transaction_type: 'Lease',
           notes: '24 months rent agreement',
           start_date: '2022-04-18T08:15:00',

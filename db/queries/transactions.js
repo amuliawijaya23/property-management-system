@@ -42,19 +42,21 @@ const getCompletedSumCount = (param, start, end) => {
   return knex('transactions')
     .sum('transaction_value')
     .count('transaction_value')
-    .whereNot({ transaction_type: 'Deposit' })
     .where({...param })
     .where('start_date', '>=', start)
     .where('start_date', '<=', end)
+    .where({status: 'Closed'})
+    .orWhere({status: 'Active'})
     .then((res) => res[0]);
 };
 
 const getCompletedTransactions = (param, start, end) => {
   return knex('transactions')
-    .whereNot({ transaction_type: 'Deposit' })
     .where({...param })
     .where('start_date', '>=', start)
     .where('start_date', '<=', end)
+    .where({status: 'Closed'})
+    .orWhere({status: 'Active'})
     .then((res) => res);
 };
 
