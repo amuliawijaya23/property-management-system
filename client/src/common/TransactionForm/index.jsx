@@ -249,11 +249,13 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 									</Grid>
 								</Grid>
 							)}
-							<Grid item xs={6}>
-								<Typography variant='caption' component='div'>
-									Listing: <b>LIST-{listingId}</b>
-								</Typography>
-							</Grid>
+							{listingId && (
+								<Grid item xs={6}>
+									<Typography variant='caption' component='div'>
+										Listing: <b>LIST-{listingId}</b>
+									</Typography>
+								</Grid>
+							)}
 							<Grid item xs={6}>
 								<Typography variant='caption' component='div'>
 									Type: <b>{transaction?.transaction_type}</b>

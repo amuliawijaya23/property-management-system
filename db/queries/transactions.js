@@ -45,8 +45,7 @@ const getCompletedSumCount = (param, start, end) => {
     .where({...param })
     .where('start_date', '>=', start)
     .where('start_date', '<=', end)
-    .where({status: 'Closed'})
-    .orWhere({status: 'Active'})
+    .whereIn('status', ['Closed', 'Active'])
     .then((res) => res[0]);
 };
 
@@ -55,8 +54,7 @@ const getCompletedTransactions = (param, start, end) => {
     .where({...param })
     .where('start_date', '>=', start)
     .where('start_date', '<=', end)
-    .where({status: 'Closed'})
-    .orWhere({status: 'Active'})
+    .whereIn('status', ['Closed', 'Active'])
     .then((res) => res);
 };
 

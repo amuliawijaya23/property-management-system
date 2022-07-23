@@ -5,7 +5,6 @@ import { Line, Bar } from 'react-chartjs-2';
 
 import useVisualMode from '../../../hooks/useVisualMode';
 import { LINE, BAR } from '../../../helpers/modes';
-import { grid } from '@mui/system';
 
 ChartJS.register(...registerables, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -18,7 +17,7 @@ export const TransactionGraph = () => {
 	const pastSalesData = dashboard?.graph?.pastSales?.map((d) => parseInt(d.sum));
 	const pastLeasesData = dashboard?.graph?.leases?.map((d) => parseInt(d.sum));
 
-	const { mode, transition } = useVisualMode(LINE);
+	const { mode, transition } = useVisualMode(BAR);
 
 	const clickHandler = () => {
 		mode === BAR ? transition(LINE) : transition(BAR);

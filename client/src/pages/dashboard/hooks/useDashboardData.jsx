@@ -35,16 +35,15 @@ export const useDashboardData = () => {
 
 	const getStream = useCallback(async () => {
 		const data = {
-			agent_id: dashboard?.user,
-			organization_id: user?.org_id
+			agent_id: dashboard?.user
 		};
 
 		try {
 			const [totalSale, pastTotalSales, totalLeases, pastTotalLeases] = await Promise.all([
-				axios.post(`/api/transactions/data`, { ...range, ...data, transaction_type: 'Sale' }),
-				axios.post(`/api/transactions/data`, { ...pastRange, ...data, transaction_type: 'Sale' }),
-				axios.post(`/api/transactions/data`, { ...range, ...data, transaction_type: 'Lease' }),
-				axios.post(`/api/transactions/data`, { ...pastRange, ...data, transaction_type: 'Lease' })
+				axios.post(`/api/transactions/data`, { ...range, ...data, agent_id: dashboard?.user, organization_id: user?.org_id, transaction_type: 'Sale' }),
+				axios.post(`/api/transactions/data`, { ...pastRange, ...data, agent_id: dashboard?.user, organization_id: user?.org_id, transaction_type: 'Sale' }),
+				axios.post(`/api/transactions/data`, { ...range, ...data, agent_id: dashboard?.user, organization_id: user?.org_id, transaction_type: 'Lease' }),
+				axios.post(`/api/transactions/data`, { ...pastRange, ...data, agent_id: dashboard?.user, organization_id: user?.org_id, transaction_type: 'Lease' })
 			]);
 
 			const sales = parseInt(totalSale?.data?.sum);
@@ -102,8 +101,7 @@ export const useDashboardData = () => {
 
 	const getGraphData = useCallback(async () => {
 		const data = {
-			agent_id: dashboard?.user,
-			organization_id: user?.org_id
+			agent_id: dashboard?.user
 		};
 
 		try {
@@ -146,13 +144,17 @@ export const useDashboardData = () => {
 			});
 
 			const allTransactions = await axios.post(`/api/transactions/data`, { ...range, organization_id: user?.org_id, status: 'Closed' });
-			const sales = await (await Promise.all(months.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, transaction_type: 'Sale' })))).map((transaction) => transaction.data);
-			const leases = await (await Promise.all(months.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, transaction_type: 'Lease' })))).map((transaction) => transaction.data);
+			const sales = await (
+				await Promise.all(months.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, organization_id: user?.org_id, transaction_type: 'Sale' })))
+			).map((transaction) => transaction.data);
+			const leases = await (
+				await Promise.all(months.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, organization_id: user?.org_id, transaction_type: 'Lease' })))
+			).map((transaction) => transaction.data);
 			const pastSales = await (
-				await Promise.all(pastMonths.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, transaction_type: 'Sale' })))
+				await Promise.all(pastMonths.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, organization_id: user?.org_id, transaction_type: 'Sale' })))
 			).map((transaction) => transaction.data);
 			const pastLeases = await (
-				await Promise.all(pastMonths.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, transaction_type: 'Lease' })))
+				await Promise.all(pastMonths.map((month) => axios.post(`/api/transactions/data`, { ...month, ...data, organization_id: user?.org_id, transaction_type: 'Lease' })))
 			).map((transaction) => transaction.data);
 
 			const label = months.map((month, i) => (i === 0 ? format(new Date(month.start), 'P') : format(new Date(month.end), 'P')));
