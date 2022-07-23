@@ -19,39 +19,49 @@ import useApplicationData from './hooks/useApplicationData';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const customTheme = createTheme({
+	palette: {
+		type: 'dark'
+	}
+});
+
 export default function App() {
 	const { isLoading, error, loginWithRedirect, logout, isAuthenticated } = useApplicationData();
 
 	return (
 		<Router>
-			<Box>
-				<CssBaseline />
-				{isLoading && <Loading />}
-				{!isLoading && (
-					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-						{isAuthenticated && (
-							<>
-								<Navigation logout={logout} />
+			<ThemeProvider theme={customTheme}>
+				<Box>
+					<CssBaseline />
+					{isLoading && <Loading />}
+					{!isLoading && (
+						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							{isAuthenticated && (
+								<>
+									<Navigation logout={logout} />
+									<Routes>
+										<Route path='/' element={<Dashboard />} />
+										<Route path='/properties' element={<Properties />} />
+										<Route path='/tasks' element={<Tasks />} />
+										<Route path='/contacts' element={<Contacts />} />
+										<Route path='/property/:id' element={<Property />} />
+										<Route path='/outreach' element={<Outreach />} />
+										<Route path='/transactions' element={<Transactions />} />
+										<Route path='*' element={<PageNotFound error={error} />} />
+									</Routes>
+								</>
+							)}
+							{!isAuthenticated && (
 								<Routes>
-									<Route path='/' element={<Dashboard />} />
-									<Route path='/properties' element={<Properties />} />
-									<Route path='/tasks' element={<Tasks />} />
-									<Route path='/contacts' element={<Contacts />} />
-									<Route path='/property/:id' element={<Property />} />
-									<Route path='/outreach' element={<Outreach />} />
-									<Route path='/transactions' element={<Transactions />} />
-									<Route path='*' element={<PageNotFound error={error} />} />
+									<Route path='/' element={<Home login={loginWithRedirect} />} />
 								</Routes>
-							</>
-						)}
-						{!isAuthenticated && (
-							<Routes>
-								<Route path='/' element={<Home login={loginWithRedirect} />} />
-							</Routes>
-						)}
-					</Box>
-				)}
-			</Box>
+							)}
+						</Box>
+					)}
+				</Box>
+			</ThemeProvider>
 		</Router>
 	);
 }

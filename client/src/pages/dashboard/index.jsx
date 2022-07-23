@@ -42,13 +42,10 @@ export default function Dashboard() {
 					<Grid item lg={8} md={12} xl={9} xs={12}>
 						<TransactionGraph />
 					</Grid>
-					<Grid item xs={12} md={4}>
-						<AllTransactions sx={{ height: '100%' }} />
-					</Grid>
-					<Grid item xs={12} md={4}>
+					<Grid item xs={12} md={6}>
 						<TransactionsBySale sx={{ height: '100%' }} />
 					</Grid>
-					<Grid item xs={12} md={4}>
+					<Grid item xs={12} md={6}>
 						<TransactionsByLease sx={{ height: '100%' }} />
 					</Grid>
 				</Grid>

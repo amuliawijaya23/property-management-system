@@ -10,7 +10,7 @@ export default function TransactionRow({ row, labelId, handleOpen }) {
 			case 'Open':
 				return 'primary';
 
-			case 'Pending Confirmation':
+			case 'Pending':
 				return 'warning';
 
 			case 'Active':

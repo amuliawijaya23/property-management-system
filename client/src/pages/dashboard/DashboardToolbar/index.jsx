@@ -34,17 +34,17 @@ export const DashboardToolbar = () => {
 					</CardActions>
 				</Grid>
 				<Grid item container alignItems='center'>
-					<Grid item xs={4.5} sx={{ px: 2 }}>
+					<Grid item xs={3} sx={{ px: 2 }}>
 						<LocalizationProvider dateAdapter={AdapterDateFns}>
 							<DesktopDatePicker label='Start' inputFormat='MM/dd/yyyy' value={range?.start} onChange={setStart} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
 						</LocalizationProvider>
 					</Grid>
-					<Grid item xs={4.5} sx={{ px: 2 }}>
+					<Grid item xs={3} sx={{ px: 2 }}>
 						<LocalizationProvider dateAdapter={AdapterDateFns}>
 							<DesktopDatePicker label='End' inputFormat='MM/dd/yyyy' value={range?.end} onChange={setEnd} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
 						</LocalizationProvider>
 					</Grid>
-					<Grid item xs={3} sx={{ px: 1 }}>
+					<Grid item xs={6} sx={{ px: 1 }}>
 						<FormControl margin='dense'>
 							<InputLabel id='select-label'>Past Data</InputLabel>
 							<Select variant='standard' labelId='select-label' value={distance} label='Past Data' onChange={selectDistance} sx={{ minWidth: 100 }}>

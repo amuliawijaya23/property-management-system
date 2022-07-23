@@ -5,13 +5,18 @@ import { Line, Bar } from 'react-chartjs-2';
 
 import useVisualMode from '../../../hooks/useVisualMode';
 import { LINE, BAR } from '../../../helpers/modes';
+import { grid } from '@mui/system';
 
 ChartJS.register(...registerables, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export const TransactionGraph = () => {
 	const dashboard = useSelector((state) => state.dashboard.value);
-	const currentData = dashboard?.graph?.current?.map((d) => parseInt(d.sum));
-	const pastData = dashboard?.graph?.past?.map((d) => parseInt(d.sum));
+
+	const salesData = dashboard?.graph?.sales?.map((d) => parseInt(d.sum));
+	const leaseData = dashboard?.graph?.leases?.map((d) => parseInt(d.sum));
+
+	const pastSalesData = dashboard?.graph?.pastSales?.map((d) => parseInt(d.sum));
+	const pastLeasesData = dashboard?.graph?.leases?.map((d) => parseInt(d.sum));
 
 	const { mode, transition } = useVisualMode(LINE);
 
@@ -21,30 +26,17 @@ export const TransactionGraph = () => {
 
 	const options = {
 		responsive: true,
+		maintainAspectRatio: false,
 		interaction: {
 			mode: 'index',
 			intersect: false
 		},
 		stacked: false,
-		plugins: {
-			title: {
-				display: true,
-				text: 'Chart.js Line Chart - Multi Axis'
-			}
-		},
 		scales: {
 			y: {
 				type: 'linear',
 				display: true,
 				position: 'left'
-			},
-			y1: {
-				type: 'linear',
-				display: true,
-				position: 'right',
-				grid: {
-					drawOnChartArea: false
-				}
 			}
 		}
 	};
@@ -54,44 +46,66 @@ export const TransactionGraph = () => {
 		labels,
 		datasets: [
 			{
-				label: 'Current',
+				label: 'Sale',
 				barPercentage: 0.5,
 				barThickness: 12,
 				borderRadius: 4,
 				categoryPercentage: 0.5,
 				maxBarThickness: 10,
-				data: [...currentData],
+				data: salesData,
 				borderColor: '#2196f3',
 				backgroundColor: '#2196f3',
 				yAxisID: 'y'
 			},
 			{
-				label: 'Past',
+				label: 'Lease',
 				barPercentage: 0.5,
 				barThickness: 12,
 				borderRadius: 4,
 				categoryPercentage: 0.5,
 				maxBarThickness: 10,
-				data: [...pastData],
+				data: leaseData,
 				borderColor: '#607d8b',
 				backgroundColor: '#607d8b',
-				yAxisID: 'y1'
+				yAxisID: 'y'
+			},
+			{
+				label: 'Past Sales',
+				barPercentage: 0.5,
+				barThickness: 12,
+				borderRadius: 4,
+				categoryPercentage: 0.5,
+				maxBarThickness: 10,
+				data: pastSalesData,
+				borderColor: '#2196f3',
+				backgroundColor: '#219600',
+				hidden: true,
+				yAxisID: 'y'
+			},
+			{
+				label: 'Past Leases',
+				barPercentage: 0.5,
+				barThickness: 12,
+				borderRadius: 4,
+				categoryPercentage: 0.5,
+				maxBarThickness: 10,
+				data: pastLeasesData,
+				borderColor: '#607d8b',
+				backgroundColor: '#607d00',
+				hidden: true,
+				yAxisID: 'y'
 			}
 		]
 	};
 
 	return (
-		<Card>
+		<Card sx={{ height: '100%' }}>
 			<CardHeader title='Transactions By Date' titleTypographyProps={{ variant: 'captions' }} action={<Button onClick={clickHandler}>{mode === BAR ? 'LINE' : 'BAR'}</Button>} />
 			<Divider />
 			<CardContent>
-				<Box
-					sx={{
-						height: 500,
-						position: 'relative'
-					}}>
-					{mode === BAR && <Bar data={data} options={options} />}
-					{mode === LINE && <Line options={options} data={data} />}
+				<Box>
+					{mode === BAR && <Bar data={data} options={options} style={{ minHeight: 400 }} />}
+					{mode === LINE && <Line options={options} data={data} style={{ minHeight: 400 }} />}
 				</Box>
 			</CardContent>
 		</Card>
