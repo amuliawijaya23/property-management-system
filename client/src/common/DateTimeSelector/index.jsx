@@ -5,7 +5,9 @@ import TextField from '@mui/material/TextField';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 
 export default function DateTimeSelector(props) {
-	const { form, setDate, type } = props;
+	const { form, setDate, type, error } = props;
+
+	const isError = error ? error : false;
 
 	const handleChange = (newValue) => {
 		setDate(newValue);
@@ -22,7 +24,16 @@ export default function DateTimeSelector(props) {
 				onChange={handleChange}
 				disablePast={false}
 				renderInput={(params) => (
-					<TextField {...params} sx={{ mt: 2 }} fullWidth margin='dense' size='small' variant='standard' helperText={`${formatDistanceToNowStrict(new Date(form[type]), { addSuffix: true })}`} />
+					<TextField
+						{...params}
+						sx={{ mt: 2 }}
+						fullWidth
+						margin='dense'
+						size='small'
+						variant='standard'
+						error={isError}
+						helperText={`${formatDistanceToNowStrict(new Date(form[type]), { addSuffix: true })}`}
+					/>
 				)}
 			/>
 		</LocalizationProvider>

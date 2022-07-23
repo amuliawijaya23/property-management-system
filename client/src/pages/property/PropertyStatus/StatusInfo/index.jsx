@@ -14,6 +14,7 @@ const style = {
 };
 
 export default function StatusInfo({ open, step, onClose }) {
+	const fileType = step?.data?.name?.split('.')[step?.data?.name.split('.').length - 1];
 	const fileIcon = (input) => {
 		switch (input) {
 			case 'xlsx' || 'xls' || 'xlsm':
@@ -56,9 +57,12 @@ export default function StatusInfo({ open, step, onClose }) {
 									<a href={step?.download}>
 										<ListItem button>
 											<ListItemAvatar>
-												<Avatar src={fileIcon(step?.data?.name?.split('.')[step?.data?.name.split('.').length - 1])} alt='agent' sx={{ py: 0.5, px: 0.5 }} />
+												<Avatar src={fileIcon(fileType)} alt='agent' sx={{ py: 0.5, px: 0.5 }} />
 											</ListItemAvatar>
-											<ListItemText primary={step?.data?.name} secondary={`Updated ${formatDistanceToNowStrict(new Date(step?.data?.updated_at), { addSuffix: true })}`} />
+											<ListItemText
+												primary={step?.data?.name.length < 15 ? step?.data?.name : `${step?.data?.name.slice(0, 15)}...${fileType}`}
+												secondary={`Updated ${formatDistanceToNowStrict(new Date(step?.data?.updated_at), { addSuffix: true })}`}
+											/>
 										</ListItem>
 									</a>
 								</List>

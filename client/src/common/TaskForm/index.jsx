@@ -27,6 +27,7 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 	const initialMode = task?.id ? false : true;
 	const [edit, setEdit] = useState(initialMode);
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
+	const error = alert?.open;
 
 	const handleClickEdit = () => {
 		edit ? setEdit(false) : setEdit(true);
@@ -47,9 +48,14 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 		Object.keys(form)
 			.slice(0, 4)
 			.forEach((key) => {
+				const fieldName = key[0].toUpperCase() + key.split('_').join(' ').substring(1);
 				if (!form[key]) {
 					valid = false;
-					setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
+					setAlert({ ...alert, open: true, message: `${fieldName} is Required` });
+				}
+				if (typeof form[key] === 'string' && key !== 'notes' && form[key].length > 255) {
+					valid = false;
+					setAlert({ ...alert, open: true, message: `${fieldName} exceeds character limit` });
 				}
 			});
 
@@ -74,7 +80,7 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 						<Grid item xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Summary</InputLabel>
-								<Input value={form.summary} onChange={(event) => setInput(event, 'summary')} />
+								<Input error={error && !form?.summary} value={form.summary} onChange={(event) => setInput(event, 'summary')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12} sx={{ mt: 2 }}>
@@ -90,7 +96,7 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 								}}
 								options={app?.agents?.filter((agent) => agent?.user_id !== task?.agent_id).map((option) => option?.name)}
 								freeSolo
-								renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
+								renderInput={(params) => <TextField {...params} variant='standard' error={error && !form.agent_id} label='Agents' placeholder='Search Agents' />}
 							/>
 						</Grid>
 						<Grid item xs={12} md={6}>
@@ -112,7 +118,16 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 							</TextField>
 						</Grid>
 						<Grid item xs={12} md={6}>
-							<TextField variant='standard' select label='Category' size='small' fullWidth margin='normal' value={form.category} onChange={(event) => setInput(event, 'category')}>
+							<TextField
+								variant='standard'
+								error={error && !form?.category}
+								select
+								label='Category'
+								size='small'
+								fullWidth
+								margin='normal'
+								value={form.category}
+								onChange={(event) => setInput(event, 'category')}>
 								{['Open House', 'Inspection', 'Call', 'Follow Up', 'Meeting', 'Adhoc'].map((type) => (
 									<MenuItem key={`task-form-type-${type}`} value={type}>
 										{type}
@@ -121,7 +136,16 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 							</TextField>
 						</Grid>
 						<Grid item xs={12} md={6}>
-							<TextField variant='standard' select label='Status' size='small' fullWidth margin='normal' value={form.status} onChange={(event) => setInput(event, 'status')}>
+							<TextField
+								variant='standard'
+								error={error && !form?.status}
+								select
+								label='Status'
+								size='small'
+								fullWidth
+								margin='normal'
+								value={form?.status}
+								onChange={(event) => setInput(event, 'status')}>
 								{['Blocked', 'Open', 'Completed', 'Closed', 'Canceled'].map((type) => (
 									<MenuItem key={`task-form-type-${type}`} value={type}>
 										{type}
@@ -130,7 +154,7 @@ export default function TaskForm({ open, onClose, listingId, task, alert, setAle
 							</TextField>
 						</Grid>
 						<Grid item xs={12} md={6}>
-							<DateTimeSelector form={form} setDate={setDueDate} type={'due_date'} />
+							<DateTimeSelector error={error && !form?.due_date} form={form} setDate={setDueDate} type={'due_date'} />
 						</Grid>
 						<Grid item xs={12}>
 							<FormControl variant='standard' fullWidth>

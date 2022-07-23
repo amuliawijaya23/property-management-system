@@ -27,6 +27,8 @@ export default function ContactForm({ open, onClose, contact, alert, setAlert, s
 	const [edit, setEdit] = useState(initialMode);
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
 
+	const error = alert?.open;
+
 	const handleClickEdit = () => {
 		edit ? setEdit(false) : setEdit(true);
 	};
@@ -44,11 +46,21 @@ export default function ContactForm({ open, onClose, contact, alert, setAlert, s
 		let valid = true;
 
 		Object.keys(form)
-			.slice(0, 3)
+			.slice(0, 4)
 			.forEach((key) => {
+				const fieldName = key[0].toUpperCase() + key.split('_').join(' ').substring(1);
 				if (!form[key]) {
 					valid = false;
-					setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
+					setAlert({ ...alert, open: true, message: `${fieldName} is Required` });
+				}
+				if (typeof form[key] === 'number' && form[key]?.toString()?.length !== 10) {
+					valid = false;
+					setAlert({ ...alert, open: true, message: `${fieldName} is not valid!` });
+				}
+
+				if (typeof form[key] === 'string' && key !== 'notes' && form[key].length > 255) {
+					valid = false;
+					setAlert({ ...alert, open: true, message: `${fieldName} exceeds character limit` });
 				}
 			});
 
@@ -83,25 +95,25 @@ export default function ContactForm({ open, onClose, contact, alert, setAlert, s
 								}}
 								options={app?.agents?.filter((agent) => agent?.user_id !== contact?.agent_id).map((option) => option?.name)}
 								freeSolo
-								renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
+								renderInput={(params) => <TextField {...params} variant='standard' error={error && !form?.agent_id} label='Agents' placeholder='Search Agents' />}
 							/>
 						</Grid>
 						<Grid item xs={6}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>First Name</InputLabel>
-								<Input value={form.first_name} onChange={(event) => setInput(event, 'first_name')} />
+								<Input value={form.first_name} error={error && !form?.first_name} onChange={(event) => setInput(event, 'first_name')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Last Name</InputLabel>
-								<Input value={form.last_name} onChange={(event) => setInput(event, 'last_name')} />
+								<Input value={form.last_name} error={error && !form?.last_name} onChange={(event) => setInput(event, 'last_name')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Email</InputLabel>
-								<Input value={form.email} onChange={(event) => setInput(event, 'email')} />
+								<Input value={form.email} error={error && !form?.email} onChange={(event) => setInput(event, 'email')} />
 							</FormControl>
 						</Grid>
 						<Grid item xs={12} sx={{ mt: 3 }}>

@@ -12,6 +12,15 @@ export default function usePropertyStatus() {
 		}
 	};
 
+	// const getListingDeposit = async () => {
+	// 	try {
+	// 		const result = await axios.get(`/api/transactions/deposit/${property?.details?.id}`);
+	// 		return result.data;
+	// 	} catch (error) {
+	// 		console.error(error.response ? error.response.body : error);
+	// 	}
+	// };
+
 	return {
 		getListingOffer
 	};

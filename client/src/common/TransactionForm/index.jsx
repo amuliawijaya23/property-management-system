@@ -23,11 +23,14 @@ const style = {
 
 export default function TransactionForm({ open, listingId, transaction, onClose, setAlert, alert, setTransaction }) {
 	const app = useSelector((state) => state.app.value);
+	const property = useSelector((state) => state.property.value);
 	const { form, setStartDate, setEndDate, handleCloseReset, setValue, setInput, updateTransaction, createTransaction } = useTransactionsForm(transaction);
 	const initialMode = transaction?.id ? false : true;
 	const [edit, setEdit] = useState(initialMode);
 
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
+
+	const error = alert?.open;
 
 	const handleClickEdit = () => {
 		edit ? setEdit(false) : setEdit(true);
@@ -48,11 +51,28 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 		Object.keys(form)
 			.slice(0, 5)
 			.forEach((key) => {
+				const fieldName = key[0].toUpperCase() + key.split('_').join(' ').substring(1);
 				if (!form[key]) {
 					valid = false;
-					setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
+					setAlert({ ...alert, open: true, message: `${fieldName} is Required` });
+				}
+				if (typeof form[key] === 'number' && form[key] < 1) {
+					valid = false;
+					setAlert({ ...alert, open: true, message: `${fieldName} cannot be less than 1` });
+				}
+
+				if (typeof form[key] === 'string' && key !== 'notes' && form[key].length > 255) {
+					valid = false;
+					setAlert({ ...alert, open: true, message: `${fieldName} exceeds character limit` });
 				}
 			});
+
+		if (listingId && !transaction?.id && form?.transaction_type === 'Deposit') {
+			if (property?.transactions?.filter((t) => t?.status !== 'Closed' && t?.status !== 'Canceled').length > 0) {
+				valid = false;
+				setAlert({ ...alert, open: true, message: `Please Close or Cancel all existing deposits to continue!` });
+			}
+		}
 
 		if (valid && transaction?.id) {
 			updateTransaction({ ...form });
@@ -83,7 +103,7 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 									}}
 									options={app?.agents?.filter((agent) => agent?.user_id !== transaction?.agent_id).map((option) => option?.name)}
 									freeSolo
-									renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
+									renderInput={(params) => <TextField error={error && !form?.agent_id} {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
 								/>
 							</Grid>
 							<Grid item xs={6}>
@@ -92,6 +112,7 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 									variant='standard'
 									select
 									label='Listing'
+									error={error && !form?.listing_id}
 									size='small'
 									fullWidth
 									margin='normal'
@@ -117,6 +138,7 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 							<Grid item xs={12}>
 								<TextField
 									variant='standard'
+									error={error && !form?.transaction_type}
 									select
 									label='Transaction'
 									size='small'
@@ -138,24 +160,23 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 										inputFormat='MM/dd/yyyy'
 										value={form?.start_date}
 										onChange={setStartDate}
-										renderInput={(params) => <TextField variant='standard' {...params} fullWidth />}
+										renderInput={(params) => <TextField error={error && !form?.start_date} variant='standard' {...params} fullWidth />}
 									/>
 								</LocalizationProvider>
 							</Grid>
-							{form?.transaction_type === 'Lease' ||
-								(form?.transaction_type === 'Deposit' && (
-									<Grid item xs={12}>
-										<LocalizationProvider dateAdapter={AdapterDateFns}>
-											<DesktopDatePicker
-												label='End Date'
-												inputFormat='MM/dd/yyyy'
-												value={form?.end_date}
-												onChange={setEndDate}
-												renderInput={(params) => <TextField variant='standard' {...params} fullWidth />}
-											/>
-										</LocalizationProvider>
-									</Grid>
-								))}
+							{(form?.transaction_type === 'Lease' || form?.transaction_type) === 'Deposit' && (
+								<Grid item xs={12}>
+									<LocalizationProvider dateAdapter={AdapterDateFns}>
+										<DesktopDatePicker
+											label='End Date'
+											inputFormat='MM/dd/yyyy'
+											value={form?.end_date}
+											onChange={setEndDate}
+											renderInput={(params) => <TextField variant='standard' {...params} fullWidth />}
+										/>
+									</LocalizationProvider>
+								</Grid>
+							)}
 							<Grid item xs={12}>
 								<FormControl variant='standard' fullWidth>
 									<InputLabel>Amount</InputLabel>
@@ -164,6 +185,7 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 										value={form?.transaction_value}
 										customInput={Input}
 										variant='standard'
+										error={error && !form?.transaction_value}
 										thousandSeparator={','}
 										decimalSeparator={'.'}
 										decimalScale={2}
@@ -296,12 +318,14 @@ export default function TransactionForm({ open, listingId, transaction, onClose,
 								</Box>
 							</Grid>
 							<Grid item xs={12} sx={{ mt: 2 }}>
-								<Typography variant='caption' component='div'>
-									Notes:
-								</Typography>
-								<Typography variant='caption' component='div'>
-									{transaction?.notes}
-								</Typography>
+								<Box overflow='auto' sx={{ maxWidth: 400 }}>
+									<Typography variant='caption' component='div'>
+										Notes:
+									</Typography>
+									<Typography variant='caption' component='div'>
+										{transaction?.notes}
+									</Typography>
+								</Box>
 							</Grid>
 						</Grid>
 					)}

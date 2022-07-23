@@ -28,6 +28,13 @@ const getListingTransactions = (id) => {
     .catch((e) => console.log(e.message));
 };
 
+const getListingDeposit = (id) => {
+  return knex('transactions')
+    .where({ listing_id: id, transaction_type: 'Deposit', status: 'Active'})
+    .then((res) => res[0])
+    .catch((e) => console.log(e.message));
+};
+
 // update given transaction
 
 const updateTransaction = (transaction) => {
@@ -95,6 +102,7 @@ module.exports =  {
   createTransactions,
   updateTransaction,
   getListingTransactions,
+  getListingDeposit,
   getCompletedTransactions,
   getCompletedSumCount,
   searchTransactions

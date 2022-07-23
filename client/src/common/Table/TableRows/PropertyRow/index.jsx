@@ -27,7 +27,7 @@ export default function PropertyRow({ row, labelId }) {
 				return 'success';
 
 			case 'Contract Active':
-				return 'sucess';
+				return 'success';
 
 			case 'Contract Canceled':
 				return 'error';

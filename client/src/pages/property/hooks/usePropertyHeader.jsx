@@ -52,7 +52,7 @@ export default function usePropertyHeader() {
 	};
 
 	const archiveOffer = async () => {
-		const offer = property?.files?.find((f) => f?.is_offer && f?.is_archived);
+		const offer = property?.files?.find((f) => f?.is_offer && !f?.is_archived);
 		if (offer) {
 			const archivedOffer = { ...offer, is_archived: true };
 			const files = await axios.put('/files/archive', archivedOffer);
@@ -61,25 +61,25 @@ export default function usePropertyHeader() {
 	};
 
 	const updateHandler = (e, input) => {
+		const statusReq = property?.details?.service_type === 'Sale' ? 'Closed' : 'Active';
 		switch (input) {
 			case 'Offer Accepted':
-				if (!property?.files?.find((f) => f?.is_offer && !f?.is_archived)) {
+				if (property?.files?.find((f) => f?.is_offer && !f?.is_archived)) {
+					updateStatus('Offer Accepted');
+					setSeverity('success');
+					setAlert('Offer Accepted!');
+					setOpenAlert(true);
+				} else {
 					setAlert('Please upload the accepted offer to proceed.');
 					setSeverity('error');
 					setOpenAlert(true);
 					let newState = { ...close };
 					newState.offer = e?.currentTarget;
 					setState({ ...newState });
-				} else {
-					updateStatus('Offer Accepted');
-					setSeverity('success');
-					setAlert('Offer Accepted!');
-					setOpenAlert(true);
 				}
 				break;
 
 			case 'Deposit Received':
-				const statusReq = property?.details?.service_type === 'Sale' ? 'Closed' : 'Active';
 				if (property?.transactions?.find((t) => t?.transaction_type === 'Deposit' && t?.status === statusReq)) {
 					updateStatus('Deposit Received');
 					setSeverity('success');
@@ -88,6 +88,38 @@ export default function usePropertyHeader() {
 				} else {
 					setSeverity('error');
 					setAlert(`No ${statusReq} Deposit Found! Either create one or update an existing transaction to proceed.`);
+					setOpenAlert(true);
+					let newState = { ...close };
+					newState.transaction = e?.currentTarget;
+					setState({ ...newState });
+				}
+				break;
+
+			case 'Closed':
+				if (property?.transactions?.find((t) => t?.transaction_type === property?.details?.service_type && t?.status === 'Closed')) {
+					updateStatus('Closed');
+					setSeverity('success');
+					setAlert('Listing Closed!');
+					setOpenAlert(true);
+				} else {
+					setSeverity('error');
+					setAlert(`No ${statusReq} ${property?.details?.service_type} Found! Either create one or update an existing transaction to proceed.`);
+					setOpenAlert(true);
+					let newState = { ...close };
+					newState.transaction = e?.currentTarget;
+					setState({ ...newState });
+				}
+				break;
+
+			case 'Contract Active':
+				if (property?.transactions?.find((t) => t?.transaction_type === property?.details?.service_type && t?.status === 'Active')) {
+					updateStatus('Contract Active');
+					setSeverity('success');
+					setAlert('Contract Active!!');
+					setOpenAlert(true);
+				} else {
+					setSeverity('error');
+					setAlert(`No ${statusReq} ${property?.details?.service_type} Found! Either create one or update an existing transaction to proceed.`);
 					setOpenAlert(true);
 					let newState = { ...close };
 					newState.transaction = e?.currentTarget;

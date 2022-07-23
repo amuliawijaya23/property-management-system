@@ -3,12 +3,18 @@ require('dotenv').config({path: '../.env'});
 const express = require('express');
 const router = express.Router();
 
-const { getTransactions, updateTransaction, createTransactions, getListingTransactions, getCompletedTransactions, getCompletedSumCount, searchTransactions } = require('../../db/queries/transactions');
+const { getTransactions, updateTransaction, createTransactions, getListingTransactions, getCompletedTransactions, getCompletedSumCount, searchTransactions, getListingDeposit } = require('../../db/queries/transactions');
 
 router.get('/transactions/listing/:id', async(req, res) => {
   const id = req.params.id;
   const transactions = await getListingTransactions(id);
   res.send(transactions);
+});
+
+router.get('/transactions/deposit/:id', async(req, res) => {
+  const id = req.params.id;
+  const transaction = await getListingDeposit(id);
+  res.send(transaction);
 });
 
 router.post('/transactions', async(req, res) => {

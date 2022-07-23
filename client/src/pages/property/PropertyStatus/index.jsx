@@ -34,7 +34,7 @@ export default function PropertyStatus() {
 
 	const [open, setOpen] = useState(false);
 	const [step, setStep] = useState({
-		data: {},
+		data: null,
 		step: '',
 		download: ''
 	});
@@ -49,12 +49,21 @@ export default function PropertyStatus() {
 		});
 	};
 
+	// const onDepositReceived = async () => {
+	// 	const response = await getListingDeposit();
+	// 	setStep({
+	// 		data: response,
+	// 		step: 'Deposit Received',
+	// 		download: ''
+	// 	});
+	// };
+
 	const onStepSelect = async (step) => {
 		const status = property?.details?.status;
 		const statusIndex = steps?.indexOf(status);
 		const index = steps.indexOf(step);
 
-		if (statusIndex >= index) {
+		if (statusIndex >= index && index !== 0) {
 			switch (step) {
 				case 'Offer Accepted':
 					onOfferAccepted();
@@ -87,9 +96,15 @@ export default function PropertyStatus() {
 						if (i === status && i === 0) {
 							return {
 								icon: inProgress,
+								color: '#bdbdbd'
+							};
+						} else if (i === status && i === 4) {
+							return {
+								icon: label === 'Contract Active' ? inProgress : Done,
 								color: '#4caf50'
 							};
 						}
+
 						if (i === status) {
 							return {
 								icon: inProgress,
