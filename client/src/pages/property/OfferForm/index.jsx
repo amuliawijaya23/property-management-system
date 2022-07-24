@@ -53,7 +53,7 @@ export default function OfferForm({ onClose, open, setAlert, setOpenAlert, setSe
 
 	return (
 		<Dialog onClose={onCancel} open={open}>
-			<Grid container justifyContent='center' alignItems='center' sx={{ maxWidth: 400 }}>
+			<Grid container justifyContent='center' alignItems='center' sx={{ width: 400 }}>
 				<Grid item xs={12} textAlign='start' sx={{ px: 1, py: 0.5 }}>
 					<Typography textAlign='center' variant='body1'>
 						{offer ? 'Do you want to use this file as offer?' : 'Browse or drop the offer below.'}

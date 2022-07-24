@@ -1,5 +1,5 @@
 import { Grid, Box, Paper, Typography, Alert, ImageList, ImageListItem } from '@mui/material';
-export default function PageNotFound(props) {
+export default function PageNotFound() {
 	return (
 		<Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<Grid containersx={{ mt: 2 }}>

@@ -17,7 +17,7 @@ const initialState = {
 	subject: ''
 };
 
-export default function Outreach(props) {
+export default function Outreach() {
 	const user = useSelector((state) => state.user.value);
 	const app = useSelector((state) => state.app.value);
 

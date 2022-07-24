@@ -9,6 +9,11 @@ const TRANSACTIONS = 'TRANSACTIONS';
 const LINE = 'LINE';
 const BAR = 'BAR';
 
+// Dashboard Transactions Mode
+const SALE = 'SALE';
+const LEASE = 'LEASE';
+
+
 // Form Modes
 const FORM = 'FORM';
 const SHOW = 'SHOW';
@@ -23,5 +28,7 @@ export {
   LINE,
   BAR,
   FORM,
-  SHOW
+  SHOW,
+  SALE,
+  LEASE
 };

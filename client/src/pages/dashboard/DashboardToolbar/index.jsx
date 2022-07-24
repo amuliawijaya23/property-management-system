@@ -1,4 +1,4 @@
-import { Grid, Card, CardActions, CardHeader, FormControl, Select, InputLabel, MenuItem, TextField } from '@mui/material/';
+import { Grid, Card, CardActions, CardHeader, FormControl, Select, InputLabel, MenuItem, TextField, Button } from '@mui/material/';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -7,8 +7,9 @@ import SelectAgent from '../../../common/SelectAgent';
 import { useSelector } from 'react-redux';
 
 import { useDashboardData } from '../hooks/useDashboardData';
+import { TRANSACTIONS, TASKS } from '../../../helpers/modes';
 
-export const DashboardToolbar = () => {
+export const DashboardToolbar = ({ mode, modeHandler }) => {
 	const { range, distance, selectDistance, setStart, setEnd, selectAgent } = useDashboardData();
 	const app = useSelector((state) => state.app.value);
 	const dashboard = useSelector((state) => state.dashboard.value);
@@ -19,8 +20,7 @@ export const DashboardToolbar = () => {
 			<Grid container>
 				<Grid item xs={12}>
 					<CardActions>
-						{/* <Button>Transactions</Button> */}
-						{/* <Button>Agile Board</Button> */}
+						<Button onClick={modeHandler}>{mode === TRANSACTIONS ? 'Agile Board' : 'Transactions'}</Button>
 					</CardActions>
 				</Grid>
 				<Grid item xs={12}>
@@ -33,30 +33,32 @@ export const DashboardToolbar = () => {
 						))}
 					</CardActions>
 				</Grid>
-				<Grid item container alignItems='center'>
-					<Grid item xs={3} sx={{ px: 2 }}>
-						<LocalizationProvider dateAdapter={AdapterDateFns}>
-							<DesktopDatePicker label='Start' inputFormat='MM/dd/yyyy' value={range?.start} onChange={setStart} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
-						</LocalizationProvider>
+				{mode === TRANSACTIONS && (
+					<Grid item container alignItems='center'>
+						<Grid item xs={3} sx={{ px: 2 }}>
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<DesktopDatePicker label='Start' inputFormat='MM/dd/yyyy' value={range?.start} onChange={setStart} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
+							</LocalizationProvider>
+						</Grid>
+						<Grid item xs={3} sx={{ px: 2 }}>
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<DesktopDatePicker label='End' inputFormat='MM/dd/yyyy' value={range?.end} onChange={setEnd} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
+							</LocalizationProvider>
+						</Grid>
+						<Grid item xs={6} sx={{ px: 1 }}>
+							<FormControl margin='dense'>
+								<InputLabel id='select-label'>Past Data</InputLabel>
+								<Select variant='standard' labelId='select-label' value={distance} label='Past Data' onChange={selectDistance} sx={{ minWidth: 100 }}>
+									<MenuItem value={1}>1 year</MenuItem>
+									<MenuItem value={2}>2 years</MenuItem>
+									<MenuItem value={3}>3 years</MenuItem>
+									<MenuItem value={4}>4 years</MenuItem>
+									<MenuItem value={5}>5 years</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
 					</Grid>
-					<Grid item xs={3} sx={{ px: 2 }}>
-						<LocalizationProvider dateAdapter={AdapterDateFns}>
-							<DesktopDatePicker label='End' inputFormat='MM/dd/yyyy' value={range?.end} onChange={setEnd} renderInput={(params) => <TextField variant='standard' {...params} fullWidth />} />
-						</LocalizationProvider>
-					</Grid>
-					<Grid item xs={6} sx={{ px: 1 }}>
-						<FormControl margin='dense'>
-							<InputLabel id='select-label'>Past Data</InputLabel>
-							<Select variant='standard' labelId='select-label' value={distance} label='Past Data' onChange={selectDistance} sx={{ minWidth: 100 }}>
-								<MenuItem value={1}>1 year</MenuItem>
-								<MenuItem value={2}>2 years</MenuItem>
-								<MenuItem value={3}>3 years</MenuItem>
-								<MenuItem value={4}>4 years</MenuItem>
-								<MenuItem value={5}>5 years</MenuItem>
-							</Select>
-						</FormControl>
-					</Grid>
-				</Grid>
+				)}
 			</Grid>
 		</Card>
 	);

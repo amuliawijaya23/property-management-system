@@ -86,7 +86,7 @@ export default function PropertyMessages() {
 						content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 					}}
 				/>
-				<Grid item container justifyContent='flex-end'>
+				<Grid item container justifyContent='flex-end' sx={{ mt: 1 }}>
 					<Button variant='contained' endIcon={<SendIcon />} onClick={clickHandler}>
 						Send
 					</Button>

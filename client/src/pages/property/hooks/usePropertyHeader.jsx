@@ -70,7 +70,7 @@ export default function usePropertyHeader() {
 					setAlert('Offer Accepted!');
 					setOpenAlert(true);
 				} else {
-					setAlert('Please upload the accepted offer to proceed.');
+					setAlert('Please upload offer to proceed.');
 					setSeverity('error');
 					setOpenAlert(true);
 					let newState = { ...close };
