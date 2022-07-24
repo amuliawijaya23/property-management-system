@@ -5,7 +5,7 @@ export default function SelectAgent(props) {
 
 	const selectedStyle = (() => {
 		if (selected) {
-			return { transform: 'scale(1.2)', border: 'solid 1px lightGrey' };
+			return { transform: 'scale(1.25)', border: 'solid 1px #424242' };
 		} else {
 			return {};
 		}

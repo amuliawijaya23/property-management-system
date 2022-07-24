@@ -60,7 +60,7 @@ export default function Home({ login }) {
 							</>
 						</Typography>
 						<Box component='form' noValidate sx={{ mt: 1 }}>
-							<Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }} onClick={() => login()}>
+							<Button color='primary' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }} onClick={() => login()}>
 								Sign in
 							</Button>
 							<Grid container>

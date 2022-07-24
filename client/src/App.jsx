@@ -14,11 +14,8 @@ import Contacts from './pages/contacts';
 import Property from './pages/property';
 import Home from './pages/home';
 import PageNotFound from './pages/PageNotFound';
-
 import useApplicationData from './hooks/useApplicationData';
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const customTheme = createTheme({

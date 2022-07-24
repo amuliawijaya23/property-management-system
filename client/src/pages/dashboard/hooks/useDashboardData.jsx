@@ -180,7 +180,11 @@ export const useDashboardData = () => {
 	}, [getStream, getGraphData]);
 
 	const selectAgent = (input) => {
-		dispatch(setUser(input));
+		if (dashboard?.user === input) {
+			dispatch(setUser(''));
+		} else {
+			dispatch(setUser(input));
+		}
 	};
 
 	const setStart = (input) => {
