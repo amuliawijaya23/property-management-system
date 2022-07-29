@@ -6,7 +6,7 @@ const router = express.Router();
 const { getListings, addListing, getListing, getListingWatchers, updateListing, addListingWatchers, getWatcherById, updateWatcher, searchListings } = require('../../db/queries/listing');
 
 router.get('/listings/:id', async(req, res) => {
-  const listings = await getListings(req.params.id);
+  const listings = await getListings({organization_id: req.params.id});
   res.send(listings);
 });
 
@@ -43,15 +43,15 @@ router.post('/watchers', async(req, res) => {
 });
 
 router.post('/listings', async(req, res) => {
-  await addListing({...req.body});
-  const result = await getListings(req.body.organization_id);
-  res.send(result);
+  const listing = await addListing({...req.body});
+  const result = await getListings({organization_id: req.body.organization_id});
+  res.send(listing);
 });
 
 router.put('/properties', async(req, res) => {
   const update = {...req.body};
   await updateListing(update);
-  const result = await getListings(req.body.organization_id);
+  const result = await getListings({organization_id: req.body.organization_id});
   res.send(result);
 });
 

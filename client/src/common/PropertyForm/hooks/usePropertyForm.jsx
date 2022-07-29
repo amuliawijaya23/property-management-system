@@ -41,7 +41,11 @@ export default function usePropertyForm(edit) {
 				propertyForm[key] = property?.details[key];
 			}
 		});
-		setForm({ ...propertyForm, id: property?.details?.id, organization_id: property?.details?.organization_id });
+		setForm({
+			...propertyForm,
+			id: property?.details?.id,
+			organization_id: property?.details?.organization_id
+		});
 	}, [initialForm, property?.details]);
 
 	useEffect(() => {
@@ -96,7 +100,7 @@ export default function usePropertyForm(edit) {
 				listing[key] = form[key];
 			}
 		});
-		if (property?.details?.id) {
+		if (edit) {
 			try {
 				const response = await axios.put(`/api/properties`, listing);
 				await dispatch(updatePropertiesData(response.data));
@@ -107,8 +111,8 @@ export default function usePropertyForm(edit) {
 		} else {
 			try {
 				const response = await axios.post('/api/listings', listing);
-				await dispatch(updatePropertiesData(response.data));
-				await dispatch(setPropertyDetails({ ...form }));
+				// await dispatch(updatePropertiesData(response.data));
+				await dispatch(setPropertyDetails({ ...response.data[0] }));
 				navigate(`/property/${response.data[0].id}`);
 			} catch (error) {
 				console.error(error);

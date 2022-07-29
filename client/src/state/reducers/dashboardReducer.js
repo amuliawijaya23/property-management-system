@@ -32,6 +32,24 @@ const initialState = {
       past: [],
       label: [],
       data: []
+    },
+    properties: {
+      open: {
+        listings: [],
+        tasks: []
+      },
+      offerAccepted: {
+        listings: [],
+        tasks: []
+      },
+      depositReceived: {
+        listings: [],
+        tasks: []
+      },
+      closing: {
+        listings: [],
+        tasks: []
+      }
     }
   }
 };
@@ -57,6 +75,9 @@ export const dashboardSlice =  createSlice({
     },
     setGraph: (state, action) => {
       state.value.graph = action.payload;
+    },
+    setBoardProperties: (state, action) => {
+      state.value.properties = action.payload;
     }
   },
 });

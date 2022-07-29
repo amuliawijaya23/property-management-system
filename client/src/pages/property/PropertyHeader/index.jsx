@@ -1,4 +1,17 @@
-import { Box, Grid, CardActions, Tooltip, Button, AvatarGroup, Avatar, Popover, List, ListItem, ListItemText, Divider } from '@mui/material';
+import {
+	Box,
+	Grid,
+	CardActions,
+	Tooltip,
+	Button,
+	AvatarGroup,
+	Avatar,
+	Popover,
+	List,
+	ListItem,
+	ListItemText,
+	Divider
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 import AddWatcher from '../../../common/AddWatcher';
@@ -17,30 +30,58 @@ export default function PropertyHeader({ onOpen }) {
 	const property = useSelector((state) => state.property.value);
 	const agent = app.agents?.find((agent) => agent.user_id === property.details?.agent_id);
 	const watchers = property?.watchers?.map((watcher) => watcher.user_id);
-	const options = app.agents.filter((agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.agent_id);
-	const { state, updateOptions, handleClickOpen, handleClose, open, updateHandler, alert, severity, openAlert, setAlert, setSeverity, setOpenAlert, closeAlert } = usePropertyHeader();
+	const options = app.agents.filter(
+		(agent) => !watchers.includes(agent.user_id) && agent.user_id !== property.details.agent_id
+	);
+	const {
+		state,
+		updateOptions,
+		handleClickOpen,
+		handleClose,
+		open,
+		updateHandler,
+		alert,
+		severity,
+		openAlert,
+		setAlert,
+		setSeverity,
+		setOpenAlert,
+		closeAlert
+	} = usePropertyHeader();
 
 	return (
 		<CardActions>
 			<Grid container>
 				<Grid item xs={6} container justifyContent='flex-start'>
 					<Tooltip title={agent?.name || ''}>
-						<Avatar src={agent?.picture} alt='agent' onClick={handleClickOpen('agent')} sx={{ cursor: 'pointer' }} />
+						<Avatar
+							src={agent?.picture}
+							alt='agent'
+							onClick={handleClickOpen('agent')}
+							sx={{ cursor: 'pointer' }}
+						/>
 					</Tooltip>
 					<AvatarGroup sx={{ ml: 1, cursor: 'pointer' }}>
 						{property.watchers
 							.filter((watcher) => watcher.user_id !== property?.details?.agent_id)
-							.map((user) => {
+							.map((user, i) => {
 								const watcher = app?.agents.find((agent) => agent?.user_id === user?.user_id);
 								return (
-									<Tooltip title={watcher?.name || ''}>
-										<Avatar src={watcher?.picture} alt='watcher' onClick={handleClickOpen('watchers')} />
+									<Tooltip key={`watcher-${i}`} title={watcher?.name || ''}>
+										<Avatar
+											src={watcher?.picture}
+											alt='watcher'
+											onClick={handleClickOpen('watchers')}
+										/>
 									</Tooltip>
 								);
 							})}
 						{options.length > 0 && (
 							<Tooltip title='Add Watcher'>
-								<Avatar alt='add-watcher' sx={{ cursor: 'pointer' }} onClick={handleClickOpen('watcher')}>
+								<Avatar
+									alt='add-watcher'
+									sx={{ cursor: 'pointer' }}
+									onClick={handleClickOpen('watcher')}>
 									<AddIcon />
 								</Avatar>
 							</Tooltip>
@@ -70,7 +111,10 @@ export default function PropertyHeader({ onOpen }) {
 						<List>
 							{updateOptions?.map((name, i) => (
 								<Box key={`status-menu-box-${i}`}>
-									<ListItem key={`status-update-menu-${i}`} button onClick={(e) => updateHandler(e, name)}>
+									<ListItem
+										key={`status-update-menu-${i}`}
+										button
+										onClick={(e) => updateHandler(e, name)}>
 										<ListItemText primary={name} />
 									</ListItem>
 									{i !== updateOptions?.length - 1 && <Divider />}
@@ -80,8 +124,19 @@ export default function PropertyHeader({ onOpen }) {
 					</Popover>
 				</Grid>
 			</Grid>
-			<OfferForm open={open('offer')} onClose={handleClose} setAlert={setAlert} setOpenAlert={setOpenAlert} setSeverity={setSeverity} />
-			<TransactionForm open={open('transaction')} onClose={handleClose} listingId={property?.details?.id} transaction={{ transaction_type: 'Deposit' }} />
+			<OfferForm
+				open={open('offer')}
+				onClose={handleClose}
+				setAlert={setAlert}
+				setOpenAlert={setOpenAlert}
+				setSeverity={setSeverity}
+			/>
+			<TransactionForm
+				open={open('transaction')}
+				onClose={handleClose}
+				listingId={property?.details?.id}
+				transaction={{ transaction_type: 'Deposit' }}
+			/>
 			<FormAlert open={openAlert} message={alert} onClose={closeAlert} severity={severity} />
 		</CardActions>
 	);

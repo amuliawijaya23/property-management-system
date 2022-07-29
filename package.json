@@ -42,7 +42,6 @@
     "nodemon": "^2.0.16",
     "openai": "^3.0.0",
     "pg": "^8.7.3",
-    "request": "^2.88.2",
-    "scraperapi-sdk": "^1.0.6"
+    "request": "^2.88.2"
   }
 }

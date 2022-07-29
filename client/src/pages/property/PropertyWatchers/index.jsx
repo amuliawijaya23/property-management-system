@@ -1,4 +1,14 @@
-import { Box, Modal, List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, ListSubheader } from '@mui/material';
+import {
+	Box,
+	Modal,
+	List,
+	ListItem,
+	ListItemAvatar,
+	ListItemText,
+	Avatar,
+	IconButton,
+	ListSubheader
+} from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useSelector } from 'react-redux';
 import useRemoveWatcher from '../hooks/useRemoveWatcher';
@@ -33,10 +43,11 @@ export default function PropertyWatchers(props) {
 			<Box sx={style}>
 				<List sx={{ width: '100%' }} dense>
 					<ListSubheader>{property?.watchers?.length} Watchers</ListSubheader>
-					{property?.watchers.map((watcher) => {
+					{property?.watchers.map((watcher, i) => {
 						const agent = app.agents.find((agent) => agent.user_id === watcher.user_id);
 						return (
 							<ListItem
+								key={`select-watcher${i}`}
 								secondaryAction={
 									user.sub === watcher.user_id && (
 										<IconButton edge='end' onClick={() => onRemove(watcher)}>

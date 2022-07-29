@@ -3,9 +3,9 @@ const knex = require('../knex');
 
 // GET ALL LISTINGS FOR AN ORGANIZATION
 
-const getListings = (org) => {
+const getListings = (param) => {
   return knex('listings')
-    .where({organization_id: org})
+    .where({...param})
     .then((res)  => res)
     .catch(e => console.log(e.message));
 };

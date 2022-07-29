@@ -90,7 +90,7 @@ export default function usePropertiesData() {
 	const dispatch = useDispatch();
 
 	const rows = useMemo(() => {
-		return app.properties?.map((property) => {
+		return app?.properties?.map((property) => {
 			const agent = app.agents?.find((agent) => agent?.user_id === property?.agent_id);
 			return {
 				id: property?.id,

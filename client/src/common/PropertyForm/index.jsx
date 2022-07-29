@@ -1,5 +1,18 @@
 import { useState } from 'react';
-import { Box, Drawer, Grid, Button, TextField, MenuItem, Input, InputLabel, InputAdornment, FormControl, Autocomplete, LinearProgress } from '@mui/material';
+import {
+	Box,
+	Drawer,
+	Grid,
+	Button,
+	TextField,
+	MenuItem,
+	Input,
+	InputLabel,
+	InputAdornment,
+	FormControl,
+	Autocomplete,
+	LinearProgress
+} from '@mui/material';
 
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import ShowerRoundedIcon from '@mui/icons-material/ShowerRounded';
@@ -14,9 +27,18 @@ import NumberFormat from 'react-number-format';
 
 import { useSelector } from 'react-redux';
 
-export default function PropertyForm(props) {
-	const { open, onClose, edit } = props;
-	const { form, loading, setInput, setValue, setAddress, generateDescription, createUpdateListing, handleCloseReset } = usePropertyForm(edit);
+export default function PropertyForm({ open, onClose, edit }) {
+	const {
+		form,
+		loading,
+		setInput,
+		setValue,
+		setAddress,
+		generateDescription,
+		createUpdateListing,
+		handleCloseReset
+	} = usePropertyForm(edit);
+
 	const app = useSelector((state) => state.app.value);
 	const agent = app?.agents?.find((a) => a?.user_id === form?.agent_id);
 
@@ -42,7 +64,12 @@ export default function PropertyForm(props) {
 	const getDescripton = async () => {
 		let valid = true;
 		Object.keys(form).forEach((key) => {
-			if (!form[key] && key !== 'description' && key !== 'market_valuation' && key !== 'valuation') {
+			if (
+				!form[key] &&
+				key !== 'description' &&
+				key !== 'market_valuation' &&
+				key !== 'valuation'
+			) {
 				valid = false;
 				setAlert({
 					...alert,
@@ -70,7 +97,11 @@ export default function PropertyForm(props) {
 			.forEach((key) => {
 				if (!form[key]) {
 					valid = false;
-					setAlert({ ...alert, open: true, message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required` });
+					setAlert({
+						...alert,
+						open: true,
+						message: `${key[0].toUpperCase() + key.split('_').join(' ').substring(1)} is Required`
+					});
 				}
 			});
 		if (form.description.length > 1000) {
@@ -80,20 +111,30 @@ export default function PropertyForm(props) {
 		}
 		if (valid) {
 			await createUpdateListing();
-			edit ? setAlert({ open: true, message: 'Listing Updated', severity: 'success' }) : setAlert({ open: true, message: 'Listing Created', severity: 'success' });
+			edit
+				? setAlert({ open: true, message: 'Listing Updated', severity: 'success' })
+				: setAlert({ open: true, message: 'Listing Created', severity: 'success' });
 			handleClose();
 		}
 	};
 
 	return (
 		<>
-			<Drawer anchor='right' open={open} onClose={handleClose} PaperProps={{ sx: { width: '65%' } }}>
+			<Drawer
+				anchor='right'
+				open={open}
+				onClose={handleClose}
+				PaperProps={{ sx: { width: '65%' } }}>
 				<Box sx={{ padding: 3, minHeight: '95%' }}>
 					<Grid container spacing={3}>
 						<Grid item md={12} xs={12}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Title</InputLabel>
-								<Input value={form.title} onChange={(event) => setInput(event, 'title')} id='property-form-title' />
+								<Input
+									value={form.title || ''}
+									onChange={(event) => setInput(event, 'title')}
+									id='property-form-title'
+								/>
 							</FormControl>
 						</Grid>
 						<Grid item md={12} xs={12}>
@@ -106,11 +147,26 @@ export default function PropertyForm(props) {
 								}}
 								options={app?.agents?.map((option) => option?.name)}
 								freeSolo
-								renderInput={(params) => <TextField {...params} variant='standard' label='Agents' placeholder='Search Agents' />}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										variant='standard'
+										label='Agents'
+										placeholder='Search Agents'
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item md={6} xs={12}>
-							<TextField variant='standard' select label='Service' value={form.service_type} onChange={(event) => setInput(event, 'service_type')} size='small' fullWidth>
+							<TextField
+								variant='standard'
+								defaultValue=''
+								select
+								label='Service'
+								value={form?.service_type || ''}
+								onChange={(event) => setInput(event, 'service_type')}
+								size='small'
+								fullWidth>
 								{['Sale', 'Lease'].map((type) => (
 									<MenuItem key={`property-form-service-menu-${type}`} value={type}>
 										{type}
@@ -119,7 +175,14 @@ export default function PropertyForm(props) {
 							</TextField>
 						</Grid>
 						<Grid item md={6} xs={12}>
-							<TextField variant='standard' select label='Type' value={form.property_type} onChange={(event) => setInput(event, 'property_type')} size='small' fullWidth>
+							<TextField
+								variant='standard'
+								select
+								label='Type'
+								value={form?.property_type || ''}
+								onChange={(event) => setInput(event, 'property_type')}
+								size='small'
+								fullWidth>
 								{['House', 'Apartment', 'Townhouse', 'Penthouse', 'Ruko'].map((type) => (
 									<MenuItem key={`property-form-type-menu-${type}`} value={type}>
 										{type}
@@ -133,13 +196,21 @@ export default function PropertyForm(props) {
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Postal Code</InputLabel>
-								<Input type='text' value={form.postal_code} onChange={(event) => setInput(event, 'postal_code')} />
+								<Input
+									type='text'
+									value={form.postal_code || ''}
+									onChange={(event) => setInput(event, 'postal_code')}
+								/>
 							</FormControl>
 						</Grid>
 						<Grid item md={6} xs={12} sx={{ mb: 2 }}>
 							<FormControl variant='standard' fullWidth>
 								<InputLabel>Size</InputLabel>
-								<Input type='number' value={form.size} onChange={(event) => setInput(event, 'size')} />
+								<Input
+									type='number'
+									value={form.size || ''}
+									onChange={(event) => setInput(event, 'size')}
+								/>
 							</FormControl>
 						</Grid>
 						<Grid item md={4} xs={12}>
@@ -147,7 +218,7 @@ export default function PropertyForm(props) {
 								<InputLabel>Bedrooms</InputLabel>
 								<Input
 									type='number'
-									value={form.number_of_bedrooms}
+									value={form.number_of_bedrooms || ''}
 									onChange={(event) => setInput(event, 'number_of_bedrooms')}
 									startAdornment={
 										<InputAdornment position='start'>
@@ -162,7 +233,7 @@ export default function PropertyForm(props) {
 								<InputLabel>Bathrooms</InputLabel>
 								<Input
 									type='number'
-									value={form.number_of_bathrooms}
+									value={form.number_of_bathrooms || ''}
 									onChange={(event) => setInput(event, 'number_of_bathrooms')}
 									startAdornment={
 										<InputAdornment position='start'>
@@ -177,7 +248,7 @@ export default function PropertyForm(props) {
 								<InputLabel>Parking</InputLabel>
 								<Input
 									type='number'
-									value={form.parking_space}
+									value={form.parking_space || ''}
 									onChange={(event) => setInput(event, 'parking_space')}
 									startAdornment={
 										<InputAdornment position='start'>
@@ -192,7 +263,7 @@ export default function PropertyForm(props) {
 								<InputLabel>Valuation</InputLabel>
 								<NumberFormat
 									type='text'
-									value={form.valuation}
+									value={form.valuation || ''}
 									customInput={Input}
 									variant='standard'
 									thousandSeparator=','
@@ -213,7 +284,7 @@ export default function PropertyForm(props) {
 								<InputLabel>Market Valuation</InputLabel>
 								<NumberFormat
 									type='text'
-									value={form.market_valuation}
+									value={form.market_valuation || ''}
 									customInput={Input}
 									variant='standard'
 									thousandSeparator={','}
@@ -232,7 +303,7 @@ export default function PropertyForm(props) {
 						<Grid item md={12} xs={12}>
 							<TextField
 								label={'Description'}
-								value={form.description}
+								value={form.description || ''}
 								onChange={(event) => setInput({ ...form, description: event.target.value })}
 								size='small'
 								multiline={true}
@@ -257,7 +328,12 @@ export default function PropertyForm(props) {
 					</Grid>
 				</Box>
 			</Drawer>
-			<FormAlert open={alert?.open} message={alert?.message} severity={alert?.severity} onClose={closeAlert} />
+			<FormAlert
+				open={alert?.open}
+				message={alert?.message}
+				severity={alert?.severity}
+				onClose={closeAlert}
+			/>
 		</>
 	);
 }

@@ -34,7 +34,11 @@ export default function SearchLocationInput(props) {
 
 	if (typeof window !== 'undefined' && !loaded.current) {
 		if (!document.querySelector('#google-maps')) {
-			loadScript(`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`, document.querySelector('head'), 'google-maps');
+			loadScript(
+				`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
+				document.querySelector('head'),
+				'google-maps'
+			);
 		}
 
 		loaded.current = true;
@@ -94,7 +98,7 @@ export default function SearchLocationInput(props) {
 			autoComplete
 			includeInputInList
 			filterSelectedOptions
-			value={value}
+			value={value || ''}
 			onChange={(event, newValue) => {
 				setOptions(newValue ? [newValue, ...options] : options);
 				setValue(newValue);
